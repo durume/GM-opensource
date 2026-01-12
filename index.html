@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>광명시 오픈소스 거버넌스 인포그래픽</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0d2b45;
+            --teal: #118a7e;
+            --gold: #d8a31a;
+            --sky: #eef4fb;
+            --slate: #203040;
+            --text: #2f3a4a;
+            --muted: #5c6b7c;
+            --white: #ffffff;
+            --border: #d8dfe8;
+            --max-width: 1160px;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            font-family: 'Pretendard', sans-serif;
+            background: var(--sky);
+            color: var(--text);
+            line-height: 1.7;
+        }
+        a {
+            color: inherit;
+        }
+        header {
+            background: linear-gradient(135deg, rgba(13,43,69,0.95), rgba(17,138,126,0.88));
+            color: var(--white);
+            padding: 80px 24px 92px;
+            box-shadow: 0 18px 40px rgba(13,43,69,0.28);
+        }
+        .hero {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            display: grid;
+            gap: 40px;
+        }
+        .hero__headline {
+            display: grid;
+            gap: 16px;
+        }
+        .hero__badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(216,163,26,0.2);
+            color: #ffeec0;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-size: 0.78rem;
+        }
+        .hero__title {
+            margin: 0;
+            font-size: clamp(2.5rem, 3vw + 1.4rem, 3.9rem);
+            letter-spacing: -0.015em;
+        }
+        .hero__subtitle {
+            margin: 0;
+            max-width: 720px;
+            font-size: 1.05rem;
+            opacity: 0.92;
+        }
+        .hero__cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        .hero-card {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.18);
+            border-radius: 18px;
+            padding: 22px 24px;
+            backdrop-filter: blur(2px);
+        }
+        .hero-card__icon {
+            display: block;
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+        }
+        .hero-card strong {
+            display: block;
+            font-size: 1.05rem;
+            margin-bottom: 8px;
+        }
+        .hero-card p {
+            margin: 0;
+            font-size: 0.95rem;
+            opacity: 0.88;
+        }
+        main {
+            padding: 0 24px 120px;
+        }
+        .band {
+            padding: 72px 0;
+        }
+        .band--white {
+            background: var(--white);
+        }
+        .band--slate {
+            background: #f3f6fb;
+        }
+        .band--accent {
+            background: linear-gradient(120deg, rgba(17,138,126,0.12), rgba(13,43,69,0.06));
+        }
+        .band__wrap {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            position: relative;
+        }
+        .band__head {
+            text-align: center;
+            max-width: 760px;
+            margin: 0 auto 42px;
+            display: grid;
+            gap: 14px;
+        }
+        .band__label {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(13,43,69,0.08);
+            color: var(--navy);
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-weight: 600;
+            font-size: 0.78rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+        .band__title {
+            margin: 0;
+            font-size: 2.05rem;
+            letter-spacing: -0.01em;
+        }
+        .band__lead {
+            margin: 0;
+            font-size: 1.04rem;
+            color: var(--muted);
+        }
+        .band__subheading {
+            text-align: center;
+            font-weight: 600;
+            color: var(--navy);
+            font-size: 1.05rem;
+            margin: 38px 0 16px;
+        }
+        .highlight-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 26px;
+        }
+        .highlight-card {
+            background: var(--white);
+            border-radius: 18px;
+            border: 1px solid var(--border);
+            padding: 28px 26px;
+            box-shadow: 0 18px 32px rgba(13,43,69,0.08);
+            display: grid;
+            gap: 14px;
+        }
+        .highlight-card__icon {
+            font-size: 2rem;
+        }
+        .highlight-card h3 {
+            margin: 0;
+            font-size: 1.22rem;
+            color: var(--navy);
+        }
+        .highlight-card ul {
+            margin: 0;
+            padding-left: 18px;
+            color: var(--muted);
+            font-size: 0.94rem;
+        }
+        .point-row {
+            margin: 30px auto 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: center;
+        }
+        .point-chip {
+            background: rgba(17,138,126,0.12);
+            color: var(--teal);
+            font-weight: 600;
+            padding: 10px 18px;
+            border-radius: 14px;
+            font-size: 0.92rem;
+        }
+        .focus-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 22px;
+        }
+        .focus-card {
+            background: var(--white);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            padding: 24px;
+            box-shadow: 0 14px 26px rgba(32,48,64,0.08);
+            display: grid;
+            gap: 12px;
+            text-align: center;
+        }
+        .focus-card__icon {
+            font-size: 2.2rem;
+        }
+        .focus-card h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            color: var(--navy);
+        }
+        .focus-card p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: var(--muted);
+        }
+        .platform-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+        }
+        .platform-card {
+            background: var(--white);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            padding: 26px 24px;
+            box-shadow: 0 16px 30px rgba(32,48,64,0.08);
+            text-align: center;
+            display: grid;
+            gap: 12px;
+        }
+        .platform-card__icon {
+            font-size: 2.4rem;
+        }
+        .case-board {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 26px;
+        }
+        .case-group {
+            background: var(--white);
+            border-radius: 18px;
+            border: 1px solid var(--border);
+            padding: 28px 26px;
+            box-shadow: 0 20px 36px rgba(32,48,64,0.08);
+        }
+        .case-group h3 {
+            margin: 0 0 18px;
+            font-size: 1.2rem;
+            color: var(--navy);
+        }
+        .case-list {
+            display: grid;
+            gap: 18px;
+        }
+        .case-item {
+            border-left: 4px solid var(--teal);
+            padding-left: 16px;
+        }
+        .case-item span {
+            display: block;
+            font-size: 0.78rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--gold);
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .case-item strong {
+            display: block;
+            font-size: 1.05rem;
+            color: var(--navy);
+        }
+        .case-item p {
+            margin: 6px 0 0;
+            font-size: 0.95rem;
+            color: var(--muted);
+        }
+        .timeline {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 22px;
+            position: relative;
+        }
+        .timeline::before {
+            content: "";
+            position: absolute;
+            top: 32px;
+            left: 6%;
+            right: 6%;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(13,43,69,0.15), rgba(17,138,126,0.35));
+            z-index: 0;
+        }
+        .timeline-step {
+            background: var(--white);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            padding: 26px 24px;
+            box-shadow: 0 14px 26px rgba(32,48,64,0.08);
+            position: relative;
+            z-index: 1;
+            display: grid;
+            gap: 12px;
+        }
+        .timeline-number {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--teal);
+            color: var(--white);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+        .timeline-step h4 {
+            margin: 0;
+            font-size: 1.08rem;
+            color: var(--navy);
+        }
+        .timeline-step p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: var(--muted);
+        }
+        .strategy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+        }
+        .strategy-card {
+            background: var(--white);
+            border-radius: 18px;
+            border: 1px solid var(--border);
+            padding: 28px 26px;
+            box-shadow: 0 18px 32px rgba(32,48,64,0.08);
+            display: grid;
+            gap: 12px;
+        }
+        .strategy-card__icon {
+            font-size: 1.9rem;
+        }
+        .strategy-card h3 {
+            margin: 0;
+            font-size: 1.12rem;
+            color: var(--navy);
+        }
+        .strategy-card ul {
+            margin: 0;
+            padding-left: 18px;
+            color: var(--muted);
+            font-size: 0.94rem;
+        }
+        .engage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .engage-card {
+            background: rgba(255,255,255,0.9);
+            border-radius: 18px;
+            border: 1px solid rgba(17,138,126,0.3);
+            padding: 26px 24px;
+            box-shadow: 0 18px 34px rgba(17,138,126,0.16);
+            display: grid;
+            gap: 12px;
+        }
+        .engage-card__tag {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(17,138,126,0.16);
+            color: var(--teal);
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 0.76rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+        .engage-card h3 {
+            margin: 0;
+            font-size: 1.12rem;
+            color: var(--navy);
+        }
+        .engage-card ul {
+            margin: 0;
+            padding-left: 18px;
+            color: var(--muted);
+            font-size: 0.94rem;
+        }
+        .conclusion {
+            background: var(--white);
+            border-radius: 22px;
+            border: 1px solid var(--border);
+            padding: 34px 32px;
+            box-shadow: 0 22px 38px rgba(13,43,69,0.1);
+            display: grid;
+            gap: 12px;
+        }
+        .band--cta {
+            background: linear-gradient(135deg, rgba(13,43,69,0.95), rgba(17,138,126,0.9));
+            color: var(--white);
+            text-align: center;
+        }
+        .cta-box {
+            max-width: 720px;
+            margin: 0 auto;
+            display: grid;
+            gap: 18px;
+        }
+        .cta-box a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: var(--white);
+            color: var(--navy);
+            padding: 14px 30px;
+            border-radius: 999px;
+            font-weight: 600;
+            text-decoration: none;
+            letter-spacing: 0.02em;
+        }
+        footer {
+            padding: 36px 24px;
+            text-align: center;
+            background: #101928;
+            color: rgba(255,255,255,0.72);
+            font-size: 0.9rem;
+        }
+        @media (max-width: 768px) {
+            header {
+                padding: 64px 18px 88px;
+            }
+            .hero__cards {
+                gap: 16px;
+            }
+            main {
+                padding: 0 18px 96px;
+            }
+            .band {
+                padding: 60px 0;
+            }
+            .timeline::before {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="hero">
+            <div class="hero__headline">
+                <span class="hero__badge">광명시 디지털 혁신 제안서</span>
+                <h1 class="hero__title">지속 가능한 디지털 혁신 도시 광명</h1>
+                <p class="hero__subtitle">오픈소스 거버넌스와 시민 협력 생태계를 결합해 예산 효율화, 행정 투명성, 사회적 가치를 동시에 달성하는 미래 행정을 설계합니다.</p>
+            </div>
+            <div class="hero__cards">
+                <div class="hero-card">
+                    <span class="hero-card__icon">🏆</span>
+                    <strong>국무총리상 3년 연속 수상</strong>
+                    <p>2025 제7회 지방자치단체 사회적경제 정책 평가에서 대상 수상, 선도적 사회적 경제 모델로 인정.</p>
+                </div>
+                <div class="hero-card">
+                    <span class="hero-card__icon">🌐</span>
+                    <strong>durume/GM 지식 관리 자산</strong>
+                    <p>아이디어→문서화→Wrap-up 철학을 바탕으로 행정 지식을 구조화할 준비 완료.</p>
+                </div>
+                <div class="hero-card">
+                    <span class="hero-card__icon">📚</span>
+                    <strong>45개 작은도서관 네트워크</strong>
+                    <p>지역 밀착 거점을 활용해 시민 디지털 리터러시와 참여 기반을 확대할 수 있는 인프라 보유.</p>
+                </div>
+                <div class="hero-card">
+                    <span class="hero-card__icon">🤝</span>
+                    <strong>시민·공무원 협력 경험</strong>
+                    <p>100인 토론회, GM 주간정책회의 등 시민과 함께 정책을 설계한 경험 축적.</p>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <section class="band band--white">
+            <div class="band__wrap">
+                <div class="band__head">
+                    <span class="band__label">Executive Brief</span>
+                    <h2 class="band__title">광명시 사회적 가치 혁신 현황</h2>
+                    <p class="band__lead">광명시는 지역공동체 자산 구축(CWB)과 GM 굿모닝광명 브랜드를 중심으로 사회적 경제 혁신을 선도해 왔습니다. 이제 오픈소스 전략을 통해 축적된 성과를 디지털 자산으로 전환하고, 시민이 주도하는 협력 구조로 확장해야 할 시점입니다.</p>
+                </div>
+                <div class="highlight-grid">
+                    <article class="highlight-card">
+                        <span class="highlight-card__icon">🏛️</span>
+                        <h3>검증된 사회적경제 모델</h3>
+                        <ul>
+                            <li>2025 지방자치단체 사회적경제 정책 평가 대상(국무총리상).</li>
+                            <li>지역공동체 자산 구축(CWB)로 주민 자생력 확보.</li>
+                            <li>GM 굿모닝광명 브랜드로 공공 서비스 가치 제고.</li>
+                        </ul>
+                    </article>
+                    <article class="highlight-card">
+                        <span class="highlight-card__icon">💡</span>
+                        <h3>durume/GM 철학 확장</h3>
+                        <ul>
+                            <li>아이디어 공유 → 문서화 → Wrap-up 지식 생애주기 정착.</li>
+                            <li>프로젝트 산출물을 Markdown·데이터로 구조화.</li>
+                            <li>행정 연속성을 위한 오픈 저장소 전환 준비 완료.</li>
+                        </ul>
+                    </article>
+                    <article class="highlight-card">
+                        <span class="highlight-card__icon">🚀</span>
+                        <h3>시민 참여형 오픈소스 생태계</h3>
+                        <ul>
+                            <li>작은도서관을 디지털 허브로 전환해 참여 저변 확대.</li>
+                            <li>세대별 맞춤형 리터러시 교육으로 디지털 주권 강화.</li>
+                            <li>정책 설계·개선 과정을 시민이 공동 제작.</li>
+                        </ul>
+                    </article>
+                </div>
+                <div class="point-row">
+                    <span class="point-chip">디지털 공공재</span>
+                    <span class="point-chip">투명한 행정 기록</span>
+                    <span class="point-chip">시민 공동 생산</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="band band--slate">
+            <div class="band__wrap">
+                <div class="band__head">
+                    <span class="band__label">Strategic Premise</span>
+                    <h2 class="band__title">왜 지금, 오픈소스 행정인가</h2>
+                    <p class="band__lead">오픈소스는 단순한 기술 선택이 아니라 비용 효율, 행정 신뢰, 확산성을 동시에 담보하는 디지털 공공 인프라입니다.</p>
+                </div>
+                <div class="focus-grid">
+                    <div class="focus-card">
+                        <span class="focus-card__icon">💸</span>
+                        <h3>예산 효율화</h3>
+                        <p>라이선스 비용 없이 전 세계 검증 솔루션을 도입해 예산을 시민 복지에 재투자.</p>
+                    </div>
+                    <div class="focus-card">
+                        <span class="focus-card__icon">🔎</span>
+                        <h3>투명성과 신뢰</h3>
+                        <p>정책 알고리즘과 성과 지표를 코드로 공개하여 행정 책임성을 기술적으로 보장.</p>
+                    </div>
+                    <div class="focus-card">
+                        <span class="focus-card__icon">♻️</span>
+                        <h3>확산과 재사용</h3>
+                        <p>성공 사례를 다른 도시가 곧바로 포크(Fork)하여 구축, 국가적 중복 투자를 억제.</p>
+                    </div>
+                    <div class="focus-card">
+                        <span class="focus-card__icon">🗳️</span>
+                        <h3>시민 주권 실현</h3>
+                        <p>시민이 이슈 제기와 해결 과정에 참여하며 정책 공동 생산자로 성장.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="band band--white">
+            <div class="band__wrap">
+                <div class="band__head">
+                    <span class="band__label">Platform Spotlight</span>
+                    <h2 class="band__title">GitHub: 디지털 세상의 도서관이자 작업실</h2>
+                    <p class="band__lead">1억 8천만 명 이상이 사용하는 글로벌 협업 플랫폼으로 행정 기록, 시민 참여, 대외 홍보를 한 번에 구현합니다.</p>
+                </div>
+                <div class="platform-grid">
+                    <div class="platform-card">
+                        <span class="platform-card__icon">📚</span>
+                        <strong>기록과 보존</strong>
+                        <p>누가·언제·무엇을·왜 수정했는지 모든 이력을 자동 기록해 책임성을 강화합니다.</p>
+                    </div>
+                    <div class="platform-card">
+                        <span class="platform-card__icon">🧩</span>
+                        <strong>기여와 협업</strong>
+                        <p>세계 어디서나 시민·전문가가 함께 참여해 열린 행정 협업을 촉진합니다.</p>
+                    </div>
+                    <div class="platform-card">
+                        <span class="platform-card__icon">📢</span>
+                        <strong>쇼케이스</strong>
+                        <p>정책 성과와 데이터, 교육 자료를 투명하게 공개해 글로벌 신뢰를 확보합니다.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="band band--white">
+            <div class="band__wrap">
+                <div class="band__head">
+                    <span class="band__label">Global Alignment</span>
+                    <h2 class="band__title">공공·국제 섹터가 선택한 GitHub 거버넌스</h2>
+                    <p class="band__lead">국내외 정부와 국제기구는 이미 GitHub를 국가 표준으로 채택하며 디지털 주권을 강화하고 있습니다.</p>
+                </div>
+                <div class="case-board">
+                    <div class="case-group">
+                        <h3>공공기관 성공 사례</h3>
+                        <div class="case-list">
+                            <div class="case-item">
+                                <span>KOREA</span>
+                                <strong>대한민국 NIA</strong>
+                                <p>전자정부 표준 프레임워크 공개로 중소 기업 참여 확대와 기술 자립도 향상.</p>
+                            </div>
+                            <div class="case-item">
+                                <span>UNITED KINGDOM</span>
+                                <strong>영국 GDS</strong>
+                                <p>Design System을 공유해 공공 서비스 개발 기간 단축, 예산 절감 동시 달성.</p>
+                            </div>
+                            <div class="case-item">
+                                <span>SINGAPORE</span>
+                                <strong>싱가포르 OGP</strong>
+                                <p>FormSG·Isomer 오픈소스로 44,000명 공직자의 안전한 디지털 서비스 구축 지원.</p>
+                            </div>
+                            <div class="case-item">
+                                <span>UNITED STATES</span>
+                                <strong>미국 EPA · code.gov</strong>
+                                <p>부처 코드를 인벤토리화해 국가 차원의 소프트웨어 재사용률 극대화.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="case-group">
+                        <h3>국제기구·글로벌 단체</h3>
+                        <div class="case-list">
+                            <div class="case-item">
+                                <span>UNHCR</span>
+                                <strong>난민 지원 가속화</strong>
+                                <p>드론 데이터를 AI 지도로 전환하는 프로젝트를 글로벌 커뮤니티와 협업.</p>
+                            </div>
+                            <div class="case-item">
+                                <span>WORLD BANK</span>
+                                <strong>ietoolkit</strong>
+                                <p>원조 사업 효과성 검증 도구를 공개해 연구 투명성과 재현성을 확보.</p>
+                            </div>
+                            <div class="case-item">
+                                <span>GREENPEACE</span>
+                                <strong>Planet 4</strong>
+                                <p>시민 참여 캠페인 플랫폼 코드를 공유해 세계 각지 환경 단체와 기술 연대.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="band band--slate">
+            <div class="band__wrap">
+                <div class="band__head">
+                    <span class="band__label">durume/GM Model</span>
+                    <h2 class="band__title">durume/GM 지식 생애주기와 광명시 연계</h2>
+                    <p class="band__lead">광명시는 이미 오프라인에서 durume/GM 모델을 실천하고 있으며, GitHub 전환 시 지식 확산 속도가 기하급수적으로 증가합니다.</p>
+                </div>
+                <div class="timeline">
+                    <div class="timeline-step">
+                        <div class="timeline-number">1</div>
+                        <h4>Idea Sharing</h4>
+                        <p>GM 주간정책회의·100인 토론회 안건을 Discussions로 전환해 실시간 토론과 기록을 병행.</p>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="timeline-number">2</div>
+                        <h4>Documents</h4>
+                        <p>시민 활동가 양성과 자치대학 성과물을 Markdown으로 구조화해 인사 이동과 무관하게 보존.</p>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="timeline-number">3</div>
+                        <h4>Wrap-up</h4>
+                        <p>프로젝트 종료 시 실행 가능한 코드·데이터를 포함한 패키지로 공개, 타 지자체가 즉시 활용.</p>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="timeline-number">4</div>
+                        <h4>Visualization</h4>
+                        <p>G-SVI와 정책 로직을 Mermaid 다이어그램으로 시각화해 시민·기업 이해도 제고.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="band band--slate">
+            <div class="band__wrap">
+                <div class="band__head">
+                    <span class="band__label">Governance Roadmap</span>
+                    <h2 class="band__title">광명시 사회적 가치 오픈소스 거버넌스 로드맵</h2>
+                    <p class="band__lead">사회적 경제 현장에서 생성되는 지식을 시민과 공유하고, G-SVI 데이터를 투명하게 개방하며, 현장 문제 해결과 공동체 자산화를 동시에 추진하는 실행 로드맵입니다.</p>
+                </div>
+                <div class="highlight-grid">
+                    <article class="highlight-card">
+                        <span class="highlight-card__icon">🗃️</span>
+                        <h3>GM-Knowledge Repository</h3>
+                        <ul>
+                            <li>사회적경제 교육·포럼 산출물을 GitHub 공개 저장소로 전환.</li>
+                            <li>Wrap-up 보고 의무화를 통해 시행착오·성과를 표준 템플릿으로 축적.</li>
+                            <li>Mermaid·다이어그램으로 정책 구조를 시각화해 시민 이해도 강화.</li>
+                        </ul>
+                    </article>
+                    <article class="highlight-card">
+                        <span class="highlight-card__icon">📊</span>
+                        <h3>G-SVI 오픈 데이터 고도화</h3>
+                        <ul>
+                            <li>지표 산식·측정 알고리즘을 오픈소스로 공개해 신뢰 확보.</li>
+                            <li>싱가포르 OGP 사례를 벤치마킹한 임팩트 대시보드 구축.</li>
+                            <li>사회적기업이 자가 진단·예측 가능한 툴킷 제공.</li>
+                        </ul>
+                    </article>
+                    <article class="highlight-card">
+                        <span class="highlight-card__icon">💡</span>
+                        <h3>Hack for Gwangmyeong</h3>
+                        <ul>
+                            <li>사회적기업 현장 과제를 GitHub Issues로 구조화.</li>
+                            <li>시민 개발자·디자이너가 상시 참여하는 해커톤 상설화.</li>
+                            <li>검증된 글로벌 오픈소스 도구를 지역 실정에 맞게 현지화.</li>
+                        </ul>
+                    </article>
+                    <article class="highlight-card">
+                        <span class="highlight-card__icon">🌐</span>
+                        <h3>디지털 공유 경제 자산화</h3>
+                        <ul>
+                            <li>공유 플랫폼 코드를 오픈소스로 관리해 공동체 소유 구조 확보.</li>
+                            <li>부서 간 행정 솔루션을 이너소스로 공유해 협업과 비용 절감.</li>
+                            <li>지역 순환 경제 전략과 디지털 자산을 연계해 지속 가능성 확보.</li>
+                        </ul>
+                    </article>
+                </div>
+                <div class="point-row">
+                    <span class="point-chip">지식 공개 표준화</span>
+                    <span class="point-chip">데이터 투명성</span>
+                    <span class="point-chip">시민 참여 혁신</span>
+                    <span class="point-chip">공동체 디지털 자산</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="band band--white">
+            <div class="band__wrap">
+                <div class="band__head">
+                    <span class="band__label">Strategic Match</span>
+                    <h2 class="band__title">광명 자산과 오픈소스의 6대 매칭 프로젝트</h2>
+                    <p class="band__lead">지역 자원을 데이터·코드와 연결해 행정 서비스와 사회적 경제 생태계를 동시 혁신합니다.</p>
+                </div>
+                <div class="strategy-grid">
+                    <div class="strategy-card">
+                        <span class="strategy-card__icon">🏛️</span>
+                        <h3>GitHub Townhall</h3>
+                        <ul>
+                            <li>자산: 100인 토론회, GM 주간정책회의.</li>
+                            <li>도구: Decidim 기반 참여 민주주의 플랫폼.</li>
+                            <li>효과: PR 제출·Merge 승인으로 정책 심사 가시화.</li>
+                        </ul>
+                    </div>
+                    <div class="strategy-card">
+                        <span class="strategy-card__icon">🥕</span>
+                        <h3>Gwangmyeong Food-Loop</h3>
+                        <ul>
+                            <li>자산: 그냥드림, 로컬푸드 직매장, 광명사랑화폐.</li>
+                            <li>도구: FoodCoopShop, Komunitin, GitHub Actions.</li>
+                            <li>효과: 기부·잉여자원을 실시간 대시보드로 공유.</li>
+                        </ul>
+                    </div>
+                    <div class="strategy-card">
+                        <span class="strategy-card__icon">🗺️</span>
+                        <h3>Open Gwangmyeong Tour</h3>
+                        <ul>
+                            <li>자산: 광명동굴, 기형도 문학관, 관광 데이터 API.</li>
+                            <li>도구: Arches, GitHub Pages.</li>
+                            <li>효과: 시민이 기록한 스토리를 자동 웹 배포.</li>
+                        </ul>
+                    </div>
+                    <div class="strategy-card">
+                        <span class="strategy-card__icon">📦</span>
+                        <h3>Mutual Growth Data Hub</h3>
+                        <ul>
+                            <li>자산: 광명 상생 플랫폼, GM 브랜드 상품.</li>
+                            <li>도구: Public Data 저장소, 오픈 API.</li>
+                            <li>효과: 지역 기업·사회적 기업의 서비스 혁신 촉진.</li>
+                        </ul>
+                    </div>
+                    <div class="strategy-card">
+                        <span class="strategy-card__icon">📊</span>
+                        <h3>Open Social Impact Analytics</h3>
+                        <ul>
+                            <li>자산: G-SVI 지표, 기업 맞춤형 컨설팅 데이터.</li>
+                            <li>도구: World Bank ietoolkit 벤치마킹.</li>
+                            <li>효과: 사회적 가치 계산 자동화, 행정 신뢰 제고.</li>
+                        </ul>
+                    </div>
+                    <div class="strategy-card">
+                        <span class="strategy-card__icon">📘</span>
+                        <h3>Autonomy Playbook</h3>
+                        <ul>
+                            <li>자산: 광명자치대학 5대 실천 프로젝트.</li>
+                            <li>도구: durume/GM Wrap-up 템플릿.</li>
+                            <li>효과: 타 지자체가 즉시 사용할 정책 매뉴얼 제공.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="band band--white">
+            <div class="band__wrap">
+                <div class="band__head">
+                    <span class="band__label">AI Docent Program</span>
+                    <h2 class="band__title">AI 도슨트 양성 및 운영 계획</h2>
+                    <p class="band__lead">AI와 오픈소스를 시민 눈높이로 안내하는 디지털 해설사를 양성해 광명시의 디지털 격차를 해소하고, 시민 주도의 학습-교육 선순환 구조를 구축합니다.</p>
+                </div>
+                <div class="highlight-grid">
+                    <article class="highlight-card">
+                        <span class="highlight-card__icon">🤖</span>
+                        <h3>AI 도슨트 정의</h3>
+                        <ul>
+                            <li>복잡한 디지털 기술을 시민 눈높이에서 해설하는 지역 기반 디지털 안내자.</li>
+                            <li>AI를 학습·교육 도구로 활용해 디지털 리터러시를 높이는 전문가 그룹.</li>
+                        </ul>
+                    </article>
+                </div>
+                <div class="band__subheading">도입 배경</div>
+                <div class="point-row">
+                    <span class="point-chip">기술 소외 격차 확대</span>
+                    <span class="point-chip">사회적경제 디지털 도구</span>
+                    <span class="point-chip">지속 가능한 시민 교육</span>
+                </div>
+                <div class="band__subheading">핵심 역할</div>
+                <div class="strategy-grid">
+                    <div class="strategy-card">
+                        <span class="strategy-card__icon">🗂️</span>
+                        <h3>오픈소스 가이드</h3>
+                        <ul>
+                            <li>GitHub 사용법과 협업 문화를 초보자 눈높이에서 안내.</li>
+                            <li>durume/GM 프로젝트 참여 방법을 시민에게 전파.</li>
+                        </ul>
+                    </div>
+                    <div class="strategy-card">
+                        <span class="strategy-card__icon">📈</span>
+                        <h3>디지털 리터러시 촉진</h3>
+                        <ul>
+                            <li>생성형 AI 활용법, 정보 판별력 등 필수 역량을 교육.</li>
+                            <li>AI를 활용한 맞춤형 학습 지도를 통해 학습 격차를 완화.</li>
+                        </ul>
+                    </div>
+                    <div class="strategy-card">
+                        <span class="strategy-card__icon">🤝</span>
+                        <h3>프로젝트 퍼실리테이터</h3>
+                        <ul>
+                            <li>durume/GM 시민 프로젝트의 진행을 돕고 참여를 독려.</li>
+                            <li>정책 아이디어를 실행 가능한 과제로 연결.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="band__subheading">3단계 양성 프로세스</div>
+                <div class="timeline">
+                    <div class="timeline-step">
+                        <div class="timeline-number">1</div>
+                        <h4>Learning with AI</h4>
+                        <p>기술 관심 시민, 경력 단절 여성, 시니어 리더 등이 생성형 AI를 활용해 코딩 기초, GitHub, 문서 작성법을 학습.</p>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="timeline-number">2</div>
+                        <h4>Teaching with AI</h4>
+                        <p>AI로 인포그래픽·가이드북을 제작하고 복잡한 기술을 쉬운 비유로 전달하는 해설 스킬을 훈련.</p>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="timeline-number">3</div>
+                        <h4>Practice & Certification</h4>
+                        <p>광명시 디지털 교육 현장에서 실습하고 일정 기준 충족 시 ‘광명시 공인 AI 도슨트’ 자격을 부여.</p>
+                    </div>
+                </div>
+                <div class="band__subheading">GitHub 기반 운영 & 기대 효과</div>
+                <div class="highlight-grid">
+                    <article class="highlight-card">
+                        <span class="highlight-card__icon">🧭</span>
+                        <h3>투명한 교육 관리</h3>
+                        <ul>
+                            <li>GitHub.com/durume/GM에 커리큘럼과 교육 자료를 공개해 누구나 개선.</li>
+                            <li>교육생 커밋 기록으로 학습 성취도와 포트폴리오를 객관적으로 축적.</li>
+                            <li>GitHub Copilot 등 AI 도구로 비전공자의 학습 장벽을 완화.</li>
+                        </ul>
+                    </article>
+                    <article class="highlight-card">
+                        <span class="highlight-card__icon">🌱</span>
+                        <h3>기대 효과</h3>
+                        <ul>
+                            <li>디지털 교육 전문가 일자리 창출과 지역 소득 기반 확대.</li>
+                            <li>시민이 스스로 문제를 해결하는 지속 가능한 디지털 복지 실현.</li>
+                            <li>시민 참여형 오픈소스 생태계를 선도하는 도시 모델 확립.</li>
+                        </ul>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="band band--accent">
+            <div class="band__wrap">
+                <div class="band__head">
+                    <span class="band__label">Citizen Engagement</span>
+                    <h2 class="band__title">시민 참여를 촉진하는 3대 교육·소통 전략</h2>
+                    <p class="band__lead">기술 장벽을 낮춰 모든 세대가 정책 공동 생산자로 참여하도록 설계합니다.</p>
+                </div>
+                <div class="engage-grid">
+                    <div class="engage-card">
+                        <span class="engage-card__tag">STEP 1</span>
+                        <h3>작은도서관 디지털 허브</h3>
+                        <ul>
+                            <li>45개 작은도서관을 오픈소스 교실로 전환.</li>
+                            <li>챗지피티·GitHub 기초 과정을 병행해 생활 속 학습.</li>
+                            <li>사서·활동가가 정책 이슈 등록을 1:1 코칭.</li>
+                        </ul>
+                    </div>
+                    <div class="engage-card">
+                        <span class="engage-card__tag">STEP 2</span>
+                        <h3>GitHub for Non-programmers</h3>
+                        <ul>
+                            <li>웹 인터페이스·GitHub Desktop 중심 GUI 교육.</li>
+                            <li>동네 산책 프로그램과 연계한 이슈 등록 실습.</li>
+                            <li>터미널 없이도 참여 가능한 협업 프로세스 제공.</li>
+                        </ul>
+                    </div>
+                    <div class="engage-card">
+                        <span class="engage-card__tag">STEP 3</span>
+                        <h3>성과 공유회 & 해커톤</h3>
+                        <ul>
+                            <li>작은도서관 성과 공유회로 시민 체감도 향상.</li>
+                            <li>Hack for Gwangmyeong 해커톤 정례화.</li>
+                            <li>시민 이슈를 실시간 솔루션으로 연결.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="band band--white">
+            <div class="band__wrap">
+                <div class="band__head">
+                    <span class="band__label">Conclusion</span>
+                    <h2 class="band__title">대상을 넘어 글로벌 디지털 혁신 도시로</h2>
+                </div>
+                <div class="conclusion">
+                    <p>광명시는 이미 국내 최고 수준의 사회적 경제 성과를 보유하고 있습니다. 이제 durume/GM이 제시한 구조화된 공유·마무리 철학을 GitHub 인프라에 결합해 정책과 데이터를 투명하게 공개하고 시민 참여를 상시화해야 합니다.</p>
+                    <p>지역 먹거리, 관광 자원, 행정 노하우가 데이터와 코드로 흐르는 순간, 광명시는 세계 도시가 벤치마킹하는 디지털 포용 도시로 도약할 것입니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="band band--cta">
+            <div class="band__wrap">
+                <div class="cta-box">
+                    <h2>광명시 GitHub 조직에서 시작하는 열린 협력</h2>
+                    <p>프로젝트, 데이터, 교육 자료를 투명하게 공유하고 시민과의 협업을 상시 운영합니다.</p>
+                    <a href="https://github.com/durume/GM" target="_blank" rel="noopener">GitHub.com/durume/GM 방문하기</a>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        지속 가능한 디지털 혁신 도시 광명 · 오픈소스 거버넌스 실행 전략
+    </footer>
+</body>
+</html>

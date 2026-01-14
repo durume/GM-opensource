@@ -289,6 +289,17 @@
             font-size: 0.95rem;
             color: var(--muted);
         }
+        .case-link {
+            display: inline-block;
+            margin-top: 10px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--teal);
+            text-decoration: none;
+        }
+        .case-link:hover {
+            text-decoration: underline;
+        }
         .timeline {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -612,23 +623,27 @@
                         <div class="case-list">
                             <div class="case-item">
                                 <span>KOREA</span>
-                                <strong>대한민국 NIA</strong>
+                                <strong><a href="https://www.egovframe.go.kr" target="_blank" rel="noopener">대한민국 NIA</a></strong>
                                 <p>전자정부 표준 프레임워크 공개로 중소 기업 참여 확대와 기술 자립도 향상.</p>
+                                <a href="https://github.com/eGovFramework" target="_blank" rel="noopener" class="case-link">GitHub →</a>
                             </div>
                             <div class="case-item">
                                 <span>UNITED KINGDOM</span>
-                                <strong>영국 GDS</strong>
+                                <strong><a href="https://design-system.service.gov.uk/" target="_blank" rel="noopener">영국 GDS</a></strong>
                                 <p>Design System을 공유해 공공 서비스 개발 기간 단축, 예산 절감 동시 달성.</p>
+                                <a href="https://github.com/alphagov" target="_blank" rel="noopener" class="case-link">GitHub →</a>
                             </div>
                             <div class="case-item">
                                 <span>SINGAPORE</span>
-                                <strong>싱가포르 OGP</strong>
+                                <strong><a href="https://www.open.gov.sg/" target="_blank" rel="noopener">싱가포르 OGP</a></strong>
                                 <p>FormSG·Isomer 오픈소스로 44,000명 공직자의 안전한 디지털 서비스 구축 지원.</p>
+                                <a href="https://github.com/opengovsg" target="_blank" rel="noopener" class="case-link">GitHub →</a>
                             </div>
                             <div class="case-item">
                                 <span>UNITED STATES</span>
-                                <strong>미국 EPA · code.gov</strong>
+                                <strong><a href="https://code.gov/" target="_blank" rel="noopener">미국 EPA · code.gov</a></strong>
                                 <p>부처 코드를 인벤토리화해 국가 차원의 소프트웨어 재사용률 극대화.</p>
+                                <a href="https://github.com/GSA/code-gov" target="_blank" rel="noopener" class="case-link">GitHub →</a>
                             </div>
                         </div>
                     </div>
@@ -637,18 +652,21 @@
                         <div class="case-list">
                             <div class="case-item">
                                 <span>UNHCR</span>
-                                <strong>난민 지원 가속화</strong>
+                                <strong><a href="https://github.blog/open-source/social-impact/using-ai-to-map-hope-for-refugees-with-unhcr-the-un-refugee-agency/" target="_blank" rel="noopener">난민 지원 가속화</a></strong>
                                 <p>드론 데이터를 AI 지도로 전환하는 프로젝트를 글로벌 커뮤니티와 협업.</p>
+                                <a href="https://www.unhcr.org/" target="_blank" rel="noopener" class="case-link">UNHCR →</a>
                             </div>
                             <div class="case-item">
                                 <span>WORLD BANK</span>
-                                <strong>ietoolkit</strong>
+                                <strong><a href="https://worldbank.github.io/ietoolkit/" target="_blank" rel="noopener">ietoolkit</a></strong>
                                 <p>원조 사업 효과성 검증 도구를 공개해 연구 투명성과 재현성을 확보.</p>
+                                <a href="https://github.com/worldbank/ietoolkit" target="_blank" rel="noopener" class="case-link">GitHub →</a>
                             </div>
                             <div class="case-item">
                                 <span>GREENPEACE</span>
-                                <strong>Planet 4</strong>
+                                <strong><a href="https://planet4.greenpeace.org/" target="_blank" rel="noopener">Planet 4</a></strong>
                                 <p>시민 참여 캠페인 플랫폼 코드를 공유해 세계 각지 환경 단체와 기술 연대.</p>
+                                <a href="https://github.com/greenpeace/planet4" target="_blank" rel="noopener" class="case-link">GitHub →</a>
                             </div>
                         </div>
                     </div>
@@ -824,14 +842,48 @@
                             <li>AI를 학습·교육 도구로 활용해 디지털 리터러시를 높이는 전문가 그룹.</li>
                         </ul>
                     </article>
+                    <article class="highlight-card">
+                        <span class="highlight-card__icon">🎯</span>
+                        <h3>AI 도슨트 미션</h3>
+                        <p style="font-style: italic; color: var(--navy); font-weight: 500; line-height: 1.6;">"AI 도슨트는 모두가 안전하고 공정하게 AI를 활용할 수 있는 사회를 만들기 위해, 지역사회와 협력하여 AI 이해 증진, 책임 있는 사용, 디지털 포용을 실현합니다."</p>
+                    </article>
                 </div>
-                <div class="band__subheading">도입 배경</div>
-                <div class="point-row">
-                    <span class="point-chip">기술 소외 격차 확대</span>
-                    <span class="point-chip">사회적경제 디지털 도구</span>
-                    <span class="point-chip">지속 가능한 시민 교육</span>
+                <div class="band__subheading">핵심 목표</div>
+                <div class="strategy-grid">
+                    <div class="strategy-card">
+                        <span class="strategy-card__icon">📚</span>
+                        <h3>AI 리터러시 향상</h3>
+                        <ul>
+                            <li>시민들이 AI의 원리, 가능성, 위험을 이해하도록 교육.</li>
+                            <li>생성형 AI 활용법과 정보 판별력 등 필수 역량 강화.</li>
+                        </ul>
+                    </div>
+                    <div class="strategy-card">
+                        <span class="strategy-card__icon">⚖️</span>
+                        <h3>책임 있는 AI 사용 촉진</h3>
+                        <ul>
+                            <li>개인정보 보호와 윤리적 기준 준수 교육.</li>
+                            <li>AI 활용에서의 공정성 확보와 편향 인식.</li>
+                        </ul>
+                    </div>
+                    <div class="strategy-card">
+                        <span class="strategy-card__icon">🤝</span>
+                        <h3>사회적 연대 강화</h3>
+                        <ul>
+                            <li>AI 활용을 통해 지역 공동체의 문제 해결 촉진.</li>
+                            <li>시민·기업·행정 간 협력 네트워크 구축.</li>
+                        </ul>
+                    </div>
+                    <div class="strategy-card">
+                        <span class="strategy-card__icon">🌈</span>
+                        <h3>디지털 격차 해소</h3>
+                        <ul>
+                            <li>취약계층을 포함한 모든 시민이 AI 혜택을 누리도록 지원.</li>
+                            <li>세대별·계층별 맞춤형 교육 프로그램 운영.</li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="band__subheading">핵심 역할</div>
+                <div class="band__subheading">구체적 활동</div>
                 <div class="strategy-grid">
                     <div class="strategy-card">
                         <span class="strategy-card__icon">🗂️</span>
@@ -843,14 +895,14 @@
                     </div>
                     <div class="strategy-card">
                         <span class="strategy-card__icon">📈</span>
-                        <h3>디지털 리터러시 촉진</h3>
+                        <h3>디지털 리터러시 교육</h3>
                         <ul>
-                            <li>생성형 AI 활용법, 정보 판별력 등 필수 역량을 교육.</li>
-                            <li>AI를 활용한 맞춤형 학습 지도를 통해 학습 격차를 완화.</li>
+                            <li>AI를 활용한 맞춤형 학습 지도로 학습 격차 완화.</li>
+                            <li>실생활 문제 해결 중심의 실습형 교육 진행.</li>
                         </ul>
                     </div>
                     <div class="strategy-card">
-                        <span class="strategy-card__icon">🤝</span>
+                        <span class="strategy-card__icon">💡</span>
                         <h3>프로젝트 퍼실리테이터</h3>
                         <ul>
                             <li>durume/GM 시민 프로젝트의 진행을 돕고 참여를 독려.</li>

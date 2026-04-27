@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,1664 +8,2226 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'base',
+            themeVariables: {
+                primaryColor: '#118a7e',
+                primaryTextColor: '#fff',
+                primaryBorderColor: '#0d6e64',
+                lineColor: '#d8a31a',
+                secondaryColor: '#0d2b45',
+                tertiaryColor: '#f8fafc',
+                fontSize: '18px',
+                fontFamily: 'Pretendard'
+            },
+            flowchart: {
+                curve: 'basis',
+                padding: 30,
+                nodeSpacing: 50,
+                rankSpacing: 60,
+                htmlLabels: true
+            }
+        });
+    </script>
     <style>
         :root {
-            --navy: #0d2b45;
-            --teal: #118a7e;
-            --gold: #d8a31a;
-            --sky: #eef4fb;
-            --slate: #203040;
-            --text: #2f3a4a;
-            --muted: #5c6b7c;
-            --white: #ffffff;
-            --border: #d8dfe8;
-            --max-width: 1160px;
+            --primary: #118a7e;
+            --primary-dark: #0d6e64;
+            --secondary: #0d2b45;
+            --accent: #d8a31a;
+            --background: #f8fafc;
+            --surface: #ffffff;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --radius-md: 12px;
+            --radius-lg: 24px;
+            --max-width: 1200px;
         }
+
         * {
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
         }
+
         body {
-            margin: 0;
-            font-family: 'Pretendard', sans-serif;
-            background: var(--sky);
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+            background-color: var(--background);
             color: var(--text);
-            line-height: 1.7;
+            line-height: 1.6;
+            overflow-x: hidden;
         }
-        a {
-            color: inherit;
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Header & Hero */
         header {
-            background: linear-gradient(135deg, rgba(13,43,69,0.95), rgba(17,138,126,0.88));
-            color: var(--white);
-            padding: 80px 24px 92px;
-            box-shadow: 0 18px 40px rgba(13,43,69,0.28);
-        }
-        .hero {
-            max-width: var(--max-width);
-            margin: 0 auto;
-            display: grid;
-            gap: 40px;
-        }
-        .hero__headline {
-            display: grid;
-            gap: 16px;
-        }
-        .hero__badge {
-            display: inline-flex;
+            position: relative;
+            min-height: 80vh;
+            display: flex;
             align-items: center;
-            background: rgba(216,163,26,0.2);
-            color: #ffeec0;
+            justify-content: center;
+            background: var(--secondary);
+            color: white;
+            overflow: hidden;
+            padding: 80px 24px;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .hero-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.4;
+            filter: brightness(0.6) saturate(1.2);
+        }
+
+        .hero {
+            position: relative;
+            z-index: 2;
+            max-width: var(--max-width);
+            width: 100%;
+            text-align: center;
+        }
+
+        .hero__badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(17, 138, 126, 0.2);
+            border: 1px solid rgba(17, 138, 126, 0.4);
+            backdrop-filter: blur(8px);
+            border-radius: 50px;
+            font-size: 0.9rem;
             font-weight: 600;
-            letter-spacing: 0.12em;
+            color: #4ade80;
+            margin-bottom: 24px;
             text-transform: uppercase;
-            padding: 8px 16px;
-            border-radius: 999px;
-            font-size: 0.78rem;
+            letter-spacing: 1px;
         }
+
         .hero__title {
-            margin: 0;
-            font-size: clamp(2.5rem, 3vw + 1.4rem, 3.9rem);
-            letter-spacing: -0.015em;
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
+
         .hero__subtitle {
-            margin: 0;
-            max-width: 720px;
-            font-size: 1.05rem;
-            opacity: 0.92;
+            font-size: clamp(1.1rem, 3vw, 1.4rem);
+            max-width: 800px;
+            margin: 0 auto 48px;
+            color: #e2e8f0;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
         }
-        .hero__cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-        }
-        .hero-card {
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.18);
-            border-radius: 18px;
-            padding: 22px 24px;
-            backdrop-filter: blur(2px);
-        }
-        .hero-card__icon {
-            display: block;
-            font-size: 1.8rem;
-            margin-bottom: 12px;
-        }
-        .hero-card strong {
-            display: block;
-            font-size: 1.05rem;
-            margin-bottom: 8px;
-        }
-        .hero-card p {
-            margin: 0;
-            font-size: 0.95rem;
-            opacity: 0.88;
-        }
-        main {
-            padding: 0 24px 120px;
-        }
+
+        /* Sections */
         .band {
-            padding: 72px 0;
+            padding: 100px 0;
         }
+
         .band--white {
-            background: var(--white);
+            background: white;
         }
+
         .band--slate {
-            background: #f3f6fb;
+            background: #f1f5f9;
         }
-        .band--accent {
-            background: linear-gradient(120deg, rgba(17,138,126,0.12), rgba(13,43,69,0.06));
-        }
+
         .band__wrap {
             max-width: var(--max-width);
             margin: 0 auto;
-            position: relative;
+            padding: 0 24px;
         }
+
         .band__head {
             text-align: center;
-            max-width: 760px;
-            margin: 0 auto 42px;
-            display: grid;
-            gap: 14px;
+            max-width: 800px;
+            margin: 0 auto 64px;
         }
+
+        /* Standardized Left alignment for major content blocks */
+        .band__head.left {
+            text-align: left;
+            margin-left: 0;
+        }
+
         .band__label {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(13,43,69,0.08);
-            color: var(--navy);
-            padding: 6px 16px;
-            border-radius: 999px;
-            font-weight: 600;
-            font-size: 0.78rem;
-            letter-spacing: 0.14em;
             text-transform: uppercase;
-        }
-        .band__title {
-            margin: 0;
-            font-size: 2.05rem;
-            letter-spacing: -0.01em;
-        }
-        .band__lead {
-            margin: 0;
-            font-size: 1.04rem;
-            color: var(--muted);
-        }
-        .band__subheading {
-            text-align: center;
-            font-weight: 600;
-            color: var(--navy);
-            font-size: 1.05rem;
-            margin: 38px 0 16px;
-        }
-        .highlight-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 26px;
-        }
-        .highlight-card {
-            background: var(--white);
-            border-radius: 18px;
-            border: 1px solid var(--border);
-            padding: 28px 26px;
-            box-shadow: 0 18px 32px rgba(13,43,69,0.08);
-            display: grid;
-            gap: 14px;
-        }
-        .highlight-card__icon {
-            font-size: 2rem;
-        }
-        .highlight-card h3 {
-            margin: 0;
-            font-size: 1.22rem;
-            color: var(--navy);
-        }
-        .highlight-card ul {
-            margin: 0;
-            padding-left: 18px;
-            color: var(--muted);
-            font-size: 0.94rem;
-        }
-        .point-row {
-            margin: 30px auto 0;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--primary);
+            letter-spacing: 2px;
             display: flex;
-            flex-wrap: wrap;
-            gap: 16px;
+            align-items: center;
+            gap: 10px;
             justify-content: center;
         }
-        .point-chip {
-            background: rgba(17,138,126,0.12);
-            color: var(--teal);
-            font-weight: 600;
-            padding: 10px 18px;
-            border-radius: 14px;
-            font-size: 0.92rem;
+
+        .band__label::before,
+        .band__label::after {
+            content: '';
+            display: block;
+            width: 32px;
+            height: 2px;
+            background: var(--primary);
+            opacity: 0.4;
+            flex-shrink: 0;
         }
+
+        .band__head.left .band__label {
+            justify-content: flex-start;
+        }
+
+        .band__head.left .band__label::before {
+            display: none;
+        }
+
+        /* keep existing display:block override working for cases that set it inline */
+        .band__label[style*="font-size"] {
+            display: block;
+        }
+
+        /* suppress decorative lines when label is used as a subsection heading */
+        .band__label[style*="font-size"]::before,
+        .band__label[style*="font-size"]::after {
+            display: none;
+        }
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .band__title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--secondary);
+            margin-bottom: 20px;
+        }
+
+        .band__lead {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+        }
+
+        /* Grids */
+        .highlight-grid,
+        .strategy-grid,
         .focus-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-            gap: 22px;
+            gap: 32px;
         }
+
+        .strategy-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        @media (max-width: 1024px) {
+            .strategy-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            .strategy-grid,
+            .focus-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .strategy-card,
         .focus-card {
-            background: var(--white);
-            border-radius: 16px;
+            background: white;
+            padding: 32px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
             border: 1px solid var(--border);
-            padding: 24px;
-            box-shadow: 0 14px 26px rgba(32,48,64,0.08);
-            display: grid;
-            gap: 12px;
-            text-align: center;
+            height: 100%;
+            transition: box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
         }
-        .focus-card__icon {
-            font-size: 2.2rem;
+
+        .strategy-card:hover,
+        .focus-card:hover {
+            box-shadow: var(--shadow-md);
+            border-color: rgba(17, 138, 126, 0.3);
+            transform: translateY(-3px);
         }
+
+        .strategy-card h4,
         .focus-card h3 {
-            margin: 0;
-            font-size: 1.1rem;
-            color: var(--navy);
+            margin-bottom: 16px;
+            color: var(--secondary);
+            font-size: 1.25rem;
         }
-        .focus-card p {
-            margin: 0;
-            font-size: 0.95rem;
-            color: var(--muted);
+
+        .highlight-card {
+            background: var(--surface);
+            padding: 40px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid transparent;
         }
-        .platform-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 24px;
+
+        .highlight-card__icon {
+            font-size: 3rem;
+            margin-bottom: 24px;
+            display: block;
         }
-        .platform-card {
-            background: var(--white);
-            border-radius: 16px;
-            border: 1px solid var(--border);
-            padding: 26px 24px;
-            box-shadow: 0 16px 30px rgba(32,48,64,0.08);
-            text-align: center;
-            display: grid;
+
+        /* Chips */
+        .point-row {
+            display: flex;
+            flex-wrap: wrap;
             gap: 12px;
+            justify-content: center;
+            margin-top: 48px;
         }
-        .platform-card__icon {
-            font-size: 2.4rem;
-        }
-        .case-board {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 26px;
-        }
-        .case-group {
-            background: var(--white);
-            border-radius: 18px;
-            border: 1px solid var(--border);
-            padding: 28px 26px;
-            box-shadow: 0 20px 36px rgba(32,48,64,0.08);
-        }
-        .case-group h3 {
-            margin: 0 0 18px;
-            font-size: 1.2rem;
-            color: var(--navy);
-        }
-        .case-list {
-            display: grid;
-            gap: 18px;
-        }
-        .case-item {
-            border-left: 4px solid var(--teal);
-            padding-left: 16px;
-        }
-        .case-item span {
-            display: block;
-            font-size: 0.78rem;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-            color: var(--gold);
+
+        .point-chip {
+            padding: 8px 20px;
+            background: rgba(17, 138, 126, 0.1);
+            color: var(--primary-dark);
+            border-radius: 50px;
             font-weight: 600;
-            margin-bottom: 6px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(17, 138, 126, 0.2);
         }
-        .case-item strong {
-            display: block;
-            font-size: 1.05rem;
-            color: var(--navy);
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 24px 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
         }
-        .case-item p {
-            margin: 6px 0 0;
-            font-size: 0.95rem;
-            color: var(--muted);
+
+        nav.scrolled {
+            background: rgba(255, 255, 255, 0.9);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            padding: 16px 0;
+            box-shadow: var(--shadow-sm);
         }
-        .case-link {
-            display: inline-block;
-            margin-top: 10px;
-            font-size: 0.88rem;
-            font-weight: 600;
-            color: var(--teal);
+
+        .nav__wrap {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
             text-decoration: none;
         }
-        .case-link:hover {
-            text-decoration: underline;
+
+        nav.scrolled .logo {
+            color: var(--secondary);
         }
-        .timeline {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 22px;
-            position: relative;
+
+        .nav__links {
+            display: flex;
+            gap: 20px;
         }
-        .timeline::before {
-            content: "";
-            position: absolute;
-            top: 32px;
-            left: 6%;
-            right: 6%;
-            height: 2px;
-            background: linear-gradient(90deg, rgba(13,43,69,0.15), rgba(17,138,126,0.35));
-            z-index: 0;
+
+        .nav__links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
         }
-        .timeline-step {
-            background: var(--white);
-            border-radius: 16px;
-            border: 1px solid var(--border);
-            padding: 26px 24px;
-            box-shadow: 0 14px 26px rgba(32,48,64,0.08);
+
+        nav.scrolled .nav__links a {
+            color: var(--text-muted);
+        }
+
+        .nav__link--highlight {
+            background: var(--accent);
+            color: var(--secondary) !important;
+            padding: 8px 16px;
+            border-radius: 50px;
+        }
+
+        /* Mobile nav toggle */
+        .nav__toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            color: white;
+            transition: color 0.3s ease;
+        }
+
+        nav.scrolled .nav__toggle {
+            color: var(--secondary);
+        }
+
+        @media (max-width: 960px) {
+            .nav__toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .nav__links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                padding: 12px 24px 24px;
+                flex-direction: column;
+                box-shadow: var(--shadow-md);
+                gap: 0;
+            }
+
+            .nav__links.open {
+                display: flex;
+            }
+
+            .nav__links a {
+                color: var(--text) !important;
+                padding: 12px 0;
+                border-bottom: 1px solid var(--border);
+                font-size: 0.95rem;
+            }
+
+            .nav__links a:last-child {
+                border-bottom: none;
+            }
+
+            .nav__link--highlight {
+                background: var(--accent) !important;
+                color: var(--secondary) !important;
+                text-align: center;
+                padding: 12px 16px !important;
+                border-radius: 8px !important;
+                margin-top: 8px;
+                border-bottom: none !important;
+            }
+        }
+
+        /* Mission Statement styling */
+        .mission-statement {
+            max-width: 1000px;
+            margin: 0 auto 64px;
+            text-align: left;
+            background: white;
+            padding: 56px 64px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            border-left: 6px solid var(--primary);
+        }
+
+        .mission-text {
+            font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+            line-height: 1.8;
+            color: var(--text);
+            margin-bottom: 32px;
+            word-break: keep-all;
+        }
+
+        .mission-text:last-child {
+            margin-bottom: 0;
+        }
+
+        .mission-text.highlight {
+            color: var(--secondary);
+            font-weight: 500;
+        }
+
+        .mission-text strong {
+            color: var(--primary-dark);
+            font-weight: 700;
             position: relative;
             z-index: 1;
-            display: grid;
-            gap: 12px;
         }
-        .timeline-number {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: var(--teal);
-            color: var(--white);
+
+        .mission-text strong::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: rgba(216, 163, 26, 0.2);
+            z-index: -1;
+        }
+
+        /* Diagram context */
+        .diagram-container {
+            background: white;
+            padding: 40px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            margin: 48px auto 0;
+            max-width: 900px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .diagram-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--secondary);
+            margin-bottom: 32px;
+            text-align: center;
+        }
+
+        .mermaid {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .group-divider {
+            height: 4px;
+            background: linear-gradient(to right, transparent, var(--border), transparent);
+            margin: 60px 0;
+        }
+
+        .conclusion {
+            background: var(--surface);
+            padding: 48px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border);
+            max-width: 900px;
+            margin: 40px auto;
+            text-align: center;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--secondary);
+            color: #94a3b8;
+            padding: 72px 24px 0;
+        }
+
+        .footer__grid {
+            max-width: var(--max-width);
+            margin: 0 auto 56px;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 56px;
+            text-align: left;
+        }
+
+        @media (max-width: 768px) {
+            .footer__grid { grid-template-columns: 1fr; gap: 36px; }
+        }
+
+        .footer__logo {
+            display: block;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 12px;
+        }
+
+        .footer__tagline {
+            font-size: 0.92rem;
+            line-height: 1.7;
+            margin-bottom: 24px;
+            color: #94a3b8;
+        }
+
+        .footer__email {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--accent);
+            text-decoration: none;
             font-weight: 600;
+            font-size: 0.9rem;
+            transition: opacity 0.2s ease;
+        }
+
+        .footer__email:hover { opacity: 0.75; }
+
+        .footer__col-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: rgba(255, 255, 255, 0.35);
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .footer__nav-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .footer__nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
+        }
+
+        .footer__nav-links a:hover { color: white; }
+
+        .footer__bottom {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 24px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.07);
+            text-align: center;
+            font-size: 0.82rem;
+            color: rgba(255, 255, 255, 0.22);
+        }
+
+        /* Global Cases Section Styles */
+        .cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .case-card {
+            background: white;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            text-align: left;
+        }
+
+        .case-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+
+        .case-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .case-card:hover::before {
+            opacity: 1;
+        }
+
+        .case-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #f1f5f9;
+            color: var(--text-muted);
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .case-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .case-title .github-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .case-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            flex-grow: 1;
+            line-height: 1.6;
+        }
+
+        .case-repo {
+            font-family: 'monospace', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-size: 0.85rem;
+            color: var(--primary-dark);
+            background: #f0fdfa;
+            padding: 6px 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            word-break: break-all;
+        }
+
+        .case-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: gap 0.2s ease;
+        }
+
+        .case-link:hover {
+            gap: 12px;
+            text-decoration: underline;
+        }
+
+        .case-link svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1rem;
-        }
-        .timeline-step h4 {
-            margin: 0;
-            font-size: 1.08rem;
-            color: var(--navy);
-        }
-        .timeline-step p {
-            margin: 0;
-            font-size: 0.95rem;
-            color: var(--muted);
-        }
-        .strategy-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 24px;
-        }
-        .strategy-card {
-            background: var(--white);
-            border-radius: 18px;
-            border: 1px solid var(--border);
-            padding: 28px 26px;
-            box-shadow: 0 18px 32px rgba(32,48,64,0.08);
-            display: grid;
-            gap: 12px;
-        }
-        .strategy-card__icon {
-            font-size: 1.9rem;
-        }
-        .strategy-card h3 {
-            margin: 0;
-            font-size: 1.12rem;
-            color: var(--navy);
-        }
-        .strategy-card ul {
-            margin: 0;
-            padding-left: 18px;
-            color: var(--muted);
-            font-size: 0.94rem;
-        }
-        .engage-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
-        .engage-card {
-            background: rgba(255,255,255,0.9);
-            border-radius: 18px;
-            border: 1px solid rgba(17,138,126,0.3);
-            padding: 26px 24px;
-            box-shadow: 0 18px 34px rgba(17,138,126,0.16);
-            display: grid;
-            gap: 12px;
-        }
-        .engage-card__tag {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(17,138,126,0.16);
-            color: var(--teal);
-            font-weight: 600;
-            padding: 6px 14px;
-            border-radius: 999px;
-            font-size: 0.76rem;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-        }
-        .engage-card h3 {
-            margin: 0;
-            font-size: 1.12rem;
-            color: var(--navy);
-        }
-        .engage-card ul {
-            margin: 0;
-            padding-left: 18px;
-            color: var(--muted);
-            font-size: 0.94rem;
-        }
-        .conclusion {
-            background: var(--white);
-            border-radius: 22px;
-            border: 1px solid var(--border);
-            padding: 34px 32px;
-            box-shadow: 0 22px 38px rgba(13,43,69,0.1);
-            display: grid;
-            gap: 12px;
-        }
-        .band--cta {
-            background: linear-gradient(135deg, rgba(13,43,69,0.95), rgba(17,138,126,0.9));
-            color: var(--white);
-            text-align: center;
-        }
-        .cta-box {
-            max-width: 720px;
-            margin: 0 auto;
-            display: grid;
-            gap: 18px;
-        }
-        .cta-box a {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            background: var(--white);
-            color: var(--navy);
-            padding: 14px 30px;
-            border-radius: 999px;
-            font-weight: 600;
             text-decoration: none;
-            letter-spacing: 0.02em;
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
         }
-        footer {
-            padding: 36px 24px;
-            text-align: center;
-            background: #101928;
-            color: rgba(255,255,255,0.72);
+
+        .back-to-top.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Hero CTA Buttons */
+        .hero__actions {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn--accent {
+            background: var(--accent);
+            color: var(--secondary);
+            box-shadow: 0 4px 20px rgba(216, 163, 26, 0.4);
+        }
+
+        .btn--accent:hover {
+            background: #c49016;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(216, 163, 26, 0.55);
+        }
+
+        .btn--outline {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.55);
+        }
+
+        .btn--outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Partner / CTA Section */
+        .band--dark {
+            background: linear-gradient(150deg, #091d2e 0%, #0d2b45 60%, #0e3352 100%);
+            color: white;
+        }
+
+        .band--dark .band__title { color: white; }
+        .band--dark .band__lead  { color: #cbd5e1; }
+        .band--dark .band__label { color: var(--accent); }
+
+        .company-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            justify-content: center;
+            margin: 40px 0 56px;
+        }
+
+        .company-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            color: white;
+            transition: all 0.3s ease;
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+            cursor: default;
+        }
+
+        .company-badge:hover {
+            background: rgba(255, 255, 255, 0.14);
+            border-color: rgba(216, 163, 26, 0.6);
+            transform: translateY(-3px);
+        }
+
+        .company-badge .badge-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .partner-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin: 0 0 48px;
+        }
+
+        @media (max-width: 1024px) {
+            .partner-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 640px) {
+            .partner-grid { grid-template-columns: 1fr; }
+        }
+
+        .partner-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-md);
+            padding: 28px;
+            transition: all 0.3s ease;
+        }
+
+        .partner-card:hover {
+            background: rgba(255, 255, 255, 0.09);
+            border-color: rgba(216, 163, 26, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+        }
+
+        .partner-card__company {
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 4px;
+        }
+
+        .partner-card__type {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: rgba(255, 255, 255, 0.38);
+            margin-bottom: 16px;
+        }
+
+        .partner-card h4 {
+            font-size: 1.05rem;
+            color: white;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .partner-card p {
             font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.62);
+            line-height: 1.7;
         }
-        @media (max-width: 768px) {
-            header {
-                padding: 64px 18px 88px;
-            }
-            .hero__cards {
-                gap: 16px;
-            }
-            main {
-                padding: 0 18px 96px;
-            }
-            .band {
-                padding: 60px 0;
-            }
-            .timeline::before {
-                display: none;
-            }
+
+        .cta-box {
+            text-align: center;
+            padding: 64px 40px;
+            background: linear-gradient(135deg, rgba(216, 163, 26, 0.1), rgba(17, 138, 126, 0.08));
+            border: 2px solid rgba(216, 163, 26, 0.35);
+            border-radius: var(--radius-lg);
+            margin-top: 64px;
         }
+
+        .cta-box h3 {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            font-weight: 800;
+            color: white;
+            margin-bottom: 16px;
+        }
+
+        .cta-box > p {
+            font-size: 1.05rem;
+            color: #cbd5e1;
+            margin-bottom: 40px;
+            max-width: 640px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+        }
+
+        .cta-actions {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn--cta-primary {
+            background: var(--accent);
+            color: var(--secondary);
+            box-shadow: 0 4px 20px rgba(216, 163, 26, 0.45);
+        }
+
+        .btn--cta-primary:hover {
+            background: #c49016;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 32px rgba(216, 163, 26, 0.55);
+        }
+
+        .btn--cta-outline {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .btn--cta-outline:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: white;
+            transform: translateY(-2px);
+        }
+
+        .mission-statement--dark {
+            background: rgba(255, 255, 255, 0.05) !important;
+            border-left-color: var(--accent) !important;
+        }
+
+        .mission-statement--dark .mission-text {
+            color: #e2e8f0;
+        }
+
+        .mission-statement--dark .mission-text strong {
+            color: white !important;
+        }
+
+        .mission-statement--dark .mission-text.highlight {
+            color: #e2e8f0;
+        }
+
+        .mission-statement--dark .mission-text strong::after {
+            background: rgba(216, 163, 26, 0.22);
+        }
+
+        .partners-section-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+            margin-top: 60px;
+            margin-bottom: 28px;
+        }
+
+        /* Award spotlight */
+        .award-spotlight {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+            background: linear-gradient(135deg, rgba(216, 163, 26, 0.14), rgba(17, 138, 126, 0.08));
+            border: 2px solid rgba(216, 163, 26, 0.5);
+            border-radius: var(--radius-lg);
+            padding: 36px 44px;
+            margin-bottom: 56px;
+        }
+
+        @media (max-width: 640px) {
+            .award-spotlight { flex-direction: column; text-align: center; }
+        }
+
+        .award-spotlight__emoji {
+            font-size: 3.5rem;
+            flex-shrink: 0;
+            line-height: 1;
+        }
+
+        .award-spotlight__label {
+            display: block;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: var(--accent);
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .award-spotlight__title {
+            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+            font-weight: 800;
+            color: white;
+            margin-bottom: 8px;
+            line-height: 1.45;
+        }
+
+        .award-spotlight__desc {
+            font-size: 0.95rem;
+            color: #cbd5e1;
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        .award-spotlight__link {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.88rem;
+            transition: opacity 0.2s ease;
+        }
+
+        .award-spotlight__link:hover {
+            opacity: 0.75;
+            text-decoration: underline;
+        }
+
+        .award-spotlight__highlight {
+            color: white;
+        }
+
+        /* Why Gwangmyeong grid */
+        .why-gm-label {
+            font-size: 1rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.45);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .why-gm-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 72px;
+        }
+
+        @media (max-width: 900px) { .why-gm-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 560px) { .why-gm-grid { grid-template-columns: 1fr; } }
+
+        .why-gm-card {
+            background: rgba(255, 255, 255, 0.055);
+            border: 1px solid rgba(255, 255, 255, 0.11);
+            border-radius: var(--radius-md);
+            padding: 32px 28px;
+            transition: all 0.3s ease;
+        }
+
+        .why-gm-card:hover {
+            background: rgba(255, 255, 255, 0.10);
+            border-color: rgba(17, 138, 126, 0.55);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .why-gm-card__icon {
+            font-size: 2.4rem;
+            display: block;
+            margin-bottom: 16px;
+        }
+
+        .why-gm-card h3 {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 12px;
+        }
+
+        .why-gm-card p {
+            font-size: 0.88rem;
+            color: rgba(255, 255, 255, 0.62);
+            line-height: 1.75;
+        }
+
+        .why-gm-card strong {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        /* Badge dot brand colors */
+        .badge-dot--google    { background: #4285f4; }
+        .badge-dot--microsoft { background: #00a4ef; }
+        .badge-dot--naver     { background: #03c75a; }
+        .badge-dot--kakao     { background: #fee500; }
+        .badge-dot--nvidia    { background: #76b900; }
+        .badge-dot--samsung   { background: #1428a0; }
+        .badge-dot--lg        { background: #a50034; }
+        .badge-dot--un        { background: #009edb; }
     </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('nav');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+            });
+
+            const reveals = document.querySelectorAll('.reveal');
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            reveals.forEach(reveal => revealObserver.observe(reveal));
+
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            const backToTop = document.querySelector('.back-to-top');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 500) {
+                    backToTop.classList.add('active');
+                } else {
+                    backToTop.classList.remove('active');
+                }
+            });
+
+            const toggle = document.querySelector('.nav__toggle');
+            const navLinks = document.querySelector('.nav__links');
+            toggle.addEventListener('click', () => {
+                const isOpen = navLinks.classList.toggle('open');
+                toggle.setAttribute('aria-expanded', isOpen);
+            });
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('open');
+                    toggle.setAttribute('aria-expanded', 'false');
+                });
+            });
+        });
+    </script>
 </head>
+
 <body>
-    <header>
-        <div class="hero">
-            <div class="hero__headline">
-                <span class="hero__badge">광명시 디지털 혁신 제안서</span>
-                <h1 class="hero__title">지속 가능한 디지털 혁신 도시 광명</h1>
-                <p class="hero__subtitle">오픈소스 거버넌스와 시민 협력 생태계를 결합해 예산 효율화, 행정 투명성, 사회적 가치를 동시에 달성하는 미래 행정을 설계합니다.</p>
+    <nav id="top-nav">
+        <div class="nav__wrap">
+            <a href="#" class="logo">GM Open Governance</a>
+            <button type="button" class="nav__toggle" aria-label="메뉴 열기" aria-expanded="false">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                    <line x1="3" y1="6" x2="21" y2="6"/>
+                    <line x1="3" y1="12" x2="21" y2="12"/>
+                    <line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+            </button>
+            <div class="nav__links">
+                <a href="#vision" class="nav__link">1.비전</a>
+                <a href="#soc-econ" class="nav__link">2.사회연대경제</a>
+                <a href="#human" class="nav__link">3.AI도슨트</a>
+                <a href="#opensource" class="nav__link">4.오픈소스</a>
+                <a href="#hub" class="nav__link">5.마을거점</a>
+                <a href="#governance" class="nav__link">6.거버넌스</a>
+                <a href="#partners" class="nav__link">7.협력파트너</a>
+                <a href="https://github.com/durume/GM" target="_blank" rel="noopener"
+                    class="nav__link nav__link--highlight">GitHub 실험장</a>
             </div>
-            <div class="hero__cards">
-                <div class="hero-card">
-                    <span class="hero-card__icon">🏆</span>
-                    <strong>국무총리상 3년 연속 수상</strong>
-                    <p>2025 제7회 지방자치단체 사회적경제 정책 평가에서 대상 수상, 선도적 사회적 경제 모델로 인정.</p>
-                </div>
-                <div class="hero-card">
-                    <span class="hero-card__icon">🌐</span>
-                    <strong>durume/GM 지식 관리 자산</strong>
-                    <p>아이디어→문서화→Wrap-up 철학을 바탕으로 행정 지식을 구조화할 준비 완료.</p>
-                </div>
-                <div class="hero-card">
-                    <span class="hero-card__icon">📚</span>
-                    <strong>45개 작은도서관 네트워크</strong>
-                    <p>지역 밀착 거점을 활용해 시민 디지털 리터러시와 참여 기반을 확대할 수 있는 인프라 보유.</p>
-                </div>
-                <div class="hero-card">
-                    <span class="hero-card__icon">🤝</span>
-                    <strong>시민·공무원 협력 경험</strong>
-                    <p>100인 토론회, GM 주간정책회의 등 시민과 함께 정책을 설계한 경험 축적.</p>
+        </div>
+    </nav>
+
+    <header>
+        <div class="hero-bg">
+            <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=2070" alt="Tech Background">
+        </div>
+        <div class="hero reveal">
+            <div class="hero__headline">
+                <span class="hero__badge">광명시 사회연대경제 대전환</span>
+                <h1 class="hero__title">AI 시대, 사회연대경제의<br>새로운 표준을 만듭니다</h1>
+                <p class="hero__subtitle">오픈소스와 시민 협력을 결합해 광명시를 세계적인 사회연대경제 선도도시로 재설계합니다.</p>
+                <div class="hero__actions">
+                    <a href="#partners" class="btn btn--accent">🤝 기업 협력 파트너 제안</a>
+                    <a href="#vision" class="btn btn--outline">전략 살펴보기 →</a>
                 </div>
             </div>
         </div>
     </header>
+
     <main>
-        <section class="band band--white">
+        <!-- 1. 비전 섹션 -->
+        <section id="vision" class="band band--white reveal">
             <div class="band__wrap">
                 <div class="band__head">
-                    <span class="band__label">Executive Brief</span>
-                    <h2 class="band__title">광명시 사회적 가치 혁신 현황</h2>
-                    <p class="band__lead">광명시는 지역공동체 자산 구축(CWB)과 GM 굿모닝광명 브랜드를 중심으로 사회적 경제 혁신을 선도해 왔습니다. 이제 오픈소스 전략을 통해 축적된 성과를 디지털 자산으로 전환하고, 시민이 주도하는 협력 구조로 확장해야 할 시점입니다.</p>
+                    <span class="band__label">Point 1. Perspective</span>
+                    <h2 class="band__title">1. 인공지능 시대의 대전환</h2>
+                    <p class="band__lead">급격한 AI 기술 발전은 일자리와 사회 구조를 근본적으로 바꾸고 있습니다. 이러한 대전환기에는 단순한 기술 도입을 넘어선 근본적인 체계의
+                        변화가 요구됩니다.</p>
                 </div>
-                <div class="highlight-grid">
-                    <article class="highlight-card">
-                        <span class="highlight-card__icon">🏛️</span>
-                        <h3>검증된 사회적경제 모델</h3>
-                        <ul>
-                            <li>2025 지방자치단체 사회적경제 정책 평가 대상(국무총리상).</li>
-                            <li>지역공동체 자산 구축(CWB)로 주민 자생력 확보.</li>
-                            <li>GM 굿모닝광명 브랜드로 공공 서비스 가치 제고.</li>
-                        </ul>
-                    </article>
-                    <article class="highlight-card">
-                        <span class="highlight-card__icon">💡</span>
-                        <h3>durume/GM 철학 확장</h3>
-                        <ul>
-                            <li>아이디어 공유 → 문서화 → Wrap-up 지식 생애주기 정착.</li>
-                            <li>프로젝트 산출물을 Markdown·데이터로 구조화.</li>
-                            <li>행정 연속성을 위한 오픈 저장소 전환 준비 완료.</li>
-                        </ul>
-                    </article>
-                    <article class="highlight-card">
-                        <span class="highlight-card__icon">🚀</span>
-                        <h3>시민 참여형 오픈소스 생태계</h3>
-                        <ul>
-                            <li>작은도서관을 디지털 허브로 전환해 참여 저변 확대.</li>
-                            <li>세대별 맞춤형 리터러시 교육으로 디지털 주권 강화.</li>
-                            <li>정책 설계·개선 과정을 시민이 공동 제작.</li>
-                        </ul>
-                    </article>
-                </div>
-                <div class="point-row">
-                    <span class="point-chip">디지털 공공재</span>
-                    <span class="point-chip">투명한 행정 기록</span>
-                    <span class="point-chip">시민 공동 생산</span>
-                </div>
-            </div>
-        </section>
 
-        <section class="band band--slate">
-            <div class="band__wrap">
-                <div class="band__head">
-                    <span class="band__label">Strategic Premise</span>
-                    <h2 class="band__title">왜 지금, 오픈소스 행정인가</h2>
-                    <p class="band__lead">오픈소스는 단순한 기술 선택이 아니라 비용 효율, 행정 신뢰, 확산성을 동시에 담보하는 디지털 공공 인프라입니다.</p>
-                </div>
-                <div class="focus-grid">
-                    <div class="focus-card">
-                        <span class="focus-card__icon">💸</span>
-                        <h3>예산 효율화</h3>
-                        <p>라이선스 비용 없이 전 세계 검증 솔루션을 도입해 예산을 시민 복지에 재투자.</p>
-                    </div>
-                    <div class="focus-card">
-                        <span class="focus-card__icon">🔎</span>
-                        <h3>투명성과 신뢰</h3>
-                        <p>정책 알고리즘과 성과 지표를 코드로 공개하여 행정 책임성을 기술적으로 보장.</p>
-                    </div>
-                    <div class="focus-card">
-                        <span class="focus-card__icon">♻️</span>
-                        <h3>확산과 재사용</h3>
-                        <p>성공 사례를 다른 도시가 곧바로 포크(Fork)하여 구축, 국가적 중복 투자를 억제.</p>
-                    </div>
-                    <div class="focus-card">
-                        <span class="focus-card__icon">🗳️</span>
-                        <h3>시민 주권 실현</h3>
-                        <p>시민이 이슈 제기와 해결 과정에 참여하며 정책 공동 생산자로 성장.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="band band--white">
-            <div class="band__wrap">
-                <div class="band__head">
-                    <span class="band__label">Platform Spotlight</span>
-                    <h2 class="band__title">GitHub: 디지털 세상의 도서관이자 작업실</h2>
-                    <p class="band__lead">1억 8천만 명 이상이 사용하는 글로벌 협업 플랫폼으로 행정 기록, 시민 참여, 대외 홍보를 한 번에 구현합니다.</p>
-                </div>
-                <div class="platform-grid">
-                    <div class="platform-card">
-                        <span class="platform-card__icon">📚</span>
-                        <strong>기록과 보존</strong>
-                        <p>누가·언제·무엇을·왜 수정했는지 모든 이력을 자동 기록해 책임성을 강화합니다.</p>
-                    </div>
-                    <div class="platform-card">
-                        <span class="platform-card__icon">🧩</span>
-                        <strong>기여와 협업</strong>
-                        <p>세계 어디서나 시민·전문가가 함께 참여해 열린 행정 협업을 촉진합니다.</p>
-                    </div>
-                    <div class="platform-card">
-                        <span class="platform-card__icon">📢</span>
-                        <strong>쇼케이스</strong>
-                        <p>정책 성과와 데이터, 교육 자료를 투명하게 공개해 글로벌 신뢰를 확보합니다.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="band band--white">
-            <div class="band__wrap">
-                <div class="band__head">
-                    <span class="band__label">Global Alignment</span>
-                    <h2 class="band__title">공공·국제 섹터가 선택한 GitHub 거버넌스</h2>
-                    <p class="band__lead">국내외 정부와 국제기구는 이미 GitHub를 국가 표준으로 채택하며 디지털 주권을 강화하고 있습니다.</p>
-                </div>
-                <div class="case-board">
-                    <div class="case-group">
-                        <h3>공공기관 성공 사례</h3>
-                        <div class="case-list">
-                            <div class="case-item">
-                                <span>KOREA</span>
-                                <strong><a href="https://www.egovframe.go.kr" target="_blank" rel="noopener">대한민국 NIA</a></strong>
-                                <p>전자정부 표준 프레임워크 공개로 중소 기업 참여 확대와 기술 자립도 향상.</p>
-                                <a href="https://github.com/eGovFramework" target="_blank" rel="noopener" class="case-link">GitHub →</a>
-                            </div>
-                            <div class="case-item">
-                                <span>UNITED KINGDOM</span>
-                                <strong><a href="https://design-system.service.gov.uk/" target="_blank" rel="noopener">영국 GDS</a></strong>
-                                <p>Design System을 공유해 공공 서비스 개발 기간 단축, 예산 절감 동시 달성.</p>
-                                <a href="https://github.com/alphagov" target="_blank" rel="noopener" class="case-link">GitHub →</a>
-                            </div>
-                            <div class="case-item">
-                                <span>SINGAPORE</span>
-                                <strong><a href="https://www.open.gov.sg/" target="_blank" rel="noopener">싱가포르 OGP</a></strong>
-                                <p>FormSG·Isomer 오픈소스로 44,000명 공직자의 안전한 디지털 서비스 구축 지원.</p>
-                                <a href="https://github.com/opengovsg" target="_blank" rel="noopener" class="case-link">GitHub →</a>
-                            </div>
-                            <div class="case-item">
-                                <span>UNITED STATES</span>
-                                <strong><a href="https://code.gov/" target="_blank" rel="noopener">미국 EPA · code.gov</a></strong>
-                                <p>부처 코드를 인벤토리화해 국가 차원의 소프트웨어 재사용률 극대화.</p>
-                                <a href="https://github.com/GSA/code-gov" target="_blank" rel="noopener" class="case-link">GitHub →</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="case-group">
-                        <h3>국제기구·글로벌 단체</h3>
-                        <div class="case-list">
-                            <div class="case-item">
-                                <span>UNHCR</span>
-                                <strong><a href="https://github.blog/open-source/social-impact/using-ai-to-map-hope-for-refugees-with-unhcr-the-un-refugee-agency/" target="_blank" rel="noopener">난민 지원 가속화</a></strong>
-                                <p>드론 데이터를 AI 지도로 전환하는 프로젝트를 글로벌 커뮤니티와 협업.</p>
-                                <a href="https://www.unhcr.org/" target="_blank" rel="noopener" class="case-link">UNHCR →</a>
-                            </div>
-                            <div class="case-item">
-                                <span>WORLD BANK</span>
-                                <strong><a href="https://worldbank.github.io/ietoolkit/" target="_blank" rel="noopener">ietoolkit</a></strong>
-                                <p>원조 사업 효과성 검증 도구를 공개해 연구 투명성과 재현성을 확보.</p>
-                                <a href="https://github.com/worldbank/ietoolkit" target="_blank" rel="noopener" class="case-link">GitHub →</a>
-                            </div>
-                            <div class="case-item">
-                                <span>GREENPEACE</span>
-                                <strong><a href="https://planet4.greenpeace.org/" target="_blank" rel="noopener">Planet 4</a></strong>
-                                <p>시민 참여 캠페인 플랫폼 코드를 공유해 세계 각지 환경 단체와 기술 연대.</p>
-                                <a href="https://github.com/greenpeace/planet4" target="_blank" rel="noopener" class="case-link">GitHub →</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="band band--slate">
-            <div class="band__wrap">
-                <div class="band__head">
-                    <span class="band__label">durume/GM Model</span>
-                    <h2 class="band__title">durume/GM 지식 생애주기와 광명시 연계</h2>
-                    <p class="band__lead">광명시는 이미 오프라인에서 durume/GM 모델을 실천하고 있으며, GitHub 전환 시 지식 확산 속도가 기하급수적으로 증가합니다.</p>
-                </div>
-                <div class="timeline">
-                    <div class="timeline-step">
-                        <div class="timeline-number">1</div>
-                        <h4>Idea Sharing</h4>
-                        <p>GM 주간정책회의·100인 토론회 안건을 Discussions로 전환해 실시간 토론과 기록을 병행.</p>
-                    </div>
-                    <div class="timeline-step">
-                        <div class="timeline-number">2</div>
-                        <h4>Documents</h4>
-                        <p>시민 활동가 양성과 자치대학 성과물을 Markdown으로 구조화해 인사 이동과 무관하게 보존.</p>
-                    </div>
-                    <div class="timeline-step">
-                        <div class="timeline-number">3</div>
-                        <h4>Wrap-up</h4>
-                        <p>프로젝트 종료 시 실행 가능한 코드·데이터를 포함한 패키지로 공개, 타 지자체가 즉시 활용.</p>
-                    </div>
-                    <div class="timeline-step">
-                        <div class="timeline-number">4</div>
-                        <h4>Visualization</h4>
-                        <p>G-SVI와 정책 로직을 Mermaid 다이어그램으로 시각화해 시민·기업 이해도 제고.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="band band--slate">
-            <div class="band__wrap">
-                <div class="band__head">
-                    <span class="band__label">Governance Roadmap</span>
-                    <h2 class="band__title">광명시 사회적 가치 오픈소스 거버넌스 로드맵</h2>
-                    <p class="band__lead">사회적 경제 현장에서 생성되는 지식을 시민과 공유하고, G-SVI 데이터를 투명하게 개방하며, 현장 문제 해결과 공동체 자산화를 동시에 추진하는 실행 로드맵입니다.</p>
-                </div>
-                <div class="highlight-grid">
-                    <article class="highlight-card">
-                        <span class="highlight-card__icon">🗃️</span>
-                        <h3>GM-Knowledge Repository</h3>
-                        <ul>
-                            <li>사회적경제 교육·포럼 산출물을 GitHub 공개 저장소로 전환.</li>
-                            <li>Wrap-up 보고 의무화를 통해 시행착오·성과를 표준 템플릿으로 축적.</li>
-                            <li>Mermaid·다이어그램으로 정책 구조를 시각화해 시민 이해도 강화.</li>
-                        </ul>
-                    </article>
-                    <article class="highlight-card">
-                        <span class="highlight-card__icon">📊</span>
-                        <h3>G-SVI 오픈 데이터 고도화</h3>
-                        <ul>
-                            <li>지표 산식·측정 알고리즘을 오픈소스로 공개해 신뢰 확보.</li>
-                            <li>싱가포르 OGP 사례를 벤치마킹한 임팩트 대시보드 구축.</li>
-                            <li>사회적기업이 자가 진단·예측 가능한 툴킷 제공.</li>
-                        </ul>
-                    </article>
-                    <article class="highlight-card">
-                        <span class="highlight-card__icon">💡</span>
-                        <h3>Hack for Gwangmyeong</h3>
-                        <ul>
-                            <li>사회적기업 현장 과제를 GitHub Issues로 구조화.</li>
-                            <li>시민 개발자·디자이너가 상시 참여하는 해커톤 상설화.</li>
-                            <li>검증된 글로벌 오픈소스 도구를 지역 실정에 맞게 현지화.</li>
-                        </ul>
-                    </article>
-                    <article class="highlight-card">
-                        <span class="highlight-card__icon">🌐</span>
-                        <h3>디지털 공유 경제 자산화</h3>
-                        <ul>
-                            <li>공유 플랫폼 코드를 오픈소스로 관리해 공동체 소유 구조 확보.</li>
-                            <li>부서 간 행정 솔루션을 이너소스로 공유해 협업과 비용 절감.</li>
-                            <li>지역 순환 경제 전략과 디지털 자산을 연계해 지속 가능성 확보.</li>
-                        </ul>
-                    </article>
-                </div>
-                <div class="point-row">
-                    <span class="point-chip">지식 공개 표준화</span>
-                    <span class="point-chip">데이터 투명성</span>
-                    <span class="point-chip">시민 참여 혁신</span>
-                    <span class="point-chip">공동체 디지털 자산</span>
-                </div>
-            </div>
-        </section>
-
-        <section class="band band--white">
-            <div class="band__wrap">
-                <div class="band__head">
-                    <span class="band__label">Strategic Match</span>
-                    <h2 class="band__title">광명 자산과 오픈소스의 6대 매칭 프로젝트</h2>
-                    <p class="band__lead">지역 자원을 데이터·코드와 연결해 행정 서비스와 사회적 경제 생태계를 동시 혁신합니다.</p>
-                </div>
-                <div class="strategy-grid">
-                    <div class="strategy-card">
-                        <span class="strategy-card__icon">🏛️</span>
-                        <h3>GitHub Townhall</h3>
-                        <ul>
-                            <li>자산: 100인 토론회, GM 주간정책회의.</li>
-                            <li>도구: Decidim 기반 참여 민주주의 플랫폼.</li>
-                            <li>효과: PR 제출·Merge 승인으로 정책 심사 가시화.</li>
-                        </ul>
-                    </div>
-                    <div class="strategy-card">
-                        <span class="strategy-card__icon">🥕</span>
-                        <h3>Gwangmyeong Food-Loop</h3>
-                        <ul>
-                            <li>자산: 그냥드림, 로컬푸드 직매장, 광명사랑화폐.</li>
-                            <li>도구: FoodCoopShop, Komunitin, GitHub Actions.</li>
-                            <li>효과: 기부·잉여자원을 실시간 대시보드로 공유.</li>
-                        </ul>
-                    </div>
-                    <div class="strategy-card">
-                        <span class="strategy-card__icon">🗺️</span>
-                        <h3>Open Gwangmyeong Tour</h3>
-                        <ul>
-                            <li>자산: 광명동굴, 기형도 문학관, 관광 데이터 API.</li>
-                            <li>도구: Arches, GitHub Pages.</li>
-                            <li>효과: 시민이 기록한 스토리를 자동 웹 배포.</li>
-                        </ul>
-                    </div>
-                    <div class="strategy-card">
-                        <span class="strategy-card__icon">📦</span>
-                        <h3>Mutual Growth Data Hub</h3>
-                        <ul>
-                            <li>자산: 광명 상생 플랫폼, GM 브랜드 상품.</li>
-                            <li>도구: Public Data 저장소, 오픈 API.</li>
-                            <li>효과: 지역 기업·사회적 기업의 서비스 혁신 촉진.</li>
-                        </ul>
-                    </div>
-                    <div class="strategy-card">
-                        <span class="strategy-card__icon">📊</span>
-                        <h3>Open Social Impact Analytics</h3>
-                        <ul>
-                            <li>자산: G-SVI 지표, 기업 맞춤형 컨설팅 데이터.</li>
-                            <li>도구: World Bank ietoolkit 벤치마킹.</li>
-                            <li>효과: 사회적 가치 계산 자동화, 행정 신뢰 제고.</li>
-                        </ul>
-                    </div>
-                    <div class="strategy-card">
-                        <span class="strategy-card__icon">📘</span>
-                        <h3>Autonomy Playbook</h3>
-                        <ul>
-                            <li>자산: 광명자치대학 5대 실천 프로젝트.</li>
-                            <li>도구: durume/GM Wrap-up 템플릿.</li>
-                            <li>효과: 타 지자체가 즉시 사용할 정책 매뉴얼 제공.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="band band--white">
-            <div class="band__wrap">
-                <div class="band__head">
-                    <span class="band__label">AI Docent Program</span>
-                    <h2 class="band__title">AI 도슨트 양성 및 운영 계획</h2>
-                    <p class="band__lead">AI와 오픈소스를 시민 눈높이로 안내하는 디지털 해설사를 양성해 광명시의 디지털 격차를 해소하고, 시민 주도의 학습-교육 선순환 구조를 구축합니다.</p>
-                </div>
-                <div class="highlight-grid">
-                    <article class="highlight-card">
-                        <span class="highlight-card__icon">🤖</span>
-                        <h3>AI 도슨트 정의</h3>
-                        <ul>
-                            <li>복잡한 디지털 기술을 시민 눈높이에서 해설하는 지역 기반 디지털 안내자.</li>
-                            <li>AI를 학습·교육 도구로 활용해 디지털 리터러시를 높이는 전문가 그룹.</li>
-                        </ul>
-                    </article>
-                    <article class="highlight-card">
-                        <span class="highlight-card__icon">🎯</span>
-                        <h3>AI 도슨트 미션</h3>
-                        <p style="font-style: italic; color: var(--navy); font-weight: 500; line-height: 1.6;">"AI 도슨트는 모두가 안전하고 공정하게 AI를 활용할 수 있는 사회를 만들기 위해, 지역사회와 협력하여 AI 이해 증진, 책임 있는 사용, 디지털 포용을 실현합니다."</p>
-                    </article>
-                </div>
-                <div class="band__subheading">핵심 목표</div>
-                <div class="strategy-grid">
-                    <div class="strategy-card">
-                        <span class="strategy-card__icon">📚</span>
-                        <h3>AI 리터러시 향상</h3>
-                        <ul>
-                            <li>시민들이 AI의 원리, 가능성, 위험을 이해하도록 교육.</li>
-                            <li>생성형 AI 활용법과 정보 판별력 등 필수 역량 강화.</li>
-                        </ul>
-                    </div>
-                    <div class="strategy-card">
-                        <span class="strategy-card__icon">⚖️</span>
-                        <h3>책임 있는 AI 사용 촉진</h3>
-                        <ul>
-                            <li>개인정보 보호와 윤리적 기준 준수 교육.</li>
-                            <li>AI 활용에서의 공정성 확보와 편향 인식.</li>
-                        </ul>
-                    </div>
-                    <div class="strategy-card">
-                        <span class="strategy-card__icon">🤝</span>
-                        <h3>사회적 연대 강화</h3>
-                        <ul>
-                            <li>AI 활용을 통해 지역 공동체의 문제 해결 촉진.</li>
-                            <li>시민·기업·행정 간 협력 네트워크 구축.</li>
-                        </ul>
-                    </div>
-                    <div class="strategy-card">
-                        <span class="strategy-card__icon">🌈</span>
-                        <h3>디지털 격차 해소</h3>
-                        <ul>
-                            <li>취약계층을 포함한 모든 시민이 AI 혜택을 누리도록 지원.</li>
-                            <li>세대별·계층별 맞춤형 교육 프로그램 운영.</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="band__subheading">구체적 활동</div>
-                <div class="strategy-grid">
-                    <div class="strategy-card">
-                        <span class="strategy-card__icon">🗂️</span>
-                        <h3>오픈소스 가이드</h3>
-                        <ul>
-                            <li>GitHub 사용법과 협업 문화를 초보자 눈높이에서 안내.</li>
-                            <li>durume/GM 프로젝트 참여 방법을 시민에게 전파.</li>
-                        </ul>
-                    </div>
-                    <div class="strategy-card">
-                        <span class="strategy-card__icon">📈</span>
-                        <h3>디지털 리터러시 교육</h3>
-                        <ul>
-                            <li>AI를 활용한 맞춤형 학습 지도로 학습 격차 완화.</li>
-                            <li>실생활 문제 해결 중심의 실습형 교육 진행.</li>
-                        </ul>
-                    </div>
-                    <div class="strategy-card">
-                        <span class="strategy-card__icon">💡</span>
-                        <h3>프로젝트 퍼실리테이터</h3>
-                        <ul>
-                            <li>durume/GM 시민 프로젝트의 진행을 돕고 참여를 독려.</li>
-                            <li>정책 아이디어를 실행 가능한 과제로 연결.</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="band__subheading">3단계 양성 프로세스</div>
-                <div class="timeline">
-                    <div class="timeline-step">
-                        <div class="timeline-number">1</div>
-                        <h4>Learning with AI</h4>
-                        <p>기술 관심 시민, 경력 단절 여성, 시니어 리더 등이 생성형 AI를 활용해 코딩 기초, GitHub, 문서 작성법을 학습.</p>
-                    </div>
-                    <div class="timeline-step">
-                        <div class="timeline-number">2</div>
-                        <h4>Teaching with AI</h4>
-                        <p>AI로 인포그래픽·가이드북을 제작하고 복잡한 기술을 쉬운 비유로 전달하는 해설 스킬을 훈련.</p>
-                    </div>
-                    <div class="timeline-step">
-                        <div class="timeline-number">3</div>
-                        <h4>Practice & Certification</h4>
-                        <p>광명시 디지털 교육 현장에서 실습하고 일정 기준 충족 시 ‘광명시 공인 AI 도슨트’ 자격을 부여.</p>
-                    </div>
-                </div>
-                <div class="band__subheading">GitHub 기반 운영 & 기대 효과</div>
-                <div class="highlight-grid">
-                    <article class="highlight-card">
-                        <span class="highlight-card__icon">🧭</span>
-                        <h3>투명한 교육 관리</h3>
-                        <ul>
-                            <li>GitHub.com/durume/GM에 커리큘럼과 교육 자료를 공개해 누구나 개선.</li>
-                            <li>교육생 커밋 기록으로 학습 성취도와 포트폴리오를 객관적으로 축적.</li>
-                            <li>GitHub Copilot 등 AI 도구로 비전공자의 학습 장벽을 완화.</li>
-                        </ul>
-                    </article>
-                    <article class="highlight-card">
-                        <span class="highlight-card__icon">🌱</span>
-                        <h3>기대 효과</h3>
-                        <ul>
-                            <li>디지털 교육 전문가 일자리 창출과 지역 소득 기반 확대.</li>
-                            <li>시민이 스스로 문제를 해결하는 지속 가능한 디지털 복지 실현.</li>
-                            <li>시민 참여형 오픈소스 생태계를 선도하는 도시 모델 확립.</li>
-                        </ul>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <section class="band band--slate">
-            <div class="band__wrap">
-                <div class="band__head">
-                    <span class="band__label">Job Creation Revolution</span>
-                    <h2 class="band__title">취업에서 창직으로: 일자리 창출 혁명</h2>
-                    <p class="band__lead" style="font-size: 1.2rem; font-weight: 600; color: var(--navy);">"취업하지 말고, 일자리를 만들어라."</p>
-                    <p class="band__lead">AI 슈퍼파워 시대, 대기업 취업을 기다리는 대신 시민이 직접 사회에 필요한 서비스를 만들고 스스로 일자리를 창출합니다. 자원 부족으로 시도조차 어려웠던 사회 서비스가 이제 가능해집니다.</p>
-                </div>
-                <div class="highlight-grid">
-                    <article class="highlight-card">
-                        <span class="highlight-card__icon">🔄</span>
-                        <h3>패러다임의 전환</h3>
-                        <ul>
-                            <li><strong>기존:</strong> 일자리에 지원 → <strong>새로운:</strong> 일자리를 창출</li>
-                            <li><strong>기존:</strong> 채용을 기다림 → <strong>새로운:</strong> 필요한 서비스를 직접 구축</li>
-                            <li><strong>기존:</strong> 자원 부족으로 한계 → <strong>새로운:</strong> AI 슈퍼파워로 역량 확장</li>
-                            <li><strong>기존:</strong> 기업 이익을 위해 일함 → <strong>새로운:</strong> 사회적 가치를 창출</li>
-                        </ul>
-                    </article>
-                    <article class="highlight-card">
-                        <span class="highlight-card__icon">⚡</span>
-                        <h3>AI: 위대한 평등화 도구</h3>
-                        <ul>
-                            <li>한 사람이 10명의 개발자가 필요했던 앱을 구축.</li>
-                            <li>디자인 교육 없이도 전문적인 디자인 제작.</li>
-                            <li>수개월 걸리던 워크플로우를 수 시간 만에 자동화.</li>
-                            <li>다국어 문서를 즉시 작성, 글로벌 서비스 가능.</li>
-                        </ul>
-                    </article>
-                    <article class="highlight-card">
-                        <span class="highlight-card__icon">🌱</span>
-                        <h3>이전에는 불가능했던 서비스</h3>
-                        <ul>
-                            <li><strong>노인 돌봄:</strong> AI 매칭, 자동 안부 확인, 예측 건강 알림.</li>
-                            <li><strong>다국어 서비스:</strong> 100개 이상 언어 실시간 번역.</li>
-                            <li><strong>소상공인 지원:</strong> AI 어드바이저의 대규모 맞춤형 컨설팅.</li>
-                            <li><strong>정신건강:</strong> 24시간 위기 자원, AI 보조 스크리닝.</li>
-                        </ul>
-                    </article>
-                </div>
-                <div class="band__subheading">일자리 창출 사이클</div>
-                <div class="timeline">
-                    <div class="timeline-step">
-                        <div class="timeline-number">1</div>
-                        <h4>사회적 필요 발굴</h4>
-                        <p>우리 지역사회에 어떤 서비스가 부족한가? 시민의 목소리에서 해결해야 할 과제를 발견.</p>
-                    </div>
-                    <div class="timeline-step">
-                        <div class="timeline-number">2</div>
-                        <h4>AI 슈퍼파워로 구축</h4>
-                        <p>한 사람 + AI = 팀 전체의 역량. 전문 개발팀 없이도 실제 서비스 프로토타입 제작.</p>
-                    </div>
-                    <div class="timeline-step">
-                        <div class="timeline-number">3</div>
-                        <h4>오픈소스로 배포</h4>
-                        <p>자유롭게 공유하고 다른 사람들이 개선하도록. 지역을 넘어 전국, 전 세계로 확산.</p>
-                    </div>
-                    <div class="timeline-step">
-                        <div class="timeline-number">4</div>
-                        <h4>지속 가능한 일자리 창출</h4>
-                        <p>유지보수, 지원, 교육, 서비스 확장. 창작자가 다른 사람을 고용하는 선순환.</p>
-                    </div>
-                </div>
-                <div class="band__subheading">우리가 만들 수 있는 새로운 일자리</div>
-                <div class="focus-grid">
-                    <div class="focus-card">
-                        <span class="focus-card__icon">🎨</span>
-                        <h3>서비스 창작자</h3>
-                        <p>지역사회 필요를 발굴하고 AI 기반 솔루션을 설계·구축하는 창직 선도자.</p>
-                    </div>
-                    <div class="focus-card">
-                        <span class="focus-card__icon">🤝</span>
-                        <h3>AI-휴먼 브릿지 워커</h3>
-                        <p>시민이 AI 서비스와 상호작용하도록 돕고 인간적 터치를 제공하는 연결자.</p>
-                    </div>
-                    <div class="focus-card">
-                        <span class="focus-card__icon">🔧</span>
-                        <h3>오픈소스 유지관리자</h3>
-                        <p>커뮤니티 서비스 운영, 시민 기여 병합, 문서화 및 교육 담당.</p>
-                    </div>
-                    <div class="focus-card">
-                        <span class="focus-card__icon">📊</span>
-                        <h3>사회적 영향 분석가</h3>
-                        <p>서비스 효과 측정, 새로운 임팩트 기회 발굴, 데이터 기반 정책 제안.</p>
-                    </div>
-                </div>
-                <div class="point-row">
-                    <span class="point-chip">구직자에서 창직자로</span>
-                    <span class="point-chip">AI 슈퍼파워</span>
-                    <span class="point-chip">사회 서비스 폭발</span>
-                    <span class="point-chip">지역사회 회복력</span>
-                </div>
-            </div>
-        </section>
-
-        <section class="band band--white">
-            <div class="band__wrap">
-                <div class="band__head">
-                    <span class="band__label">Community Wealth Building</span>
-                    <h2 class="band__title">지역공동체 자산 구축(CWB) & 사회적경제 생태계</h2>
-                    <p class="band__lead">오픈소스 프로젝트를 소셜 크라우드 펀딩으로 사회적기업화하여 지역 시민을 고용하고, 부가 지역에서 순환하는 지속 가능한 모델을 구축합니다.</p>
-                </div>
-                <div class="highlight-grid">
-                    <article class="highlight-card">
-                        <span class="highlight-card__icon">🔄</span>
-                        <h3>오픈소스 → 사회적기업 파이프라인</h3>
-                        <ul>
-                            <li><strong>1단계:</strong> AI 슈퍼파워로 오픈소스 개발, 수요 검증.</li>
-                            <li><strong>2단계:</strong> 시민·기업·정부 소셜 크라우드 펀딩.</li>
-                            <li><strong>3단계:</strong> 협동조합/사회적기업 설립, 지역민 고용.</li>
-                            <li><strong>4단계:</strong> 이익 재투자, 지역 자산 순환.</li>
-                        </ul>
-                    </article>
-                    <article class="highlight-card">
-                        <span class="highlight-card__icon">🏛️</span>
-                        <h3>광명시 CWB 정책 연계</h3>
-                        <ul>
-                            <li><strong>지역 소유:</strong> 외부 기업이 아닌 지역 협동조합이 소유.</li>
-                            <li><strong>지역 고용:</strong> 광명시 주민을 고용해 서비스 운영.</li>
-                            <li><strong>지역 조달:</strong> 사회적기업이 지역 공급업체 이용.</li>
-                            <li><strong>지역 순환:</strong> 광명사랑화폐로 수익이 지역 경제로.</li>
-                        </ul>
-                    </article>
-                    <article class="highlight-card">
-                        <span class="highlight-card__icon">💰</span>
-                        <h3>소셜 크라우드 펀딩 모델</h3>
-                        <ul>
-                            <li><strong>시민:</strong> 소액 투자 → 소유권, 의결권, 자긍심.</li>
-                            <li><strong>지역 기업:</strong> 후원 → 커뮤니티 솔루션 접근.</li>
-                            <li><strong>정부:</strong> 매칭 펀드 → 시민 투자 효과 배가.</li>
-                            <li><strong>광명사랑화폐:</strong> 지역화폐 투자로 생태계 강화.</li>
-                        </ul>
-                    </article>
-                </div>
-                <div class="band__subheading">사회적경제 서비스 예시</div>
-                <div class="strategy-grid">
-                    <div class="strategy-card">
-                        <span class="strategy-card__icon">🤝</span>
-                        <h3>공정거래 네트워크 플랫폼</h3>
-                        <ul>
-                            <li>투명한 마켓플레이스 코드 오픈소스.</li>
-                            <li>지역 생산자-소비자 직거래 연결.</li>
-                            <li>플랫폼 매니저, 배송 코디네이터 고용.</li>
-                        </ul>
-                    </div>
-                    <div class="strategy-card">
-                        <span class="strategy-card__icon">🗺️</span>
-                        <h3>GM 사회적경제 지도</h3>
-                        <ul>
-                            <li>사회적기업·협동조합 인터랙티브 지도.</li>
-                            <li>카테고리·위치·미션별 검색 및 네트워킹.</li>
-                            <li>데이터 큐레이터, 이벤트 기획자 고용.</li>
-                        </ul>
-                    </div>
-                    <div class="strategy-card">
-                        <span class="strategy-card__icon">💳</span>
-                        <h3>광명사랑화폐 연동</h3>
-                        <ul>
-                            <li>사회적경제 서비스와 지역화폐 API 연결.</li>
-                            <li>가맹점 온보딩, 거래 처리 자동화.</li>
-                            <li>기술 지원, 가맹점 관리 일자리 창출.</li>
-                        </ul>
-                    </div>
-                    <div class="strategy-card">
-                        <span class="strategy-card__icon">🚚</span>
-                        <h3>협동조합 배달 네트워크</h3>
-                        <ul>
-                            <li>경로 최적화 시스템 오픈소스.</li>
-                            <li>노동자 소유 배달 협동조합 운영.</li>
-                            <li>공정 임금, 복리후생 보장 일자리.</li>
-                        </ul>
-                    </div>
-                    <div class="strategy-card">
-                        <span class="strategy-card__icon">❤️</span>
-                        <h3>커뮤니티 돌봄 매칭</h3>
-                        <ul>
-                            <li>AI 기반 노인·아동 돌봄 매칭.</li>
-                            <li>돌봄 노동자 협동조합 설립.</li>
-                            <li>양질의 돌봄 일자리, 이익 지역 재투자.</li>
-                        </ul>
-                    </div>
-                    <div class="strategy-card">
-                        <span class="strategy-card__icon">🌐</span>
-                        <h3>소상공인 AI 컨설팅</h3>
-                        <ul>
-                            <li>AI 어드바이저 대규모 맞춤형 지원.</li>
-                            <li>1:1 컨설팅 비용 문제 해결.</li>
-                            <li>지역 소상공인 경쟁력 강화.</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="band__subheading">지역공동체 소유 구조</div>
-                <div class="timeline">
-                    <div class="timeline-step">
-                        <div class="timeline-number">👥</div>
-                        <h4>시민 (투자자)</h4>
-                        <p>소액 투자로 프로젝트 소유권 확보, 의결권 행사, 지역사회 발전에 직접 참여.</p>
-                    </div>
-                    <div class="timeline-step">
-                        <div class="timeline-number">👷</div>
-                        <h4>노동자 (직원)</h4>
-                        <p>공정한 임금과 복리후생, 협동조합 운영에 참여, 일터의 주인으로 성장.</p>
-                    </div>
-                    <div class="timeline-step">
-                        <div class="timeline-number">🏢</div>
-                        <h4>지역 기업 (파트너)</h4>
-                        <p>B2B 파트너십으로 커뮤니티 솔루션 활용, 지역 호감도와 네트워크 확보.</p>
-                    </div>
-                    <div class="timeline-step">
-                        <div class="timeline-number">⚖️</div>
-                        <h4>협동조합 이사회</h4>
-                        <p>시민·노동자·기업 대표로 구성, 민주적 의사결정, 투명한 운영 감독.</p>
-                    </div>
-                </div>
-                <div class="point-row">
-                    <span class="point-chip">지역 소유</span>
-                    <span class="point-chip">지역 고용</span>
-                    <span class="point-chip">지역 순환</span>
-                    <span class="point-chip">공정 경제</span>
-                    <span class="point-chip">복제 가능 모델</span>
-                </div>
-            </div>
-        </section>
-
-        <section class="band band--slate">
-            <div class="band__wrap">
-                <div class="band__head">
-                    <span class="band__label">Agile Execution</span>
-                    <h2 class="band__title">상설위원회: 애자일 & 린 스타트업 실행</h2>
-                    <p class="band__lead" style="font-size: 1.1rem; font-weight: 600; color: var(--navy);">"빠르게 학습하고, 스마트하게 설계하며, 지속적으로 실행한다."</p>
-                    <p class="band__lead">전통적인 정부 사업 주기는 기하급수 기술의 속도를 따라가기에 너무 느립니다. 신속한 실험, 검증된 학습, 지속적 반복을 통해 광명시의 디지털·사회적경제 전환을 가속화합니다.</p>
-                </div>
-                <div class="highlight-grid">
-                    <article class="highlight-card">
-                        <span class="highlight-card__icon">🔄</span>
-                        <h3>린 스타트업 철학</h3>
-                        <ul>
-                            <li><strong>만들기-측정-학습:</strong> MVP 빠른 출시, 피드백 수집, 신속 반복.</li>
-                            <li><strong>검증된 학습:</strong> 본격 투자 전 가정 검증, 빠른 실패.</li>
-                            <li><strong>피벗 또는 지속:</strong> 데이터 기반 의사결정.</li>
-                            <li><strong>지속적 배포:</strong> 연간 프로젝트가 아닌 주간 릴리스.</li>
-                        </ul>
-                    </article>
-                    <article class="highlight-card">
-                        <span class="highlight-card__icon">👥</span>
-                        <h3>위원회 구조</h3>
-                        <ul>
-                            <li><strong>운영위원회:</strong> 시장실, 사회적경제센터, 기술 자문단.</li>
-                            <li><strong>핵심위원회:</strong> 프로덕트 오너, 스크럼 마스터, 테크 리드.</li>
-                            <li><strong>스쿼드:</strong> 공정거래, 사회적경제 지도, 돌봄 매칭 등.</li>
-                            <li><strong>시민 기여자:</strong> AI 도슨트, 지역 개발자, 사회적 기업가.</li>
-                        </ul>
-                    </article>
-                    <article class="highlight-card">
-                        <span class="highlight-card__icon">📊</span>
-                        <h3>핵심 성과 지표(KPI)</h3>
-                        <ul>
-                            <li><strong>속도:</strong> 아이디어 → MVP 4주 미만.</li>
-                            <li><strong>반복:</strong> 프로젝트당 주간 릴리스.</li>
-                            <li><strong>채택:</strong> 6개월 내 1,000명+ 활성 사용자.</li>
-                            <li><strong>고용:</strong> 성공 프로젝트당 10개+ 일자리 창출.</li>
-                        </ul>
-                    </article>
-                </div>
-                <div class="band__subheading">스프린트 리듬</div>
-                <div class="timeline">
-                    <div class="timeline-step">
-                        <div class="timeline-number">🌅</div>
-                        <h4>일일 스탠드업</h4>
-                        <p>15분 빠른 동기화. 진행 상황 공유, 장애물 식별, 당일 목표 설정.</p>
-                    </div>
-                    <div class="timeline-step">
-                        <div class="timeline-number">📦</div>
-                        <h4>주간 스프린트</h4>
-                        <p>1주 단위 개발 사이클. 매주 배포 가능한 기능 완성, 지속적 개선.</p>
-                    </div>
-                    <div class="timeline-step">
-                        <div class="timeline-number">🎬</div>
-                        <h4>격주 데모</h4>
-                        <p>시민에게 진행 상황 공개. 직접 피드백 수집, 우선순위 조정.</p>
-                    </div>
-                    <div class="timeline-step">
-                        <div class="timeline-number">🔍</div>
-                        <h4>분기 리뷰</h4>
-                        <p>마일스톤 점검, 피벗/지속 결정, 로드맵 업데이트, 학습 내용 정리.</p>
-                    </div>
-                </div>
-                <div class="band__subheading">MVP 접근법: 빠른 실험, 빠른 학습</div>
-                <div class="focus-grid">
-                    <div class="focus-card">
-                        <span class="focus-card__icon">🗺️</span>
-                        <h3>사회적경제 지도</h3>
-                        <p><strong>1-4주:</strong> 50개 항목 정적 지도<br><strong>2-3개월:</strong> 인터랙티브 검색<br><strong>4개월+:</strong> 전체 플랫폼</p>
-                    </div>
-                    <div class="focus-card">
-                        <span class="focus-card__icon">🤝</span>
-                        <h3>공정거래 플랫폼</h3>
-                        <p><strong>1-4주:</strong> 주문폼 + 스프레드시트<br><strong>2-3개월:</strong> 기본 이커머스<br><strong>4개월+:</strong> 전체 마켓플레이스</p>
-                    </div>
-                    <div class="focus-card">
-                        <span class="focus-card__icon">❤️</span>
-                        <h3>돌봄 매칭</h3>
-                        <p><strong>1-4주:</strong> 구글폼 + 수동 매칭<br><strong>2-3개월:</strong> AI 프로토타입<br><strong>4개월+:</strong> 협동조합 운영</p>
-                    </div>
-                    <div class="focus-card">
-                        <span class="focus-card__icon">📚</span>
-                        <h3>학습 루프</h3>
-                        <p><strong>주간:</strong> 기술 튜토리얼<br><strong>월간:</strong> 린 스타트업 워크숍<br><strong>분기:</strong> Hack for GM 해커톤</p>
-                    </div>
-                </div>
-                <div class="band__subheading">위원회 5대 약속</div>
-                <div class="engage-grid">
-                    <div class="engage-card">
-                        <span class="engage-card__tag">약속 1</span>
-                        <h3>투명성</h3>
-                        <ul>
-                            <li>모든 작업을 공개 GitHub 저장소에서 진행.</li>
-                            <li>의사결정 과정과 근거를 문서화.</li>
-                        </ul>
-                    </div>
-                    <div class="engage-card">
-                        <span class="engage-card__tag">약속 2</span>
-                        <h3>포용성</h3>
-                        <ul>
-                            <li>모든 의사결정에 시민 참여 보장.</li>
-                            <li>다양한 배경의 목소리 반영.</li>
-                        </ul>
-                    </div>
-                    <div class="engage-card">
-                        <span class="engage-card__tag">약속 3</span>
-                        <h3>속도</h3>
-                        <ul>
-                            <li>매주 무언가를 배포.</li>
-                            <li>완벽보다 진행을 우선.</li>
-                        </ul>
-                    </div>
-                    <div class="engage-card">
-                        <span class="engage-card__tag">약속 4</span>
-                        <h3>학습</h3>
-                        <ul>
-                            <li>실패는 패배가 아닌 데이터.</li>
-                            <li>모든 실험에서 인사이트 추출.</li>
-                        </ul>
-                    </div>
-                    <div class="engage-card">
-                        <span class="engage-card__tag">약속 5</span>
-                        <h3>임팩트</h3>
-                        <ul>
-                            <li>산출물이 아닌 실제 성과 측정.</li>
-                            <li>시민 삶의 변화를 기준으로 평가.</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="point-row">
-                    <span class="point-chip">빠른 학습</span>
-                    <span class="point-chip">검증된 실험</span>
-                    <span class="point-chip">지속적 개선</span>
-                    <span class="point-chip">시민 참여</span>
-                    <span class="point-chip">데이터 기반</span>
-                </div>
-            </div>
-        </section>
-
-        <section class="band band--accent">
-            <div class="band__wrap">
-                <div class="band__head">
-                    <span class="band__label">The Heart of Sustainability</span>
-                    <h2 class="band__title">작은도서관: 지속 가능한 시민 참여의 핵심</h2>
-                    <p class="band__lead" style="font-size: 1.1rem; font-weight: 600; color: var(--navy);">"이 프로젝트를 지속 가능하고 활력 있게 만드는 핵심은 시민 참여입니다."</p>
-                    <p class="band__lead">45개 작은도서관은 단순히 책을 빌리는 곳이 아닙니다—모든 동네에 있는 신뢰받는 커뮤니티 거점입니다. 이제 교육, 훈련, 구축, 지역공동체 자산 창출을 위한 풀서비스 혁신 허브로 전환합니다.</p>
-                </div>
-                <div class="highlight-grid">
-                    <article class="highlight-card">
-                        <span class="highlight-card__icon">📚</span>
-                        <h3>배우기 (LEARN)</h3>
-                        <ul>
-                            <li><strong>AI 첫걸음:</strong> 시니어·초보자 대상 안전한 AI 사용법.</li>
-                            <li><strong>디지털 시민권:</strong> 온라인 안전, 정보 리터러시.</li>
-                            <li><strong>오픈소스 101:</strong> 오픈소스란? 왜 중요한가?</li>
-                            <li><strong>모두를 위한 GitHub:</strong> GUI 기반 기여 방법.</li>
-                        </ul>
-                    </article>
-                    <article class="highlight-card">
-                        <span class="highlight-card__icon">🎓</span>
-                        <h3>훈련하기 (TRAIN)</h3>
-                        <ul>
-                            <li><strong>AI 도슨트 부트캠프:</strong> 8주 → 공인 AI 가이드.</li>
-                            <li><strong>오픈소스 기여자:</strong> 4주 → 첫 GitHub 기여.</li>
-                            <li><strong>사회 서비스 디자이너:</strong> 6주 → 프로토타입 완성.</li>
-                            <li><strong>협동조합 리더십:</strong> 4주 → 사회적기업 창업 준비.</li>
-                        </ul>
-                    </article>
-                    <article class="highlight-card">
-                        <span class="highlight-card__icon">🔨</span>
-                        <h3>만들기 (BUILD)</h3>
-                        <ul>
-                            <li><strong>주간 빌드 세션:</strong> 주민들이 함께 지역 프로젝트.</li>
-                            <li><strong>동네 해커톤:</strong> 24시간 집중 문제 해결.</li>
-                            <li><strong>청년-시니어 페어링:</strong> 세대 간 지혜+기술 결합.</li>
-                            <li><strong>MVP 워크숍:</strong> 주말에 프로토타입 완성.</li>
-                        </ul>
-                    </article>
-                </div>
-                <div class="band__subheading">사서: 도서 관리자에서 혁신 촉매자로</div>
-                <div class="focus-grid">
-                    <div class="focus-card">
-                        <span class="focus-card__icon">📖</span>
-                        <h3>기존 역할</h3>
-                        <p>도서 대출, 조용한 학습 공간, 정보 검색, 개별 서비스, 수동적 자원.</p>
-                    </div>
-                    <div class="focus-card">
-                        <span class="focus-card__icon">🚀</span>
-                        <h3>새로운 역할</h3>
-                        <p>학습 여정 퍼실리테이팅, 협력적 창작 공간, 문제 해결 안내, 커뮤니티 빌딩, 능동적 혁신 파트너.</p>
-                    </div>
-                    <div class="focus-card">
-                        <span class="focus-card__icon">🌐</span>
-                        <h3>네트워크 효과</h3>
-                        <p>45개 도서관 = 45개 혁신 노드. 솔루션이 네트워크로 확산, 모범 사례 즉시 복제.</p>
-                    </div>
-                    <div class="focus-card">
-                        <span class="focus-card__icon">🎯</span>
-                        <h3>출시하기</h3>
-                        <p>데모 데이, 크라우드 펀딩, 사회적기업 설립. 도서관이 영원한 홈 베이스.</p>
-                    </div>
-                </div>
-                <div class="band__subheading">시민 여정: 호기심에서 리더로</div>
-                <div class="timeline">
-                    <div class="timeline-step">
-                        <div class="timeline-number">1</div>
-                        <h4>호기심 시민</h4>
-                        <p>첫 워크숍 참석. "AI가 뭐지?", "GitHub이 뭐지?" 궁금증으로 시작.</p>
-                    </div>
-                    <div class="timeline-step">
-                        <div class="timeline-number">2</div>
-                        <h4>학습자</h4>
-                        <p>과정 수강, 자격증 취득. AI 도슨트, 오픈소스 기여자로 성장.</p>
-                    </div>
-                    <div class="timeline-step">
-                        <div class="timeline-number">3</div>
-                        <h4>빌더</h4>
-                        <p>빌드 세션 참여, 해커톤 참가. 동네 문제를 직접 해결하기 시작.</p>
-                    </div>
-                    <div class="timeline-step">
-                        <div class="timeline-number">4</div>
-                        <h4>창작자 → 리더</h4>
-                        <p>자신의 프로젝트 출시, 협동조합 설립. 다른 사람 멘토링, 사회적기업 운영.</p>
-                    </div>
-                </div>
-                <div class="band__subheading">왜 작은도서관이 지속 가능성의 열쇠인가</div>
-                <div class="strategy-grid">
-                    <div class="strategy-card">
-                        <span class="strategy-card__icon">🏘️</span>
-                        <h3>모든 시민에게 도달</h3>
-                        <ul>
-                            <li>도서관은 모든 동네에 있음.</li>
-                            <li>이미 신뢰받는 커뮤니티 거점.</li>
-                        </ul>
-                    </div>
-                    <div class="strategy-card">
-                        <span class="strategy-card__icon">🔄</span>
-                        <h3>지속적 참여</h3>
-                        <ul>
-                            <li>일회성 이벤트가 아닌 상시 프로그램.</li>
-                            <li>학습-훈련-구축-출시 전 과정 지원.</li>
-                        </ul>
-                    </div>
-                    <div class="strategy-card">
-                        <span class="strategy-card__icon">👨‍👩‍👧‍👦</span>
-                        <h3>세대 간 참여</h3>
-                        <ul>
-                            <li>모든 연령의 자연스러운 모임 장소.</li>
-                            <li>청년-시니어 협력으로 시너지 창출.</li>
-                        </ul>
-                    </div>
-                    <div class="strategy-card">
-                        <span class="strategy-card__icon">🆓</span>
-                        <h3>낮은 진입 장벽</h3>
-                        <ul>
-                            <li>무료, 친숙하고 부담 없는 환경.</li>
-                            <li>물리적 공간 + 디지털 도구의 가교.</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="band__subheading">도서관 임팩트 목표 (1년차)</div>
-                <div class="focus-grid">
-                    <div class="focus-card">
-                        <span class="focus-card__icon">🏛️</span>
-                        <h3>45개 도서관</h3>
-                        <p>100% 혁신 허브로 활성화</p>
-                    </div>
-                    <div class="focus-card">
-                        <span class="focus-card__icon">👥</span>
-                        <h3>5,000명+</h3>
-                        <p>프로그램 참여 시민</p>
-                    </div>
-                    <div class="focus-card">
-                        <span class="focus-card__icon">🤖</span>
-                        <h3>200명+</h3>
-                        <p>AI 도슨트 자격증 취득</p>
-                    </div>
-                    <div class="focus-card">
-                        <span class="focus-card__icon">💼</span>
-                        <h3>100개+</h3>
-                        <p>도서관 네트워크 통해 창출된 일자리</p>
-                    </div>
-                </div>
-                <div class="point-row">
-                    <span class="point-chip">동네 혁신 허브</span>
-                    <span class="point-chip">풀서비스 교육</span>
-                    <span class="point-chip">세대 간 협력</span>
-                    <span class="point-chip">사회적기업 인큐베이션</span>
-                    <span class="point-chip">지속 가능한 참여</span>
-                </div>
-            </div>
-        </section>
-
-        <section class="band band--slate">
-            <div class="band__wrap">
-                <div class="band__head">
-                    <span class="band__label">Saving Young Minds</span>
-                    <h2 class="band__title">청년의 마음 지키기: 온라인 급진화의 대안</h2>
-                    <p class="band__lead">청년들이 게임 커뮤니티와 숏폼 알고리즘을 통해 극우 이념에 노출되고 있습니다. 이것은 정치적 문제가 아닌 정신 건강 위기이자 사회적 비상사태입니다. 이 프로젝트는 건강한 대안을 제공합니다.</p>
-                </div>
-                <div class="highlight-grid">
-                    <article class="highlight-card">
-                        <span class="highlight-card__icon">⚠️</span>
-                        <h3>숨겨진 위기</h3>
-                        <ul>
-                            <li>게임 커뮤니티에서 무분별하게 퍼지는 극단적 관점.</li>
-                            <li>숏폼 클립 알고리즘이 설계적으로 급진화 유도.</li>
-                            <li>소속감 제공하지만 결국 고립과 분노로 이끄는 공간.</li>
-                            <li>목적 부재가 극단주의 서사를 매력적으로 만듦.</li>
-                        </ul>
-                    </article>
-                    <article class="highlight-card">
-                        <span class="highlight-card__icon">🎯</span>
-                        <h3>청년이 진짜 원하는 것</h3>
-                        <ul>
-                            <li><strong>소속감:</strong> 독성 커뮤니티 아닌 실제 연결.</li>
-                            <li><strong>목적:</strong> 불만 서사 아닌 의미 있는 기여.</li>
-                            <li><strong>숙달감:</strong> 소비 루프 아닌 실제 역량 구축.</li>
-                            <li><strong>인정:</strong> 좋아요 아닌 진정한 성취.</li>
-                        </ul>
-                    </article>
-                    <article class="highlight-card">
-                        <span class="highlight-card__icon">💚</span>
-                        <h3>우리가 제공하는 대안</h3>
-                        <ul>
-                            <li><strong>진짜 숙달감:</strong> 게임 랭크 대신 실제 앱 개발.</li>
-                            <li><strong>실제 우정:</strong> 동료 빌더들과 함께 성장.</li>
-                            <li><strong>능동적 창작:</strong> 수동적 소비에서 벗어남.</li>
-                            <li><strong>지역사회 임팩트:</strong> 가상 성취가 아닌 실질 변화.</li>
-                        </ul>
-                    </article>
-                </div>
-                <div class="band__subheading">독성 알고리즘 경로 vs. 커뮤니티 빌더 경로</div>
-                <div class="case-board">
-                    <div class="case-group">
-                        <h3>❌ 알고리즘 경로</h3>
-                        <div class="case-list">
-                            <div class="case-item">
-                                <span>STEP 1</span>
-                                <strong>지루함 → 게임/소셜 미디어</strong>
-                                <p>무료함을 채우기 위해 스크린으로 향함.</p>
-                            </div>
-                            <div class="case-item">
-                                <span>STEP 2</span>
-                                <strong>알고리즘 급진화 → 에코 챔버</strong>
-                                <p>분노를 자극하는 콘텐츠에 점점 깊이 빠짐.</p>
-                            </div>
-                            <div class="case-item">
-                                <span>STEP 3</span>
-                                <strong>분노와 원망 → 극단주의 세계관</strong>
-                                <p>세상에 대한 적대감과 무력감 심화.</p>
-                            </div>
-                            <div class="case-item">
-                                <span>결과</span>
-                                <strong>사회적 고립 → 정신 건강 위기</strong>
-                                <p>실제 관계 단절, 건강한 정체성 상실.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="case-group">
-                        <h3>✅ 광명 경로</h3>
-                        <div class="case-list">
-                            <div class="case-item">
-                                <span>STEP 1</span>
-                                <strong>지루함 → 동네 도서관 워크숍</strong>
-                                <p>호기심을 생산적 활동으로 전환.</p>
-                            </div>
-                            <div class="case-item">
-                                <span>STEP 2</span>
-                                <strong>AI & 오픈소스 학습 → 빌드 세션</strong>
-                                <p>실제 역량 개발, 동료와 협력.</p>
-                            </div>
-                            <div class="case-item">
-                                <span>STEP 3</span>
-                                <strong>실제 솔루션 창작 → 사회적기업 출시</strong>
-                                <p>지역사회 문제 해결, 성취감 획득.</p>
-                            </div>
-                            <div class="case-item">
-                                <span>결과</span>
-                                <strong>커뮤니티 리더십 → 목적 & 건강한 정체성</strong>
-                                <p>의미 있는 관계, 긍정적 자아상.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="band__subheading">위험군 청년을 위한 특별 프로그램</div>
-                <div class="strategy-grid">
-                    <div class="strategy-card">
-                        <span class="strategy-card__icon">🎮</span>
-                        <h3>Game Dev for Good</h3>
-                        <ul>
-                            <li>게임 역량을 시민 앱 개발에 활용.</li>
-                            <li>기존 관심사를 건설적으로 전환.</li>
-                        </ul>
-                    </div>
-                    <div class="strategy-card">
-                        <span class="strategy-card__icon">👴👦</span>
-                        <h3>청년-시니어 페어링</h3>
-                        <ul>
-                            <li>세대 간 프로젝트 팀업.</li>
-                            <li>에코 챔버 탈피, 관점 획득.</li>
-                        </ul>
-                    </div>
-                    <div class="strategy-card">
-                        <span class="strategy-card__icon">🏆</span>
-                        <h3>Hack for Gwangmyeong</h3>
-                        <ul>
-                            <li>실제 상금이 걸린 경쟁 해커톤.</li>
-                            <li>긍정적 결과를 가진 건강한 경쟁.</li>
-                        </ul>
-                    </div>
-                    <div class="strategy-card">
-                        <span class="strategy-card__icon">🧑‍🏫</span>
-                        <h3>오픈소스 멘토십</h3>
-                        <ul>
-                            <li>시니어 개발자가 초보자 지도.</li>
-                            <li>긍정적 남성 롤모델 제공.</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="band__subheading">오픈소스 가치 vs. 극단주의 가치</div>
-                <div class="focus-grid">
-                    <div class="focus-card">
-                        <span class="focus-card__icon">🌍</span>
-                        <h3>글로벌 협력</h3>
-                        <p>우리 vs. 그들 부족주의 대신 전 세계와 함께 만들기.</p>
-                    </div>
-                    <div class="focus-card">
-                        <span class="focus-card__icon">🌱</span>
-                        <h3>풍요 마인드셋</h3>
-                        <p>제로섬 경쟁 대신 공유하고 함께 성장하기.</p>
-                    </div>
-                    <div class="focus-card">
-                        <span class="focus-card__icon">🔧</span>
-                        <h3>건설</h3>
-                        <p>파괴와 비난 대신 직접 만들고 책임지기.</p>
-                    </div>
-                    <div class="focus-card">
-                        <span class="focus-card__icon">🔓</span>
-                        <h3>투명성</h3>
-                        <p>비밀과 음모론 대신 개방성과 신뢰.</p>
-                    </div>
-                </div>
-                <div class="conclusion" style="margin-top: 40px; text-align: center;">
-                    <p style="font-size: 1.15rem; font-weight: 600; color: var(--navy); line-height: 1.8;">
-                        <strong>"당신은 역량이 있습니다. 에너지가 있습니다. 아이디어가 있습니다."</strong><br><br>
-                        알고리즘은 당신의 주의를 수확하고 분노를 팔고 싶어합니다.<br>
-                        <strong>우리는 당신이 중요한 것을 만들도록 돕고 싶습니다.</strong><br><br>
-                        당신의 게임 역량은 앱 개발 역량이 될 수 있습니다.<br>
-                        당신의 온라인 커뮤니티는 실제 세계의 팀이 될 수 있습니다.<br><br>
-                        <span style="font-size: 1.3rem;">동네 도서관에 오세요. 코딩을 배우세요. 진짜를 만드세요. 동네를 바꾸세요.</span><br>
-                        <em>그것이 힘입니다. 진짜 힘. 온라인 분노의 가짜 힘이 아닌.</em>
+                <!-- Why Urgency Section -->
+                <div class="mission-statement reveal" style="border-left-color: #dc2626;">
+                    <h3 style="font-size: 1.6rem; font-weight: 800; color: #dc2626; margin-bottom: 24px;">왜 지금 서둘러야 하는가? | Why Must We Act Now?</h3>
+                    <p class="mission-text">
+                        <strong>기술 격차는 기하급수적으로 벌어지고 있습니다.</strong> 글로벌 빅테크 기업들은 매일 수십억 달러를 AI 개발에 투자하며, 기술의 독점과 집중은 갈수록 심화되고 있습니다.
+                        지금 행동하지 않으면 지역사회는 기술 소비자로만 남게 됩니다.
+                    </p>
+                    <p class="mission-text">
+                        <strong>오픈소스는 가장 현명한 선택입니다.</strong> 오픈소스의 핵심 가치는 <strong>개방성(Openness), 민첩성(Agility), 유연성(Flexibility), 공유(Sharing)</strong>입니다.
+                        누구나 코드를 보고, 수정하고, 함께 발전시킬 수 있기에 혁신의 속도가 빠르고 다양한 요구에 유연하게 대응할 수 있습니다.
+                    </p>
+                    <p class="mission-text">
+                        <strong>AI가 오픈소스의 가치를 기하급수적으로 증폭시킵니다.</strong> 오픈소스 코드는 AI가 읽고 이해할 수 있습니다.
+                        누구나 AI의 도움으로 기존 오픈소스 프로젝트를 빠르게 파악하고, 그 위에 새로운 부가가치 서비스를 쉽게 만들 수 있습니다.
+                        <strong>'거인의 어깨 위에 서는 것(Standing on the Shoulders of Giants)'</strong>이 AI 시대에는 누구에게나 가능해졌습니다.
+                    </p>
+                    <p class="mission-text highlight">
+                        <strong>선점 효과(First-Mover Advantage)가 모든 것을 결정합니다.</strong> 오픈소스 생태계에서 먼저 표준을 제시하고 커뮤니티를 구축한 도시와 지역이
+                        향후 수십 년간 기술 혁신의 중심에 서게 됩니다. 광명시가 지금 움직이면, 대한민국 지방자치단체 오픈소스의 <strong>표준을 정의하는 도시</strong>가 됩니다.
                     </p>
                 </div>
-                <div class="point-row">
-                    <span class="point-chip">정신 건강</span>
-                    <span class="point-chip">사회 통합</span>
-                    <span class="point-chip">건강한 정체성</span>
-                    <span class="point-chip">진짜 역량</span>
-                    <span class="point-chip">긍정적 롤모델</span>
+
+                <div class="strategy-grid" style="margin-top: 48px;">
+                    <article class="strategy-card">
+                        <span class="highlight-card__icon">🤖</span>
+                        <h4>AI 레버리지 효과</h4>
+                        <p>AI는 오픈소스 코드를 읽고 이해합니다. 누구나 AI와 함께 기존 프로젝트 위에 새로운 서비스를 빠르게 구축할 수 있습니다.</p>
+                    </article>
+                    <article class="strategy-card">
+                        <span class="highlight-card__icon">🔓</span>
+                        <h4>개방성과 투명성</h4>
+                        <p>오픈소스는 코드가 공개되어 누구나 검증하고 개선할 수 있습니다. 이 투명성이 신뢰를 만들고, 전 세계 개발자의 협력을 이끌어냅니다.</p>
+                    </article>
+                    <article class="strategy-card">
+                        <span class="highlight-card__icon">🚀</span>
+                        <h4>거인의 어깨 위에 서기</h4>
+                        <p>처음부터 만들 필요 없이, 검증된 오픈소스 위에 우리만의 가치를 더합니다. 혁신의 속도가 기하급수적으로 빨라집니다.</p>
+                    </article>
+                    <article class="strategy-card">
+                        <span class="highlight-card__icon">🔄</span>
+                        <h4>민첩성과 유연성</h4>
+                        <p>요구사항이 바뀌면 코드를 직접 수정합니다. 벤더에 의존하지 않고 우리 속도로 진화할 수 있습니다.</p>
+                    </article>
+                    <article class="strategy-card">
+                        <span class="highlight-card__icon">🌍</span>
+                        <h4>글로벌 협력 네트워크</h4>
+                        <p>전 세계 개발자들과 함께 문제를 해결합니다. 광명의 기여가 세계에 공유되고, 세계의 혁신이 광명에 흘러들어옵니다.</p>
+                    </article>
+                    <article class="strategy-card">
+                        <span class="highlight-card__icon">🏆</span>
+                        <h4>선도 도시의 기회</h4>
+                        <p>지금 시작하면 광명시는 전국 243개 지자체 중 오픈소스 거버넌스의 롤모델이 됩니다. 늦으면 추종자가 됩니다.</p>
+                    </article>
                 </div>
             </div>
         </section>
 
-        <section class="band band--white">
+        <!-- 2. 사회연대경제 섹션 -->
+        <section id="soc-econ" class="band band--slate reveal">
             <div class="band__wrap">
                 <div class="band__head">
-                    <span class="band__label">Conclusion</span>
-                    <h2 class="band__title">대상을 넘어 글로벌 디지털 혁신 도시로</h2>
+                    <span class="band__label">Point 2. Strategy</span>
+                    <h2 class="band__title">2. 사회연대경제의 새로운 표준</h2>
+                    <p class="band__lead">기술 중심의 경쟁을 넘어 공동체의 유대를 강화하는 '사회연대경제'는 더욱 중요해졌습니다. 광명시는 시민 중심의 디지털 자산화를 통해 사회적
+                        가치를 극대화하는 국제적 모델을 수립합니다.</p>
                 </div>
-                <div class="conclusion">
-                    <p>광명시는 이미 국내 최고 수준의 사회적 경제 성과를 보유하고 있습니다. 이제 durume/GM이 제시한 구조화된 공유·마무리 철학을 GitHub 인프라에 결합해 정책과 데이터를 투명하게 공개하고 시민 참여를 상시화해야 합니다.</p>
-                    <p>지역 먹거리, 관광 자원, 행정 노하우가 데이터와 코드로 흐르는 순간, 광명시는 세계 도시가 벤치마킹하는 디지털 포용 도시로 도약할 것입니다.</p>
+
+                <!-- CWB Alignment Section -->
+                <div class="mission-statement reveal" style="border-left-color: var(--accent);">
+                    <h3 style="font-size: 1.6rem; font-weight: 800; color: var(--secondary); margin-bottom: 24px;">
+                        오픈소스와 지역공동체 자산화(CWB)의 결합 | Open Source & Community Wealth Building
+                    </h3>
+                    <p class="mission-text">
+                        <strong>지역공동체 자산화(Community Wealth Building, CWB)</strong>는 광명시가 2024년 8월부터 인천대학교 경제학과와 협력하여
+                        본격 추진 중인 핵심 정책입니다. 자산에 대한 직접적인 소유권과 통제권을 지역 공동체가 갖고, 이를 기반으로 지역경제의 변화와 발전을 유도하는
+                        경제 발전 모델로서, 미국 클리블랜드(Cleveland)와 영국 프레스턴(Preston)의 성공 사례를 벤치마킹하고 있습니다.
+                    </p>
+                    <p class="mission-text">
+                        2025년 12월, 광명시는 <strong>14개 앵커 기관</strong>(시청, 교육지원청, 경찰서, 소방서, 세무서, 건강보험공단, 국민연금공단,
+                        KTX광명역, 기아 오토랜드, NH농협, 광명성애병원, 중앙대병원, 상공회의소, 소상공인연합회)과 <strong>'지역공동체 자산화 업무협약'</strong>을
+                        체결하였습니다. 오픈소스는 이 거대한 협력 네트워크의 <strong>디지털 실현 수단</strong>입니다.
+                    </p>
+                    <p class="mission-text highlight">
+                        2026년 5월 개소 예정인 <strong>사회적경제혁신센터</strong>는 오픈소스 프로젝트가 사회적 기업으로 성장하는 인큐베이팅 거점이 됩니다.
+                        지역화폐 '광명사랑화폐'(연간 1,500억 원 발행)와 사회적금융 조례를 통해 오픈소스 기반 창업에 <strong>지역 자본이 직접 투자</strong>되는
+                        선순환 구조가 완성됩니다.
+                    </p>
+                </div>
+
+                <div class="strategy-grid" style="margin-top: 48px;">
+                    <article class="strategy-card">
+                        <span class="highlight-card__icon">🏛️</span>
+                        <h4>14개 앵커 기관 협약</h4>
+                        <p>광명시 주요 공공기관과 대형 민간기관이 공동으로 지역 순환경제를 지원합니다. 공공조달에서 사회연대경제 조직과 지역기업 참여를 확대합니다.</p>
+                    </article>
+                    <article class="strategy-card">
+                        <span class="highlight-card__icon">🔄</span>
+                        <h4>지역화폐 연계 순환</h4>
+                        <p>광명사랑화폐를 통해 IT 예산이 지역 내에서 순환합니다. 오픈소스 개발 대가를 지역화폐로 지급하여 소상공인까지 혜택이 확산됩니다.</p>
+                    </article>
+                    <article class="strategy-card">
+                        <span class="highlight-card__icon">🏢</span>
+                        <h4>사회적경제혁신센터</h4>
+                        <p>2026년 개소 예정. 오픈소스 프로젝트의 사회적 기업화를 지원하는 인큐베이팅, 교육, 네트워킹의 복합 거점 공간입니다.</p>
+                    </article>
+                    <article class="strategy-card">
+                        <span class="highlight-card__icon">💰</span>
+                        <h4>사회적금융 연계</h4>
+                        <p>사회적경제기금 조례와 민간 상호부조 펀드를 통해 오픈소스 기반 창업에 사회적 투자가 이루어지는 구조를 구축합니다.</p>
+                    </article>
+                    <article class="strategy-card">
+                        <span class="highlight-card__icon">🌐</span>
+                        <h4>글로벌 모델 벤치마크</h4>
+                        <p>클리블랜드(미국), 프레스턴(영국)의 CWB 성공 사례를 한국형으로 적용하여 국제적으로 인정받는 모델을 구축합니다.</p>
+                    </article>
+                    <article class="strategy-card">
+                        <span class="highlight-card__icon">🎯</span>
+                        <h4>굿모닝광명 브랜드</h4>
+                        <p>지역 브랜드 '굿모닝광명'과 오픈소스 프로젝트를 연계하여 기술 제품의 지역 정체성과 마케팅 경쟁력을 강화합니다.</p>
+                    </article>
+                </div>
+
+                <!-- Commercialization Model Section -->
+                <div class="group-divider"></div>
+
+                <div class="band__head" style="margin-top: 40px;">
+                    <h3 class="band__label" style="font-size: 1.6rem; font-weight: 800; margin-bottom: 8px;">2.1 오픈소스 사업화 (Open Source Commercialization)</h3>
+                    <h4 style="font-size: 1.1rem; font-weight: 500; color: var(--text-muted); margin-bottom: 20px;">
+                        사회적금융과 CWB의 새로운 순환
+                    </h4>
+                    <p class="band__lead">오픈소스 프로젝트는 공익적 가치를 유지하면서도 지속 가능한 사업 모델로 발전할 수 있습니다.</p>
+                </div>
+
+                <div class="mission-statement reveal" style="border-left-color: #059669; margin-top: 32px;">
+                    <h3 style="font-size: 1.4rem; font-weight: 700; color: #059669; margin-bottom: 20px;">
+                        오픈소스 → 사회적 기업 → CWB 자산화 경로
+                    </h3>
+                    <p class="mission-text">
+                        오픈소스 프로젝트가 충분히 성숙하면, 이를 기반으로 한 <strong>사회적 기업 또는 협동조합</strong>을 설립할 수 있습니다.
+                        코드는 여전히 오픈소스로 공개되지만, 기업은 설치·운영·커스터마이징·교육·컨설팅 등 <strong>부가 서비스를 유료로 제공</strong>합니다.
+                    </p>
+                    <p class="mission-text">
+                        이러한 사회적 기업은 <strong>사회적금융(Social Finance)</strong>을 통해 초기 자본을 조달합니다.
+                        광명시의 사회적경제기금, 민간 상호부조 펀드, 임팩트 투자자들이 오픈소스 기반 스타트업에 투자하고,
+                        수익의 일부는 다시 오픈소스 커뮤니티와 지역사회로 환원됩니다.
+                    </p>
+                    <p class="mission-text highlight">
+                        이 모델의 핵심은 <strong>'이중 순환(Double Circulation)'</strong>입니다.
+                        첫째, 코드와 지식은 글로벌 오픈소스 생태계에서 순환하며 혁신을 가속화합니다.
+                        둘째, 수익과 일자리는 지역사회 내에서 순환하며 <strong>CWB의 자산</strong>으로 축적됩니다.
+                        광명시는 이 이중 순환의 교차점에서 글로벌 기술 허브이자 지역 번영의 모델 도시가 됩니다.
+                    </p>
+                </div>
+
+                <div class="strategy-grid" style="margin-top: 48px;">
+                    <article class="strategy-card" style="border-top: 4px solid #059669;">
+                        <span class="highlight-card__icon">📦</span>
+                        <h4>오픈코어(Open Core) 모델</h4>
+                        <p>핵심 기능은 오픈소스로 공개하고, 기업용 고급 기능이나 SaaS 서비스를 유료로 제공합니다. Red Hat, GitLab의 검증된 모델입니다.</p>
+                    </article>
+                    <article class="strategy-card" style="border-top: 4px solid #059669;">
+                        <span class="highlight-card__icon">🎓</span>
+                        <h4>교육·인증 사업</h4>
+                        <p>오픈소스 도구의 공인 교육과 자격 인증을 제공합니다. 광명시 AI 도슨트 양성과 연계하여 교육 생태계를 구축합니다.</p>
+                    </article>
+                    <article class="strategy-card" style="border-top: 4px solid #059669;">
+                        <span class="highlight-card__icon">🛠️</span>
+                        <h4>운영·유지보수 서비스</h4>
+                        <p>공공기관과 중소기업에 오픈소스 솔루션의 도입, 운영, 유지보수를 대행합니다. 지역 IT 인력의 안정적 고용을 창출합니다.</p>
+                    </article>
+                    <article class="strategy-card" style="border-top: 4px solid var(--accent);">
+                        <span class="highlight-card__icon">🤝</span>
+                        <h4>사회적금융 투자 유치</h4>
+                        <p>임팩트 투자, 크라우드펀딩, 사회성과연계채권(SIB) 등 다양한 사회적금융 수단을 통해 초기 자본을 조달합니다.</p>
+                    </article>
+                    <article class="strategy-card" style="border-top: 4px solid var(--accent);">
+                        <span class="highlight-card__icon">🔁</span>
+                        <h4>수익의 지역 재투자</h4>
+                        <p>사회적 기업 수익의 일정 비율을 지역 오픈소스 커뮤니티, 청년 교육, 작은도서관 디지털 쉘터에 재투자합니다.</p>
+                    </article>
+                    <article class="strategy-card" style="border-top: 4px solid var(--accent);">
+                        <span class="highlight-card__icon">📈</span>
+                        <h4>자산화된 지역 역량</h4>
+                        <p>축적된 기술력, 네트워크, 브랜드 가치는 광명시의 영구적 자산이 되어 세대를 넘어 지역사회에 혜택을 제공합니다.</p>
+                    </article>
+                </div>
+
+                <div class="diagram-container reveal" style="margin-top: 48px; max-width: 1100px; padding: 60px;">
+                    <h3 class="diagram-title" style="font-size: 1.8rem;">오픈소스 × CWB × 사회적금융 통합 선순환 모델</h3>
+                    <div class="mermaid" style="font-size: 18px;">
+                        %%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '18px', 'fontFamily': 'Pretendard' }}}%%
+                        graph TD
+                        subgraph GLOBAL["<b>글로벌 오픈소스 생태계</b>"]
+                            G1[("전 세계<br/>개발자 커뮤니티")]
+                            G2[("오픈소스<br/>코드 저장소")]
+                        end
+
+                        subgraph LOCAL["<b>광명시 지역 순환경제</b>"]
+                            A["<b>14개 앵커기관</b><br/>공공조달 수요"]
+                            B["<b>지역 개발자</b><br/>오픈소스 역량 성장"]
+                            C["<b>오픈소스 프로젝트</b><br/>공익적 솔루션 개발"]
+                            D["<b>사회적 기업화</b><br/>서비스 사업 모델"]
+                            E["<b>사회적금융</b><br/>기금·임팩트투자"]
+                            F["<b>수익 창출</b><br/>서비스·교육·컨설팅"]
+                            H["<b>지역 재투자</b><br/>일자리·교육·인프라"]
+                            I["<b>광명사랑화폐</b><br/>지역 내 소비 순환"]
+                        end
+
+                        A -->|"개발 의뢰"| B
+                        B -->|"기여"| C
+                        C <-->|"코드 공유"| G2
+                        G1 <-->|"협업"| B
+                        C -->|"사업화"| D
+                        E -->|"투자"| D
+                        D -->|"매출"| F
+                        F -->|"환원"| H
+                        H -->|"역량 강화"| B
+                        F -->|"대가 지급"| I
+                        I -->|"소비"| A
+                        H -->|"기금 조성"| E
+
+                        style GLOBAL fill:#e0f2fe,stroke:#0284c7,stroke-width:2px
+                        style LOCAL fill:#f0fdf4,stroke:#16a34a,stroke-width:3px
+                        style A fill:#118a7e,stroke:#0d6e64,stroke-width:2px,color:#fff
+                        style B fill:#118a7e,stroke:#0d6e64,stroke-width:2px,color:#fff
+                        style C fill:#d8a31a,stroke:#b58915,stroke-width:3px,color:#0d2b45
+                        style D fill:#7c3aed,stroke:#6d28d9,stroke-width:2px,color:#fff
+                        style E fill:#059669,stroke:#047857,stroke-width:2px,color:#fff
+                        style F fill:#059669,stroke:#047857,stroke-width:2px,color:#fff
+                        style H fill:#0d2b45,stroke:#091d2e,stroke-width:2px,color:#fff
+                        style I fill:#dc2626,stroke:#b91c1c,stroke-width:2px,color:#fff
+                        style G1 fill:#0284c7,stroke:#0369a1,stroke-width:2px,color:#fff
+                        style G2 fill:#0284c7,stroke:#0369a1,stroke-width:2px,color:#fff
+                    </div>
+                </div>
+
+                <div class="point-row" style="margin-top: 32px;">
+                    <span class="point-chip">클리블랜드 모델</span>
+                    <span class="point-chip">프레스턴 모델</span>
+                    <span class="point-chip">사회적경제혁신센터</span>
+                    <span class="point-chip">광명사랑화폐</span>
+                    <span class="point-chip">사회적금융</span>
+                    <span class="point-chip">이중 순환</span>
                 </div>
             </div>
         </section>
 
-        <section class="band band--cta">
+        <!-- 3. AI 도슨트 섹션 -->
+        <section id="human" class="band band--white reveal">
             <div class="band__wrap">
-                <div class="cta-box">
-                    <h2>광명시 GitHub 조직에서 시작하는 열린 협력</h2>
-                    <p>프로젝트, 데이터, 교육 자료를 투명하게 공유하고 시민과의 협업을 상시 운영합니다.</p>
-                    <a href="https://github.com/durume/GM" target="_blank" rel="noopener">GitHub.com/durume/GM 방문하기</a>
+                <div class="band__head">
+                    <span class="band__label">Point 3. Human Growth</span>
+                    <h2 class="band__title">3. AI 도슨트: 인적 성장</h2>
+                </div>
+
+                <div class="mission-statement reveal">
+                    <p class="mission-text">
+                        AI 도슨트는 복잡한 인공지능 기술을 우리 이웃의 언어로 설명하고, 기술의 혜택이 공동체 구석구석 닿도록 돕는 <strong>'디지털 길잡이'</strong>입니다.
+                    </p>
+                    <p class="mission-text">
+                        특별한 전문가가 아니어도 마을을 사랑하는 광명시민이라면 누구나 <strong>AI 도슨트가 되어 새로운 경력을 시작</strong>할 수 있습니다.
+                    </p>
+                    <p class="mission-text highlight">
+                        수많은 도슨트의 활동으로 AI를 잘 활용하는 시민들이 두터워질 때, 양적 성장은 광명시를 근본적으로 변화시키는 <strong>질적 대전환</strong>으로 이어질
+                        것입니다.
+                    </p>
+                </div>
+
+                <div class="strategy-grid">
+                    <article class="strategy-card">
+                        <span class="highlight-card__icon">🗣️</span>
+                        <h4>쉬운 기술 통역사</h4>
+                        <p>전문 용어로 가득한 AI 기술을 누구나 이해할 수 있는 일상의 언어로 풀어 설명하여 디지털 소외를 방지합니다.</p>
+                    </article>
+                    <article class="strategy-card">
+                        <span class="highlight-card__icon">🤝</span>
+                        <h4>모두에게 열린 기회</h4>
+                        <p>경력 단절 여성, 은퇴자, 청년 등 배경과 상관없이 AI 활용 능력을 갖춘다면 누구나 마을의 지식 전문가로 활동할 수 있습니다.</p>
+                    </article>
+                    <article class="strategy-card">
+                        <span class="highlight-card__icon">🛠️</span>
+                        <h4>우리 동네 문제 해결사</h4>
+                        <p>거창한 기술이 아닌, 우리 동네 현안을 해결하는 실생활에 꼭 필요한 AI 도구를 시민과 함께 설계합니다.</p>
+                    </article>
+                </div>
+
+                <div class="diagram-container reveal">
+                    <h3 class="diagram-title">AI 도슨트 성장의 선순환 모델</h3>
+                    <div class="mermaid">
+                        graph TD
+                        A[AI 도슨트 양성] --> B[지역사회 AI 사용 활성화]
+                        B --> C[양적 변화 확산]
+                        C --> D(<strong>도시 시스템의 질적 대전환</strong>)
+                        D --> E[강력한 사회적 영향력 있는<br />서비스 지속 창출]
+
+                        style A fill:#118a7e,stroke:#0d6e64,stroke-width:2px,color:#fff
+                        style B fill:#118a7e,stroke:#0d6e64,stroke-width:2px,color:#fff
+                        style C fill:#118a7e,stroke:#0d6e64,stroke-width:2px,color:#fff
+                        style D fill:#d8a31a,stroke:#b58915,stroke-width:4px,color:#0d2b45
+                        style E fill:#0d2b45,stroke:#091d2e,stroke-width:2px,color:#fff
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. 오픈소스 섹션 -->
+        <section id="opensource" class="band band--slate reveal">
+            <div class="band__wrap">
+                <div class="band__head">
+                    <span class="band__label">Point 4. Foundation</span>
+                    <h2 class="band__title">4. 오픈소스: 기술적 토대</h2>
+                </div>
+
+                <!-- 4.1 Open Source Core Values -->
+                <div class="mission-statement reveal" style="border-left-color: var(--primary); margin-bottom: 48px;">
+                    <h3 style="font-size: 1.6rem; font-weight: 800; color: var(--secondary); margin-bottom: 24px;">
+                        4.1 오픈소스란? | What is Open Source?
+                    </h3>
+                    <p class="mission-text">
+                        오픈소스는 소스 코드가 <strong>공개</strong>되어 누구나 자유롭게 열람, 수정, 배포할 수 있는 소프트웨어입니다.
+                        단순한 기술 방식을 넘어, 지식과 혁신을 공유하는 <strong>협력의 철학</strong>이자 현대 디지털 사회의 필수적인 <strong>공공재</strong>입니다.
+                    </p>
+                    <p class="mission-text highlight">
+                        AI 시대, 오픈소스의 가치는 더욱 빛납니다. AI가 코드를 읽고 이해할 수 있기에, 누구나 기존 프로젝트 위에 새로운 서비스를 빠르게 구축할 수 있습니다.
+                        <strong>'함께 만들고, 함께 나누고, 함께 성장하는'</strong> 오픈소스 정신이 광명시 사회연대경제의 디지털 기반이 됩니다.
+                    </p>
+                </div>
+
+                <div class="strategy-grid" style="margin-bottom: 48px;">
+                    <article class="strategy-card" style="border-top: 4px solid var(--primary);">
+                        <span class="highlight-card__icon">🔓</span>
+                        <h4>개방성 (Openness)</h4>
+                        <p>코드가 공개되어 누구나 검토하고 신뢰할 수 있습니다. 투명성이 품질과 보안을 높입니다.</p>
+                    </article>
+                    <article class="strategy-card" style="border-top: 4px solid var(--primary);">
+                        <span class="highlight-card__icon">⚡</span>
+                        <h4>민첩성 (Agility)</h4>
+                        <p>벤더 승인 없이 즉시 수정 가능. 변화하는 요구에 빠르게 대응합니다.</p>
+                    </article>
+                    <article class="strategy-card" style="border-top: 4px solid var(--primary);">
+                        <span class="highlight-card__icon">🔧</span>
+                        <h4>유연성 (Flexibility)</h4>
+                        <p>필요에 맞게 자유롭게 커스터마이징. 우리 환경에 최적화된 솔루션을 만듭니다.</p>
+                    </article>
+                    <article class="strategy-card" style="border-top: 4px solid var(--accent);">
+                        <span class="highlight-card__icon">🤝</span>
+                        <h4>공유 (Sharing)</h4>
+                        <p>전 세계 개발자와 지식을 나눕니다. 나눔으로 더 풍요로워지는 역설의 경제학입니다.</p>
+                    </article>
+                    <article class="strategy-card" style="border-top: 4px solid var(--accent);">
+                        <span class="highlight-card__icon">🌐</span>
+                        <h4>협력 (Collaboration)</h4>
+                        <p>국경을 넘어 함께 문제를 해결합니다. 집단 지성이 혁신을 가속화합니다.</p>
+                    </article>
+                    <article class="strategy-card" style="border-top: 4px solid var(--accent);">
+                        <span class="highlight-card__icon">🤖</span>
+                        <h4>AI 증폭 (AI Leverage)</h4>
+                        <p>AI가 오픈소스를 읽고 이해합니다. 누구나 거인의 어깨 위에서 시작할 수 있습니다.</p>
+                    </article>
+                </div>
+
+                <div style="margin-top: 60px;">
+                        <h3 class="band__label" style="font-size: 1.6rem; font-weight: 800; margin-bottom: 8px;">4.2 글로벌 벤치마크 (GitHub Projects)</h3>
+                        <h4 style="font-size: 1.1rem; font-weight: 500; color: var(--text-muted); margin-bottom: 16px;">전
+                            세계 정부가 이미 협업 중인 오픈소스 프로젝트</h4>
+                        <p style="color: var(--text-muted); margin-bottom: 32px;">UN, 싱가포르, 영국 등 주요 국가들은 정책과 서비스를
+                            GitHub에서 투명하게 공개하고 함께 개발하고 있습니다.</p>
+
+                        <div class="cases-grid">
+                            <!-- Case 1: Singapore OGP -->
+                            <div class="case-card reveal">
+                                <span class="case-tag">Digital Public Goods</span>
+                                <h4 class="case-title">싱가포르 OGP: FormSG</h4>
+                                <p class="case-desc">정부 부처 간 문서 양식을 디지털로 통일하고 민첩하게 시민 서비스를 개선하는 오픈소스 폼 생성 플랫폼입니다.</p>
+                                <div class="case-repo">opengovsg / formsg</div>
+                                <a href="https://github.com/opengovsg/formsg" target="_blank" class="case-link">
+                                    GitHub 방문하기
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                        <polyline points="15 3 21 3 21 9"></polyline>
+                                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                                    </svg>
+                                </a>
+                            </div>
+
+                            <!-- Case 2: UK GDS -->
+                            <div class="case-card reveal">
+                                <span class="case-tag">Design System</span>
+                                <h4 class="case-title">영국 GDS: GOV.UK Frontend</h4>
+                                <p class="case-desc">영국 정부 서비스의 디자인 시스템과 컴포넌트를 오픈소스로 공개. 1,500개 이상의 공공 프로젝트가 활용 중입니다.</p>
+                                <div class="case-repo">alphagov / govuk-frontend</div>
+                                <a href="https://github.com/alphagov/govuk-frontend" target="_blank" class="case-link">
+                                    GitHub 방문하기
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                        <polyline points="15 3 21 3 21 9"></polyline>
+                                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                                    </svg>
+                                </a>
+                            </div>
+
+                            <!-- Case 3: Korea NIA -->
+                            <div class="case-card reveal">
+                                <span class="case-tag">Standard Framework</span>
+                                <h4 class="case-title">대한민국 NIA: eGovFrame</h4>
+                                <p class="case-desc">국내 공공 시스템의 표준을 확립하고 민간 기업과의 상생을 이끄는 표준 프레임워크입니다.</p>
+                                <div class="case-repo">eGovFramework / egovframe</div>
+                                <a href="https://github.com/eGovFramework" target="_blank" class="case-link">
+                                    GitHub 방문하기
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                        <polyline points="15 3 21 3 21 9"></polyline>
+                                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                                    </svg>
+                                </a>
+                            </div>
+
+                            <!-- Case 4: USA Code.gov -->
+                            <div class="case-card reveal">
+                                <span class="case-tag">Governance</span>
+                                <h4 class="case-title">미국 GSA: Code.gov</h4>
+                                <p class="case-desc">미국 연방 정부가 개발한 모든 코드를 인벤토리화하여 중복 투자를 방지하고 생산성을 혁신합니다.</p>
+                                <div class="case-repo">GSA / code-gov</div>
+                                <a href="https://github.com/GSA/code-gov" target="_blank" class="case-link">
+                                    GitHub 방문하기
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                        <polyline points="15 3 21 3 21 9"></polyline>
+                                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                                    </svg>
+                                </a>
+                            </div>
+
+                            <!-- Case 5: Estonia -->
+                            <div class="case-card reveal">
+                                <span class="case-tag">Interoperability</span>
+                                <h4 class="case-title">에스토니아: X-Road</h4>
+                                <p class="case-desc">전 세계 디지털 정부의 교과서. 정부간 데이터 교환을 안전하고 효율적으로 만드는 기반 시스템입니다.</p>
+                                <div class="case-repo">nordic-institute / X-Road</div>
+                                <a href="https://github.com/nordic-institute/X-Road" target="_blank" class="case-link">
+                                    GitHub 방문하기
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                        <polyline points="15 3 21 3 21 9"></polyline>
+                                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                                    </svg>
+                                </a>
+                            </div>
+
+                            <!-- Case 6: UN-ICC -->
+                            <div class="case-card reveal">
+                                <span class="case-tag">Global Collaboration</span>
+                                <h4 class="case-title">유엔: UN International Computing Centre</h4>
+                                <p class="case-desc">UN 기구들이 협력하여 전 지구적 난제 해결을 위해 오픈소스 솔루션을 조정하고 확산하는 기술 허브입니다.</p>
+                                <div class="case-repo">UN-ICC / repositories</div>
+                                <a href="https://github.com/UN-ICC" target="_blank" class="case-link">
+                                    GitHub 방문하기
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                        <polyline points="15 3 21 3 21 9"></polyline>
+                                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="grid-column: 1 / -1; margin-top: 60px;">
+                        <h3 class="band__label" style="font-size: 1.6rem; font-weight: 800; margin-bottom: 8px;">4.3 사회연대경제 혁신 (Social Economy Innovation)</h3>
+                        <h4 style="font-size: 1.1rem; font-weight: 500; color: var(--text-muted); margin-bottom: 16px;">
+                            사회적 가치를 실현하는 글로벌 오픈소스 프로젝트</h4>
+                        <p style="color: var(--text-muted); margin-bottom: 32px;">협동조합, 직접 민주주의, 지속 가능한 먹거리 체계를 위해 전 세계
+                            시민들이 함께 만드는 디지털 솔루션입니다.</p>
+
+                        <div class="cases-grid">
+                            <!-- Case 1: Decidim -->
+                            <div class="case-card reveal">
+                                <span class="case-tag">Participatory Governance</span>
+                                <h4 class="case-title">데시딤 (Decidim)</h4>
+                                <p class="case-desc">바르셀로나에서 시작된 직접 민주주의 플랫폼. 시민들이 정책 제안, 투표, 예산 결정에 직접 참여할 수 있도록 돕습니다.
+                                </p>
+                                <div class="case-repo">decidim / decidim</div>
+                                <a href="https://github.com/decidim/decidim" target="_blank" class="case-link">
+                                    GitHub 방문하기
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                        <polyline points="15 3 21 3 21 9"></polyline>
+                                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                                    </svg>
+                                </a>
+                            </div>
+
+                            <!-- Case 2: Open Food Network -->
+                            <div class="case-card reveal">
+                                <span class="case-tag">Sustainable Food Systems</span>
+                                <h4 class="case-title">오픈 푸드 네트워크</h4>
+                                <p class="case-desc">생산자와 소비자를 직접 연결하는 투명한 먹거리 네트워크 플랫폼. 지역 중심의 공정 거래를 기술로 지원합니다.</p>
+                                <div class="case-repo">openfoodfoundation / openfoodnetwork</div>
+                                <a href="https://github.com/openfoodfoundation/openfoodnetwork" target="_blank"
+                                    class="case-link">
+                                    GitHub 방문하기
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                        <polyline points="15 3 21 3 21 9"></polyline>
+                                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                                    </svg>
+                                </a>
+                            </div>
+
+                            <!-- Case 3: Platform Co-op Toolkit -->
+                            <div class="case-card reveal">
+                                <span class="case-tag">Platform Cooperativism</span>
+                                <h4 class="case-title">플랫폼 협동조합 툴킷</h4>
+                                <p class="case-desc">노동자 소유의 디지털 협동조합을 설립하고 운영하는 데 필요한 법률, 설계, 개발 도구 모음입니다.</p>
+                                <div class="case-repo">PCC / platform-coop-toolkit</div>
+                                <a href="https://github.com/platform-coop-toolkit" target="_blank" class="case-link">
+                                    GitHub 방문하기
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                        <polyline points="15 3 21 3 21 9"></polyline>
+                                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                                    </svg>
+                                </a>
+                            </div>
+
+                            <!-- Case 4: Distribute Aid -->
+                            <div class="case-card reveal">
+                                <span class="case-tag">Mutual Aid Supply Chain</span>
+                                <h4 class="case-title">디스트리뷰트 에이드</h4>
+                                <p class="case-desc">인도주의적 지원과 상호 부조를 위한 글로벌 공급망 추적 시스템. 자원이 필요한 곳에 효율적으로 닿도록 돕습니다.</p>
+                                <div class="case-repo">distributeaid / shipment-tracker</div>
+                                <a href="https://github.com/distributeaid" target="_blank" class="case-link">
+                                    GitHub 방문하기
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                        <polyline points="15 3 21 3 21 9"></polyline>
+                                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="group-divider"></div>
+
+                <div style="max-width: 1000px; margin: 0 auto; padding: 0 24px;">
+                    <div class="band__head" style="margin-top: 60px;">
+                        <h3 class="band__label" style="font-size: 1.6rem; font-weight: 800; margin-bottom: 8px;">4.4 혜택 (Benefits)</h3>
+                        <h4 style="font-size: 1.1rem; font-weight: 500; color: var(--text-muted); margin-bottom: 16px;">오픈소스가 가져오는 핵심 가치</h4>
+                    </div>
+                    <div class="strategy-grid">
+                        <div class="strategy-card">
+                            <span class="highlight-card__icon">👥</span>
+                            <h4>시민의 관여</h4>
+                            <p>시민이 단순 사용자가 아닌, 정책과 서비스의 생산자로 참여합니다.</p>
+                        </div>
+                        <div class="strategy-card">
+                            <span class="highlight-card__icon">🌱</span>
+                            <h4>청년의 기회</h4>
+                            <p>오픈소스 기여를 통해 실무 경력을 쌓고 건강한 공동체 성장을 경험합니다.</p>
+                        </div>
+                        <div class="strategy-card">
+                            <span class="highlight-card__icon">🚀</span>
+                            <h4>자연스러운 창업</h4>
+                            <p>검증된 오픈소스 프로젝트는 사회적 기업 창업과 인큐베이팅으로 직결됩니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. 마을거점 섹션 -->
+        <section id="hub" class="band band--white reveal">
+            <div class="band__wrap">
+                <div class="band__head">
+                    <span class="band__label">Point 5. Place</span>
+                    <h2 class="band__title">5. 작은도서관: 마을의 디지털 협력 거점</h2>
+                    <p class="band__lead">광명시의 45개 작은도서관은 지식의 저장소를 넘어, 시민들이 직접 공공 서비스를 만들고 운영하는 '마을형 디지털 커먼즈'로 진화합니다.
+                    </p>
+                </div>
+
+                <div class="strategy-grid">
+                    <article class="strategy-card">
+                        <span class="highlight-card__icon">📡</span>
+                        <h4>AI 리터러시 전초기지</h4>
+                        <p>시민이 직접 프롬프트를 설계하고 AI 결과물을 검증하는 마을 단위 리터러시 거점.</p>
+                    </article>
+                    <article class="strategy-card">
+                        <span class="highlight-card__icon">🛡️</span>
+                        <h4>청년 '디지털 쉘터'</h4>
+                        <p>청년들이 오픈소스 프로젝트로 실무 역량을 쌓고 유대를 회복하는 안전한 공간.</p>
+                    </article>
+                    <article class="strategy-card">
+                        <span class="highlight-card__icon">🧪</span>
+                        <h4>마을 실험소</h4>
+                        <p>슬리퍼를 신고 나가 지역 문제를 발견하고 해결책(MVP)을 즉시 실험하는 공간.</p>
+                    </article>
+                </div>
+
+                <!-- Youth Engagement & Anti-Radicalism Section -->
+                <div class="group-divider"></div>
+
+                <div class="band__head" style="margin-top: 40px;">
+                    <h3 class="band__label" style="font-size: 1.6rem; font-weight: 800; margin-bottom: 8px;">5.1 청년 참여 (Youth Engagement)</h3>
+                    <h4 style="font-size: 1.1rem; font-weight: 500; color: var(--text-muted); margin-bottom: 20px;">
+                        청년을 품는 오픈소스: 사회적 가치로의 초대
+                    </h4>
+                    <p class="band__lead">고립과 불안 속 청년들에게 오픈소스는 '의미 있는 기여'의 기회를 제공합니다.</p>
+                </div>
+
+                <div class="mission-statement reveal" style="border-left-color: #7c3aed;">
+                    <h3 style="font-size: 1.5rem; font-weight: 800; color: #7c3aed; margin-bottom: 24px;">
+                        왜 청년에게 오픈소스인가? | Why Open Source for Youth?
+                    </h3>
+                    <p class="mission-text">
+                        오늘날 많은 청년들이 <strong>사회적 고립, 경제적 불안, 정체성 혼란</strong> 속에서 극단적 이념에 노출되기 쉬운 환경에 놓여 있습니다.
+                        온라인에서 쏟아지는 혐오와 분노의 콘텐츠는 고립된 청년들을 극우 커뮤니티와 급진주의로 유인합니다.
+                    </p>
+                    <p class="mission-text">
+                        오픈소스 프로젝트는 이러한 청년들에게 <strong>건강한 대안적 공동체</strong>를 제공합니다.
+                        코드 한 줄, 문서 번역 하나가 전 세계 누군가에게 도움이 되는 경험은 '내가 사회에 기여할 수 있다'는 <strong>자기 효능감</strong>을 회복시킵니다.
+                    </p>
+                    <p class="mission-text highlight">
+                        분노 대신 협력을, 혐오 대신 공유를 경험한 청년은 <strong>사회적 가치(Social Value)와 사회적 영향력(Social Impact)</strong>을
+                        자신의 커리어와 삶의 방향으로 선택하게 됩니다. 오픈소스는 청년을 소비자에서 <strong>시민 생산자</strong>로 전환시키는 가장 효과적인 경로입니다.
+                    </p>
+                </div>
+
+                <div class="strategy-grid" style="margin-top: 48px;">
+                    <article class="strategy-card">
+                        <span class="highlight-card__icon">🤝</span>
+                        <h4>소속감과 유대의 회복</h4>
+                        <p>전 세계 개발자들과 협업하며 건강한 공동체 경험을 쌓습니다. '나 혼자'가 아닌 '우리 함께'의 가치를 체득합니다.</p>
+                    </article>
+                    <article class="strategy-card">
+                        <span class="highlight-card__icon">🎯</span>
+                        <h4>의미 있는 기여의 경험</h4>
+                        <p>장애인 접근성 개선, 환경 데이터 시각화, 취약계층 서비스 등 사회문제 해결에 직접 기여하는 프로젝트에 참여합니다.</p>
+                    </article>
+                    <article class="strategy-card">
+                        <span class="highlight-card__icon">📈</span>
+                        <h4>검증 가능한 성장 기록</h4>
+                        <p>GitHub 프로필은 청년의 역량을 투명하게 증명합니다. 스펙 쌓기가 아닌 실제 기여로 커리어를 시작합니다.</p>
+                    </article>
+                    <article class="strategy-card">
+                        <span class="highlight-card__icon">🌱</span>
+                        <h4>사회적 기업가 정신</h4>
+                        <p>오픈소스 경험은 자연스럽게 사회적 기업, 협동조합, 비영리 스타트업으로의 창업 동기를 부여합니다.</p>
+                    </article>
+                    <article class="strategy-card">
+                        <span class="highlight-card__icon">🛡️</span>
+                        <h4>극단주의 예방</h4>
+                        <p>고립 대신 연결, 분노 대신 창조, 소비 대신 생산의 경험은 극우 커뮤니티와 급진주의의 유혹을 차단합니다.</p>
+                    </article>
+                    <article class="strategy-card">
+                        <span class="highlight-card__icon">🌍</span>
+                        <h4>글로벌 시민 의식</h4>
+                        <p>국경을 초월한 협업을 통해 다양성을 존중하고 글로벌 난제에 공감하는 세계 시민으로 성장합니다.</p>
+                    </article>
+                </div>
+
+                <div class="diagram-container reveal" style="margin-top: 48px;">
+                    <h3 class="diagram-title">청년 성장 경로: 고립에서 시민 생산자로</h3>
+                    <div class="mermaid">
+                        graph TD
+                        A[고립된 청년<br/>불안·분노·무력감] -->|기존 경로| B[온라인 극단주의<br/>혐오 커뮤니티 유입]
+                        A -->|오픈소스 경로| C[작은도서관<br/>디지털 쉘터 참여]
+                        C --> D[오픈소스 프로젝트<br/>첫 기여 경험]
+                        D --> E[자기 효능감 회복<br/>공동체 소속감]
+                        E --> F[사회적 가치 지향<br/>시민 생산자로 성장]
+                        F --> G[사회적 기업 창업<br/>지역사회 리더]
+
+                        style A fill:#94a3b8,stroke:#64748b,stroke-width:2px,color:#1e293b
+                        style B fill:#dc2626,stroke:#b91c1c,stroke-width:2px,color:#fff
+                        style C fill:#118a7e,stroke:#0d6e64,stroke-width:2px,color:#fff
+                        style D fill:#118a7e,stroke:#0d6e64,stroke-width:2px,color:#fff
+                        style E fill:#118a7e,stroke:#0d6e64,stroke-width:2px,color:#fff
+                        style F fill:#d8a31a,stroke:#b58915,stroke-width:3px,color:#0d2b45
+                        style G fill:#0d2b45,stroke:#091d2e,stroke-width:2px,color:#fff
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. 거버넌스 섹션 -->
+        <section id="governance" class="band band--slate reveal">
+            <div class="band__wrap">
+                <div class="band__head">
+                    <span class="band__label">Point 6. Execution</span>
+                    <h2 class="band__title">6. 민관 협업 상설 거버넌스</h2>
+                    <p class="band__lead">일회성 사업이 아닌, 상시 운영되는 거버넌스 체계를 구축합니다. 이를 통해 지속적으로 오픈소스 프로젝트를 발굴하고 구현해 나갑니다.</p>
+                </div>
+
+                <!-- Predicted Outcomes Section -->
+                <div class="band__head" style="margin-top: 40px;">
+                    <h3 class="band__label" style="font-size: 1.6rem; font-weight: 800; margin-bottom: 8px;">6.1 기대 성과 (Expected Outcomes)</h3>
+                    <h4 style="font-size: 1.1rem; font-weight: 500; color: var(--text-muted); margin-bottom: 20px;">
+                        예상되는 성과와 변화
+                    </h4>
+                    <p class="band__lead">오픈소스 거버넌스가 정착되면 광명시에는 다음과 같은 구체적인 변화가 예상됩니다.</p>
+                </div>
+
+                <div class="strategy-grid" style="margin-top: 32px;">
+                    <article class="strategy-card" style="border-top: 4px solid var(--primary);">
+                        <span class="highlight-card__icon">💰</span>
+                        <h4>IT 예산 효율화</h4>
+                        <p>상용 소프트웨어 라이선스 비용 절감 및 유지보수 비용 내재화로 연간 IT 예산의 20-30% 절감 효과가 예상됩니다.</p>
+                    </article>
+                    <article class="strategy-card" style="border-top: 4px solid var(--primary);">
+                        <span class="highlight-card__icon">👨‍💻</span>
+                        <h4>지역 IT 일자리 창출</h4>
+                        <p>오픈소스 개발·유지보수 수요 증가로 지역 내 IT 전문 인력 고용이 확대되고, 청년 개발자 유출을 방지합니다.</p>
+                    </article>
+                    <article class="strategy-card" style="border-top: 4px solid var(--primary);">
+                        <span class="highlight-card__icon">🏆</span>
+                        <h4>전국 모델 도시로 부상</h4>
+                        <p>대한민국 최초의 체계적 지자체 오픈소스 거버넌스 사례로서 전국 243개 지자체의 벤치마크 대상이 됩니다.</p>
+                    </article>
+                    <article class="strategy-card" style="border-top: 4px solid var(--accent);">
+                        <span class="highlight-card__icon">🌐</span>
+                        <h4>국제 협력 네트워크 구축</h4>
+                        <p>UN, OECD 등 국제기구의 디지털 공공재 이니셔티브와 연계하여 글로벌 사회연대경제 네트워크의 아시아 허브로 자리매김합니다.</p>
+                    </article>
+                    <article class="strategy-card" style="border-top: 4px solid var(--accent);">
+                        <span class="highlight-card__icon">🌱</span>
+                        <h4>사회적 기업 생태계 활성화</h4>
+                        <p>오픈소스 프로젝트에서 검증된 솔루션이 사회적 기업 창업으로 연결되어 지역 사회연대경제 생태계가 풍성해집니다.</p>
+                    </article>
+                    <article class="strategy-card" style="border-top: 4px solid var(--accent);">
+                        <span class="highlight-card__icon">🧭</span>
+                        <h4>청년 사회 참여 확대</h4>
+                        <p>오픈소스 참여 청년들이 지역사회 문제 해결의 주체로 성장하며, 건강한 시민 의식을 갖춘 차세대 리더로 육성됩니다.</p>
+                    </article>
+                </div>
+
+                <div class="diagram-container reveal" style="margin-top: 48px; max-width: 1000px; padding: 60px;">
+                    <h3 class="diagram-title" style="font-size: 2rem; margin-bottom: 40px;">광명시 오픈소스 거버넌스 로드맵</h3>
+                    <div class="mermaid">
+                        %%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '18px', 'fontFamily': 'Pretendard' }, 'flowchart': { 'curve': 'basis', 'padding': 30, 'nodeSpacing': 50, 'rankSpacing': 70 }}}%%
+                        graph TD
+                        P1(["<b>🏗️ 1단계: 기반 구축</b>"])
+                        A1["<b>거버넌스 체계 수립</b><br/>조례 제정 · 추진단 구성"]
+                        A2["<b>파일럿 프로젝트 선정</b><br/>지역 현안 기반 MVP 기획"]
+                        A3["<b>AI 도슨트 1기 양성</b><br/>시민 디지털 역량 강화"]
+
+                        P2(["<b>🌱 2단계: 확산</b>"])
+                        B1["<b>작은도서관 디지털 쉘터</b><br/>45개 거점 운영 시작"]
+                        B2["<b>청년 개발자 커뮤니티</b><br/>오픈소스 기여 문화 정착"]
+                        B3["<b>첫 오픈소스 릴리스</b><br/>GitHub 공개 · 협업 시작"]
+
+                        P3(["<b>🏆 3단계: 정착</b>"])
+                        C1["<b>전국 지자체 협력</b><br/>243개 지자체 네트워크"]
+                        C2["<b>국제기구 파트너십</b><br/>UN · OECD 연계"]
+                        C3["<b>사회연대경제 선도도시</b><br/>글로벌 모델 도시 위상"]
+
+                        P1 --- A1
+                        A1 --> A2 --> A3
+                        A3 ==>|"역량 확보"| P2
+                        P2 --- B1
+                        B1 --> B2 --> B3
+                        B3 ==>|"성과 확산"| P3
+                        P3 --- C1
+                        C1 --> C2 --> C3
+
+                        style P1 fill:#0284c7,stroke:#0369a1,stroke-width:3px,color:#fff
+                        style P2 fill:#d97706,stroke:#b45309,stroke-width:3px,color:#fff
+                        style P3 fill:#059669,stroke:#047857,stroke-width:3px,color:#fff
+                        style A1 fill:#e0f2fe,stroke:#0284c7,stroke-width:2px,color:#1e293b
+                        style A2 fill:#e0f2fe,stroke:#0284c7,stroke-width:2px,color:#1e293b
+                        style A3 fill:#e0f2fe,stroke:#0284c7,stroke-width:2px,color:#1e293b
+                        style B1 fill:#fef3c7,stroke:#d97706,stroke-width:2px,color:#1e293b
+                        style B2 fill:#fef3c7,stroke:#d97706,stroke-width:2px,color:#1e293b
+                        style B3 fill:#fef3c7,stroke:#d97706,stroke-width:2px,color:#1e293b
+                        style C1 fill:#d1fae5,stroke:#059669,stroke-width:2px,color:#1e293b
+                        style C2 fill:#d1fae5,stroke:#059669,stroke-width:2px,color:#1e293b
+                        style C3 fill:#0d2b45,stroke:#091d2e,stroke-width:3px,color:#fff
+                    </div>
+                </div>
+
+                <div class="group-divider"></div>
+
+                <div class="conclusion">
+                    <p><strong>"오픈소스는 관리될 때 기술이 되고, 공유될 때 복지가 됩니다."</strong></p>
+                    <p>광명시는 인공지능 시대의 변화를 두려워하지 않고, 시민과 기술이 결합된 사회연대경제 대전환을 통해 가장 앞서나가는 도시가 될 것입니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. 기업 협력 파트너십 CTA -->
+        <section id="partners" class="band band--dark">
+            <div class="band__wrap">
+                <div class="band__head reveal">
+                    <span class="band__label">Join the Movement · 함께해요</span>
+                    <h2 class="band__title">빅테크에 드리는 초대장</h2>
+                    <p class="band__lead">광명시의 사회연대경제 대전환은 정부와 시민만의 일이 아닙니다.<br>
+                        Google, Microsoft, Naver, Kakao, NVIDIA 등 기술 기업의 참여가 이 운동을 세계적 모델로 만듭니다.</p>
+                </div>
+
+                <!-- Award spotlight -->
+                <div class="award-spotlight reveal">
+                    <div class="award-spotlight__emoji">🏆</div>
+                    <div>
+                        <span class="award-spotlight__label">행정안전부 공식 선정 · 2026년 4월 21일</span>
+                        <h3 class="award-spotlight__title">"사회연대경제 주도 지역순환경제: 광명시 지역공동체 자산화"</h3>
+                        <p class="award-spotlight__desc">2026 사회연대경제 혁신모델 개발·확산 공모 — <strong class="award-spotlight__highlight">전국 17개 지자체 중 선정</strong>, 국비 최대 15억 원 (2026–2028). 대한민국 정부가 공인한 사회연대경제 혁신 선도도시입니다.</p>
+                        <a href="https://news.gm.go.kr/bbs/view.html?idxno=7952&sc_category=" target="_blank" rel="noopener" class="award-spotlight__link">공식 보도자료 보기 →</a>
+                    </div>
+                </div>
+
+                <!-- Why Gwangmyeong? -->
+                <p class="why-gm-label reveal">왜 광명시인가? | Why Gwangmyeong?</p>
+                <div class="why-gm-grid reveal">
+                    <div class="why-gm-card">
+                        <span class="why-gm-card__icon">🚄</span>
+                        <h3>대한민국 중심, 최고의 접근성</h3>
+                        <p><strong>KTX 광명역</strong>에서 서울역까지 7분, 인천국제공항까지 45분. 전국 어디서든 당일 왕복이 가능합니다. 서울에 오피스가 있는 팀이라면 광명은 사실상 같은 도시입니다. 글로벌 팀의 방한 일정에 가장 쉽게 포함시킬 수 있는 도시입니다.</p>
+                    </div>
+                    <div class="why-gm-card">
+                        <span class="why-gm-card__icon">🏛️</span>
+                        <h3>대한민국 SSE 정책 최선두</h3>
+                        <p>전담 부서(사회연대경제과) 운영, 지역공동체 자산화 조례·사회적 기업 지원 조례 제정 완료. <strong>14개 앵커기관 MOU</strong>(2025.12), 민관 협치 거버넌스 운영 중. 9월 개소 예정인 <strong>사회연대경제혁신센터</strong>가 협력의 물리적 거점이 됩니다.</p>
+                    </div>
+                    <div class="why-gm-card">
+                        <span class="why-gm-card__icon">🌱</span>
+                        <h3>실증 가능한 완성된 생태계</h3>
+                        <p>연간 <strong>1,500억 원</strong> 발행 지역화폐 '광명사랑화폐', 45개 작은도서관 거점 네트워크, 인천대학교와 CWB 공동연구 진행 중. 파트너십 성과가 즉시 45만 시민과 전국 243개 지자체로 확산되는 레퍼런스 도시입니다.</p>
+                    </div>
+                </div>
+
+                <!-- Company badges -->
+                <div class="company-badges reveal">
+                    <span class="company-badge"><span class="badge-dot badge-dot--google"></span>Google</span>
+                    <span class="company-badge"><span class="badge-dot badge-dot--microsoft"></span>Microsoft</span>
+                    <span class="company-badge"><span class="badge-dot badge-dot--naver"></span>Naver</span>
+                    <span class="company-badge"><span class="badge-dot badge-dot--kakao"></span>Kakao</span>
+                    <span class="company-badge"><span class="badge-dot badge-dot--nvidia"></span>NVIDIA</span>
+                    <span class="company-badge"><span class="badge-dot badge-dot--samsung"></span>Samsung</span>
+                    <span class="company-badge"><span class="badge-dot badge-dot--lg"></span>LG</span>
+                    <span class="company-badge"><span class="badge-dot badge-dot--un"></span>UN · OECD</span>
+                </div>
+
+                <!-- Value proposition -->
+                <div class="mission-statement mission-statement--dark reveal">
+                    <h3 style="font-size: 1.5rem; font-weight: 800; color: var(--accent); margin-bottom: 24px;">
+                        왜 지금, 광명시 사회연대경제인가? | Why Partner Now?
+                    </h3>
+                    <p class="mission-text">
+                        <strong>사회연대경제는 다음 시장입니다.</strong> 공정한 AI·오픈소스 생태계, ESG 투자, 사회적 가치 창출에 대한 글로벌 수요가 폭발적으로 증가하고 있습니다.
+                        광명시는 지자체 최초로 오픈소스 거버넌스와 지역공동체 자산화(CWB)를 결합한 실증 도시로서, 기술 기업의 사회적 책임(CSR/ESG)과 신시장 개척의 최적 파트너입니다.
+                    </p>
+                    <p class="mission-text">
+                        <strong>오픈소스 생태계를 함께 만들어갑시다.</strong> AI 모델, 클라우드 인프라, 개발 도구, 지역화폐 플랫폼 등 다양한 영역에서
+                        기술 기업의 역량과 광명시의 45만 시민 네트워크가 만날 때, 혁신의 속도와 사회적 임팩트가 기하급수적으로 커집니다.
+                    </p>
+                    <p class="mission-text highlight">
+                        <strong>선점 효과(First-Mover Advantage)는 기업에게도 적용됩니다.</strong> 대한민국 최초의 지자체 오픈소스 거버넌스 생태계에
+                        가장 먼저 합류하는 기업이 이 모델의 표준을 함께 정의하고, 전국 243개 지자체로 확산될 때 그 브랜드 가치를 선점합니다.
+                    </p>
+                </div>
+
+                <!-- Collaboration format cards -->
+                <p class="partners-section-title reveal">제안하는 협력 방식 | Collaboration Formats</p>
+                <div class="partner-grid reveal">
+                    <div class="partner-card">
+                        <div class="partner-card__company">Google · Naver · Kakao · Microsoft</div>
+                        <div class="partner-card__type">Developer Community</div>
+                        <h4>🎪 개발자 밋업 &amp; 커뮤니티</h4>
+                        <p>사회연대경제 오픈소스 개발자 커뮤니티를 광명시에서 정기 운영합니다. 각 기업의 DevRel 팀과 함께 기술 세션, 네트워킹, 오픈소스 기여 워킹그룹을 진행합니다.</p>
+                    </div>
+                    <div class="partner-card">
+                        <div class="partner-card__company">전 파트너사</div>
+                        <div class="partner-card__type">Conference &amp; Keynote</div>
+                        <h4>🎤 컨퍼런스 &amp; 기술 강연</h4>
+                        <p>AI × 사회연대경제 공동 컨퍼런스를 연 1회 개최합니다. 파트너사 엔지니어·리더가 키노트·세션에 참여하고, 광명시 오픈소스 사례를 글로벌 무대에 발표합니다.</p>
+                    </div>
+                    <div class="partner-card">
+                        <div class="partner-card__company">Google · Microsoft · NVIDIA · Naver</div>
+                        <div class="partner-card__type">Practical Workshop</div>
+                        <h4>🛠️ 핸즈온 워크숍</h4>
+                        <p>각 사의 AI 툴(Gemini, Copilot, CUDA, HyperCLOVA X 등)을 활용한 실전 워크숍을 광명시 작은도서관·혁신센터에서 진행합니다. 시민·청년·AI 도슨트 대상 집중 교육입니다.</p>
+                    </div>
+                    <div class="partner-card">
+                        <div class="partner-card__company">Google · Microsoft · NVIDIA · Kakao</div>
+                        <div class="partner-card__type">Resource Credits</div>
+                        <h4>🎫 크레딧 &amp; 리소스 지원</h4>
+                        <p>오픈소스 프로젝트팀과 사회적 기업 스타트업에 클라우드 크레딧(Google for Startups, Azure for Nonprofits), API 크레딧, GPU 컴퓨팅 자원을 제공해 주십시오.</p>
+                    </div>
+                    <div class="partner-card">
+                        <div class="partner-card__company">전 파트너사</div>
+                        <div class="partner-card__type">Hackathon &amp; Build Day</div>
+                        <h4>🏆 해커톤 &amp; 빌드데이</h4>
+                        <p>사회연대경제 현안을 주제로 한 AI 해커톤을 공동 주관합니다. 청년·시민 팀이 24~48시간 내에 실제 서비스 프로토타입을 만들고, 우수 팀은 사회적 기업 인큐베이팅과 연계됩니다.</p>
+                    </div>
+                    <div class="partner-card">
+                        <div class="partner-card__company">전 파트너사</div>
+                        <div class="partner-card__type">AX Reference &amp; Case Study</div>
+                        <h4>📋 AX 레퍼런스 공동 구축</h4>
+                        <p>광명시 공공 서비스 AI 전환(AX) 사례를 파트너사와 공동으로 문서화·발표합니다. 실질적인 레퍼런스 아키텍처와 성과 데이터를 바탕으로 전국 지자체 확산의 표준 케이스를 만듭니다.</p>
+                    </div>
+                </div>
+
+                <!-- Final CTA -->
+                <div class="cta-box reveal">
+                    <h3>지금, 함께 새로운 표준을 만들어 갑시다</h3>
+                    <p>광명시 사회연대경제 오픈소스 거버넌스 프로젝트에 귀 기관·기업의 참여를 진심으로 초대합니다.<br>
+                        작은 협력 하나가 수십만 시민의 삶과 전국 지자체의 미래를 바꿉니다.</p>
+                    <div class="cta-actions">
+                        <a href="mailto:narae1804@korea.kr?subject=광명시 오픈소스 협력 제안" class="btn btn--cta-primary">
+                            ✉ 협력 제안 메일 보내기
+                        </a>
+                        <a href="https://github.com/durume/GM" target="_blank" rel="noopener" class="btn btn--cta-outline">
+                            GitHub 방문하기 →
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
     </main>
+
     <footer>
-        지속 가능한 디지털 혁신 도시 광명 · 오픈소스 거버넌스 실행 전략
+        <div class="footer__grid">
+            <div>
+                <span class="footer__logo">GM Open Governance</span>
+                <p class="footer__tagline">지속 가능한 디지털 혁신 도시 광명<br>사회연대경제 × 오픈소스 대전환 전략</p>
+                <a href="mailto:narae1804@korea.kr?subject=광명시 오픈소스 협력 제안" class="footer__email">
+                    ✉ narae1804@korea.kr
+                </a>
+            </div>
+            <div>
+                <h4 class="footer__col-title">섹션</h4>
+                <ul class="footer__nav-links">
+                    <li><a href="#vision">1. 인공지능 시대의 대전환</a></li>
+                    <li><a href="#soc-econ">2. 사회연대경제</a></li>
+                    <li><a href="#human">3. AI 도슨트</a></li>
+                    <li><a href="#opensource">4. 오픈소스</a></li>
+                    <li><a href="#hub">5. 마을거점</a></li>
+                    <li><a href="#governance">6. 거버넌스</a></li>
+                    <li><a href="#partners">7. 협력파트너</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="footer__col-title">협력 &amp; 링크</h4>
+                <ul class="footer__nav-links">
+                    <li><a href="mailto:narae1804@korea.kr?subject=광명시 오픈소스 협력 제안">협력 제안 메일</a></li>
+                    <li><a href="https://github.com/durume/GM" target="_blank" rel="noopener">GitHub 저장소</a></li>
+                    <li><a href="https://news.gm.go.kr/bbs/view.html?idxno=7952&sc_category=" target="_blank" rel="noopener">혁신모델 수상 보도자료</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer__bottom">
+            &copy; 2026 Gwangmyeong City · GM Open Source Governance Project · All rights reserved.
+        </div>
     </footer>
+
+    <a href="#top-nav" class="back-to-top" title="Back to Top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m18 15-6-6-6 6" />
+        </svg>
+    </a>
 </body>
+
 </html>

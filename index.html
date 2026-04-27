@@ -334,6 +334,11 @@
             border: 1px solid rgba(17, 138, 126, 0.2);
         }
 
+        /* Offset anchor targets so fixed nav doesn't cover section headings */
+        section[id] {
+            scroll-margin-top: 80px;
+        }
+
         /* Navigation */
         nav {
             position: fixed;
@@ -1302,7 +1307,7 @@
 <body>
     <nav id="top-nav">
         <div class="nav__wrap">
-            <a href="#" class="logo">GM Open Governance</a>
+            <a href="#top-nav" class="logo">GM Open Governance</a>
             <button type="button" class="nav__toggle" aria-label="메뉴 열기" aria-expanded="false">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
                     <line x1="3" y1="6" x2="21" y2="6"/>

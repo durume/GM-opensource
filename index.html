@@ -43,13 +43,25 @@
             --text: #1e293b;
             --text-muted: #64748b;
             --border: #e2e8f0;
-            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            --radius-md: 12px;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.1), 0 2px 6px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 12px 24px -4px rgba(0, 0, 0, 0.12), 0 4px 8px -2px rgba(0, 0, 0, 0.06);
+            --shadow-xl: 0 24px 48px -8px rgba(0, 0, 0, 0.18), 0 8px 20px -4px rgba(0, 0, 0, 0.08);
+            --shadow-glow: 0 0 0 3px rgba(17, 138, 126, 0.25);
+            --radius-sm: 8px;
+            --radius-md: 14px;
             --radius-lg: 24px;
             --max-width: 1200px;
         }
+
+        html { scroll-behavior: smooth; }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(17, 138, 126, 0.35); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+        ::selection { background: rgba(216, 163, 26, 0.28); color: var(--secondary); }
 
         * {
             margin: 0;
@@ -63,6 +75,7 @@
             color: var(--text);
             line-height: 1.6;
             overflow-x: hidden;
+            word-break: keep-all;
         }
 
         /* Animations */
@@ -92,14 +105,24 @@
         /* Header & Hero */
         header {
             position: relative;
-            min-height: 80vh;
+            min-height: 88vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: var(--secondary);
+            background: linear-gradient(160deg, #071a2c 0%, #0d2b45 55%, #0e3352 100%);
             color: white;
             overflow: hidden;
-            padding: 80px 24px;
+            padding: 100px 24px 80px;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(circle, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+            background-size: 30px 30px;
+            z-index: 1;
+            pointer-events: none;
         }
 
         .hero-bg {
@@ -128,37 +151,52 @@
         }
 
         .hero__badge {
-            display: inline-block;
-            padding: 8px 20px;
-            background: rgba(17, 138, 126, 0.2);
-            border: 1px solid rgba(17, 138, 126, 0.4);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 22px;
+            background: rgba(216, 163, 26, 0.15);
+            border: 1px solid rgba(216, 163, 26, 0.45);
+            -webkit-backdrop-filter: blur(8px);
             backdrop-filter: blur(8px);
             border-radius: 50px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #4ade80;
-            margin-bottom: 24px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #fcd34d;
+            margin-bottom: 32px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
+        }
+
+        .hero__badge::before {
+            content: '';
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            background: #4ade80;
+            border-radius: 50%;
+            flex-shrink: 0;
+            box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.22);
         }
 
         .hero__title {
-            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-size: clamp(2.5rem, 7vw, 4.8rem);
             font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 24px;
-            background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+            line-height: 1.08;
+            margin-bottom: 28px;
+            background: linear-gradient(145deg, #ffffff 0%, #e2e8f0 50%, #94a3b8 100%);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
         }
 
         .hero__subtitle {
-            font-size: clamp(1.1rem, 3vw, 1.4rem);
-            max-width: 800px;
-            margin: 0 auto 48px;
-            color: #e2e8f0;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            font-size: clamp(1.05rem, 2.5vw, 1.35rem);
+            max-width: 760px;
+            margin: 0 auto 52px;
+            color: rgba(226, 232, 240, 0.88);
+            line-height: 1.75;
         }
 
         /* Sections */
@@ -305,8 +343,14 @@
             padding: 40px;
             border-radius: var(--radius-md);
             box-shadow: var(--shadow-md);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 1px solid transparent;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease, border-color 0.3s ease;
+            border: 1px solid var(--border);
+        }
+
+        .highlight-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+            border-color: rgba(17, 138, 126, 0.3);
         }
 
         .highlight-card__icon {
@@ -351,11 +395,17 @@
         }
 
         nav.scrolled {
-            background: rgba(255, 255, 255, 0.9);
-            -webkit-backdrop-filter: blur(10px);
-            backdrop-filter: blur(10px);
-            padding: 16px 0;
-            box-shadow: var(--shadow-sm);
+            background: rgba(255, 255, 255, 0.92);
+            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px);
+            padding: 14px 0;
+            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06), var(--shadow-sm);
+        }
+
+        a:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 3px;
+            border-radius: 4px;
         }
 
         .nav__wrap {
@@ -751,20 +801,25 @@
             position: fixed;
             bottom: 40px;
             right: 40px;
-            width: 50px;
-            height: 50px;
-            background: var(--primary);
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             text-decoration: none;
-            box-shadow: var(--shadow-lg);
+            box-shadow: 0 4px 16px rgba(17, 138, 126, 0.4);
             opacity: 0;
             visibility: hidden;
-            transition: all 0.3s ease;
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.2s ease;
             z-index: 1000;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(17, 138, 126, 0.5);
         }
 
         .back-to-top.active {
@@ -790,30 +845,38 @@
             font-size: 1rem;
             font-weight: 700;
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+            cursor: pointer;
+        }
+
+        .btn:focus-visible {
+            outline: 3px solid var(--accent);
+            outline-offset: 3px;
         }
 
         .btn--accent {
-            background: var(--accent);
+            background: linear-gradient(135deg, #e0a81e, #d8a31a);
             color: var(--secondary);
-            box-shadow: 0 4px 20px rgba(216, 163, 26, 0.4);
+            box-shadow: 0 4px 20px rgba(216, 163, 26, 0.42);
         }
 
         .btn--accent:hover {
-            background: #c49016;
+            background: linear-gradient(135deg, #d8a31a, #c49016);
             transform: translateY(-2px);
-            box-shadow: 0 8px 28px rgba(216, 163, 26, 0.55);
+            box-shadow: 0 10px 30px rgba(216, 163, 26, 0.55);
         }
 
         .btn--outline {
-            background: transparent;
+            background: rgba(255, 255, 255, 0.06);
             color: white;
-            border: 2px solid rgba(255, 255, 255, 0.55);
+            border: 1.5px solid rgba(255, 255, 255, 0.45);
+            -webkit-backdrop-filter: blur(6px);
+            backdrop-filter: blur(6px);
         }
 
         .btn--outline:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: white;
+            background: rgba(255, 255, 255, 0.13);
+            border-color: rgba(255, 255, 255, 0.8);
             transform: translateY(-2px);
         }
 
@@ -883,46 +946,32 @@
         .partner-card {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid rgba(216, 163, 26, 0.55);
             border-radius: var(--radius-md);
-            padding: 28px;
-            transition: all 0.3s ease;
+            padding: 28px 28px 24px;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease;
         }
 
         .partner-card:hover {
             background: rgba(255, 255, 255, 0.09);
-            border-color: rgba(216, 163, 26, 0.4);
+            border-top-color: var(--accent);
             transform: translateY(-4px);
             box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
         }
 
-        .partner-card__company {
-            font-size: 0.8rem;
-            font-weight: 800;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            margin-bottom: 4px;
-        }
-
-        .partner-card__type {
-            font-size: 0.72rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: rgba(255, 255, 255, 0.38);
-            margin-bottom: 16px;
-        }
-
         .partner-card h4 {
-            font-size: 1.05rem;
+            font-size: 1.1rem;
             color: white;
-            margin-bottom: 12px;
+            margin: 0 0 12px;
             font-weight: 700;
+            line-height: 1.4;
         }
 
         .partner-card p {
             font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.62);
-            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.72);
+            line-height: 1.75;
+            margin: 0;
         }
 
         .cta-box {
@@ -941,14 +990,22 @@
             margin-bottom: 16px;
         }
 
-        .cta-box > p {
-            font-size: 1.05rem;
-            color: #cbd5e1;
+        .cta-box__invite {
+            font-size: clamp(0.88rem, 1.5vw, 1.05rem);
+            color: #e2e8f0;
+            font-weight: 500;
+            white-space: nowrap;
+            margin-bottom: 8px;
+        }
+
+        .cta-box__sub {
+            font-size: 0.95rem;
+            color: rgba(203, 213, 225, 0.7);
             margin-bottom: 40px;
-            max-width: 640px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.8;
+        }
+
+        @media (max-width: 640px) {
+            .cta-box__invite { white-space: normal; font-size: 0.88rem; }
         }
 
         .cta-actions {
@@ -1242,6 +1299,14 @@
         .badge-dot--samsung   { background: #1428a0; }
         .badge-dot--lg        { background: #a50034; }
         .badge-dot--un        { background: #009edb; }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+            .reveal { opacity: 1 !important; transform: none !important; }
+        }
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -2213,17 +2278,6 @@
                     </div>
                 </div>
 
-                <!-- Company badges -->
-                <div class="company-badges reveal">
-                    <span class="company-badge"><span class="badge-dot badge-dot--google"></span>Google</span>
-                    <span class="company-badge"><span class="badge-dot badge-dot--microsoft"></span>Microsoft</span>
-                    <span class="company-badge"><span class="badge-dot badge-dot--naver"></span>Naver</span>
-                    <span class="company-badge"><span class="badge-dot badge-dot--kakao"></span>Kakao</span>
-                    <span class="company-badge"><span class="badge-dot badge-dot--nvidia"></span>NVIDIA</span>
-                    <span class="company-badge"><span class="badge-dot badge-dot--samsung"></span>Samsung</span>
-                    <span class="company-badge"><span class="badge-dot badge-dot--lg"></span>LG</span>
-                    <span class="company-badge"><span class="badge-dot badge-dot--un"></span>UN · OECD</span>
-                </div>
 
                 <!-- Value proposition -->
                 <div class="mission-statement mission-statement--dark reveal">
@@ -2248,38 +2302,26 @@
                 <p class="partners-section-title reveal">제안하는 협력 방식 | Collaboration Formats</p>
                 <div class="partner-grid reveal">
                     <div class="partner-card">
-                        <div class="partner-card__company">Google · Naver · Kakao · Microsoft</div>
-                        <div class="partner-card__type">Developer Community</div>
                         <h4>🎪 개발자 밋업 &amp; 커뮤니티</h4>
                         <p>사회연대경제 오픈소스 개발자 커뮤니티를 광명시에서 정기 운영합니다. 각 기업의 DevRel 팀과 함께 기술 세션, 네트워킹, 오픈소스 기여 워킹그룹을 진행합니다.</p>
                     </div>
                     <div class="partner-card">
-                        <div class="partner-card__company">전 파트너사</div>
-                        <div class="partner-card__type">Conference &amp; Keynote</div>
                         <h4>🎤 컨퍼런스 &amp; 기술 강연</h4>
                         <p>AI × 사회연대경제 공동 컨퍼런스를 연 1회 개최합니다. 파트너사 엔지니어·리더가 키노트·세션에 참여하고, 광명시 오픈소스 사례를 글로벌 무대에 발표합니다.</p>
                     </div>
                     <div class="partner-card">
-                        <div class="partner-card__company">Google · Microsoft · NVIDIA · Naver</div>
-                        <div class="partner-card__type">Practical Workshop</div>
                         <h4>🛠️ 핸즈온 워크숍</h4>
                         <p>각 사의 AI 툴(Gemini, Copilot, CUDA, HyperCLOVA X 등)을 활용한 실전 워크숍을 광명시 작은도서관·혁신센터에서 진행합니다. 시민·청년·AI 도슨트 대상 집중 교육입니다.</p>
                     </div>
                     <div class="partner-card">
-                        <div class="partner-card__company">Google · Microsoft · NVIDIA · Kakao</div>
-                        <div class="partner-card__type">Resource Credits</div>
                         <h4>🎫 크레딧 &amp; 리소스 지원</h4>
                         <p>오픈소스 프로젝트팀과 사회적 기업 스타트업에 클라우드 크레딧(Google for Startups, Azure for Nonprofits), API 크레딧, GPU 컴퓨팅 자원을 제공해 주십시오.</p>
                     </div>
                     <div class="partner-card">
-                        <div class="partner-card__company">전 파트너사</div>
-                        <div class="partner-card__type">Hackathon &amp; Build Day</div>
                         <h4>🏆 해커톤 &amp; 빌드데이</h4>
                         <p>사회연대경제 현안을 주제로 한 AI 해커톤을 공동 주관합니다. 청년·시민 팀이 24~48시간 내에 실제 서비스 프로토타입을 만들고, 우수 팀은 사회적 기업 인큐베이팅과 연계됩니다.</p>
                     </div>
                     <div class="partner-card">
-                        <div class="partner-card__company">전 파트너사</div>
-                        <div class="partner-card__type">AX Reference &amp; Case Study</div>
                         <h4>📋 AX 레퍼런스 공동 구축</h4>
                         <p>광명시 공공 서비스 AI 전환(AX) 사례를 파트너사와 공동으로 문서화·발표합니다. 실질적인 레퍼런스 아키텍처와 성과 데이터를 바탕으로 전국 지자체 확산의 표준 케이스를 만듭니다.</p>
                     </div>
@@ -2288,8 +2330,8 @@
                 <!-- Final CTA -->
                 <div class="cta-box reveal">
                     <h3>지금, 함께 새로운 표준을 만들어 갑시다</h3>
-                    <p>광명시 사회연대경제 오픈소스 거버넌스 프로젝트에 귀 기관·기업의 참여를 진심으로 초대합니다.<br>
-                        작은 협력 하나가 수십만 시민의 삶과 전국 지자체의 미래를 바꿉니다.</p>
+                    <p class="cta-box__invite">광명시 사회연대경제 오픈소스 거버넌스 프로젝트에 귀 기관·기업의 참여를 진심으로 초대합니다.</p>
+                    <p class="cta-box__sub">작은 협력 하나가 수십만 시민의 삶과 전국 지자체의 미래를 바꿉니다.</p>
                     <div class="cta-actions">
                         <a href="mailto:narae1804@korea.kr?subject=광명시 오픈소스 협력 제안" class="btn btn--cta-primary">
                             ✉ 협력 제안 메일 보내기

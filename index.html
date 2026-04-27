@@ -1073,6 +1073,101 @@
             color: white;
         }
 
+        /* Current partners strip */
+        .current-partners {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+
+        .current-partners__label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: rgba(255, 255, 255, 0.38);
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        .current-partners__row {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .current-partner-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 22px;
+            background: rgba(17, 138, 126, 0.14);
+            border: 1px solid rgba(17, 138, 126, 0.4);
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            font-size: 0.92rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        a.current-partner-chip:hover {
+            background: rgba(17, 138, 126, 0.28);
+            border-color: rgba(17, 138, 126, 0.7);
+            transform: translateY(-2px);
+        }
+
+        .current-partner-chip__dot {
+            width: 8px;
+            height: 8px;
+            background: #4ade80;
+            border-radius: 50%;
+            flex-shrink: 0;
+            box-shadow: 0 0 8px rgba(74, 222, 128, 0.55);
+        }
+
+        /* Footer partners row */
+        .footer__partners {
+            max-width: var(--max-width);
+            margin: 0 auto 40px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.07);
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .footer__partners-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: rgba(255, 255, 255, 0.35);
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .footer__partners-row {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .footer__partner-link {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        .footer__partner-link:hover { color: white; }
+
+        .footer__partner-sep {
+            color: rgba(255, 255, 255, 0.2);
+            font-size: 0.85rem;
+        }
+
         /* Why Gwangmyeong grid */
         .why-gm-label {
             font-size: 1rem;
@@ -2097,6 +2192,22 @@
                     </div>
                 </div>
 
+                <!-- Current partners -->
+                <div class="current-partners reveal">
+                    <p class="current-partners__label">이미 함께하고 있습니다 · Current Partners</p>
+                    <div class="current-partners__row">
+                        <a href="https://paranduru.me" target="_blank" rel="noopener" class="current-partner-chip">
+                            <span class="current-partner-chip__dot"></span>
+                            파란두루미 주식회사
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                        </a>
+                        <span class="current-partner-chip">
+                            <span class="current-partner-chip__dot"></span>
+                            사회적협동조합 데브옵스코리아
+                        </span>
+                    </div>
+                </div>
+
                 <!-- Company badges -->
                 <div class="company-badges reveal">
                     <span class="company-badge"><span class="badge-dot badge-dot--google"></span>Google</span>
@@ -2215,6 +2326,14 @@
                     <li><a href="https://github.com/durume/GM" target="_blank" rel="noopener">GitHub 저장소</a></li>
                     <li><a href="https://news.gm.go.kr/bbs/view.html?idxno=7952&sc_category=" target="_blank" rel="noopener">혁신모델 수상 보도자료</a></li>
                 </ul>
+            </div>
+        </div>
+        <div class="footer__partners">
+            <span class="footer__partners-label">함께 하는 곳</span>
+            <div class="footer__partners-row">
+                <a href="https://paranduru.me" target="_blank" rel="noopener" class="footer__partner-link">파란두루미 주식회사</a>
+                <span class="footer__partner-sep">·</span>
+                <span class="footer__partner-link">사회적협동조합 데브옵스코리아</span>
             </div>
         </div>
         <div class="footer__bottom">
